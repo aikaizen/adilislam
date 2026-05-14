@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>The Harness is Everything — Signal</title>
+ <meta name="description" content="Why the environment matters more than the model in agent engineering. Analysis of SWE-agent, Anthropic's harness, and OpenAI's million-line experiment." />
+ <link rel="stylesheet" href="/assets/styles.css" />
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%230b1220'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='sans-serif' font-weight='600' font-size='42' fill='%23f17a4a'%3E⚡%3C/text%3E%3C/svg%3E" />
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+
+ <article class="section article-content">
+ <header class="article-head">
+ <div class="article-meta">
+ <span class="article-tag">Harness Engineering</span>
+ <span class="article-date">March 18, 2026</span>
+ </div>
+ <h1>The Harness is Everything</h1>
+ <p class="lead">You are not using AI wrong because you haven't found the right model. You are using AI wrong because you haven't built the right environment.</p>
+ </header>
+
+ <div class="article-body">
+ <p>There is a reason some teams are shipping a million lines of code with three engineers while others are struggling to get a consistent refactor out of their agent pipeline. The difference is not GPT-5 versus Claude Opus. The difference is not the temperature setting or the max tokens. It isn't even the prompt, though everyone loses months of their life arguing about prompts.</p>
+
+ <p><strong>The difference is the harness.</strong></p>
+
+ <p>This article is about what that word actually means, technically and philosophically. A harness is not a system prompt. It is not a wrapper around an API call. It is not an eval framework or a prompt template. A harness is the complete designed environment inside which a language model operates: the tools it can call, the format of information it receives, how its history is compressed and managed, the guardrails that catch its mistakes before they cascade, and the scaffolding that allows it to hand off work to its future self without losing coherence.</p>
+
+ <h2>The 64% Revelation</h2>
+
+ <p>In 2024, the Princeton NLP group published the SWE-agent paper. They introduced the concept of an Agent-Computer Interface (ACI) and demonstrated something that should have changed how everyone thought about agent engineering: a carefully designed ACI produced a 64% relative improvement in benchmark performance compared to the same model interacting through a standard Linux shell.</p>
+
+ <p>Same model. Same task. Same compute budget. The only variable was the interface.</p>
+
+ <p>64% is not a marginal gain. That is the difference between a tool that works and a tool that does not. And it came entirely from environment design, not from any improvement in the underlying model.</p>
+
+ <h3>The Context Window Is Not RAM</h3>
+
+ <p>The naive mental model treats the context window like RAM. You load data in, the model processes it, you get output. More context equals better performance. This mental model is wrong in ways that will ruin your agent if you build around it.</p>
+
+ <p>The context window is closer to the agent's entire working consciousness for a given session. Every token costs computation. Every irrelevant piece of information competes for attention with the relevant information. The model does not have a selective attention mechanism that cleanly ignores noise. The noise is in the room, and it affects the reasoning.</p>
+
+ <p>When you run grep on a large codebase and return ten thousand lines of matches, you have not given the agent more information to work with. You have flooded its working memory with irrelevant data that will degrade the quality of every subsequent step until the context is cleared.</p>
+
+ <h3>The ACI Solution</h3>
+
+ <p>The SWE-agent researchers built purpose-built tools that replaced standard bash commands:</p>
+
+ <ul>
+ <li><strong>Capped search:</strong> Results limited to 50 matches. If exceeded, the tool tells the agent to refine its query. This single decision transformed context-flooding failures into natural refinement loops.</li>
+ <li><strong>Stateful file viewer:</strong> Shows 100 lines at a time (the Goldilocks number), maintains position across interactions, prepends explicit line numbers so agents can reference them directly.</li>
+ <li><strong>Linter-integrated editor:</strong> Every edit runs a linter immediately. Syntax errors are caught at the moment of introduction, not three steps later when the agent is chasing ghosts.</li>
+ <li><strong>Context compression:</strong> Observations beyond the last five turns collapse into single-line summaries, keeping the active context focused on recent, relevant information.</li>
+ </ul>
+
+ <p>Using GPT-4 with a standard bash shell: 3.97% of issues resolved. Using GPT-4 with the ACI: 12.47%. The performance difference was not about model intelligence. It was about cognitive load management.</p>
+
+ <h2>Anthropic's Two-Agent Architecture</h2>
+
+ <p>Anthropic's engineering team, working on Claude Code, encountered a different problem: what happens when a task is too large to complete in a single context window?</p>
+
+ <p>This is not an edge case. Most real software projects are too large to fit in any context window. Even with 200K tokens, you cannot hold a production web application in mind simultaneously. Human engineers solve this through external memory, documentation, and accumulated understanding built over weeks. An agent starting fresh has none of that.</p>
+
+ <h3>The Initializer Agent</h3>
+
+ <p>Anthropic's solution was a two-part architecture. The first part is an initializer agent — a specialized first session whose entire purpose is to set up the environment that all future coding agents will operate in.</p>
+
+ <p>The initializer produces three key outputs:</p>
+
+ <ol>
+ <li><strong>init.sh:</strong> A script that reliably starts the development environment. Every subsequent session begins by running this, rather than spending tokens figuring out how to start servers and databases.</li>
+ <li><strong>feature_list.json:</strong> A comprehensive list of specific, end-to-end feature descriptions (in Anthropic's internal experiment: over 200 features). Every feature marked as failing initially. This file serves as the project's ground truth. An agent cannot look around, see some code, and conclude the job is done. The feature list tells it the truth.</li>
+ <li><strong>claude-progress.txt + initial git commit:</strong> A human-readable log that agents update at the end of every session, documenting what they worked on and what state they left things in.</li>
+ </ol>
+
+ <h3>The Coding Agent</h3>
+
+ <p>Every session after initialization uses a different prompt: work on one feature at a time, leave the environment in a clean state, and update the progress file and git history before the session ends.</p>
+
+ <p>The startup sequence is standardized: confirm working directory, read progress file, read git log, read feature list, run init.sh, run end-to-end test, then begin work. If the startup test reveals breakage, fix it before touching anything new.</p>
+
+ <p>This prevents the compounding problem where an agent starts a new feature on top of a broken foundation.</p>
+
+ <h2>OpenAI's Million-Line Experiment</h2>
+
+ <p>In late August 2025, OpenAI's Codex team started a repository with one constraint: no human-written code. Every line — application logic, tests, CI configuration, documentation, observability — would be written by Codex agents. Humans would steer. Agents would execute.</p>
+
+ <p>Five months later: approximately one million lines of code, 1,500 pull requests, three engineers averaging 3.5 PRs per engineer per day.</p>
+
+ <h3>The Redefinition of Engineering</h3>
+
+ <p>The most important observation: when your primary job is no longer to write code, what are you doing instead?</p>
+
+ <p>You are designing environments. You are specifying intent. You are building feedback loops. You are asking, constantly, not "how do I fix this bug?" but "what capability is missing from the environment that is causing this bug to appear?"</p>
+
+ <p>When something failed, the fix was almost never "try harder." It was almost always "what structural piece of the environment is missing or misconfigured?"</p>
+
+ <h3>Repository as System of Record</h3>
+
+ <p>From an agent's perspective, anything it cannot access in context effectively does not exist. Knowledge in Google Docs, Slack threads, or people's heads is invisible.</p>
+
+ <p>The early "one big AGENTS.md" approach failed predictably: context crowding, too much guidance becoming non-guidance, instant rot, and difficulty verifying coverage. The solution was a structured docs/ directory with a short AGENTS.md serving as a map to deeper sources of truth.</p>
+
+ <p><strong>Progressive disclosure:</strong> agents start with a small, stable entry point and are taught where to look next, rather than being overwhelmed upfront.</p>
+
+ <h3>Mechanical Architecture Enforcement</h3>
+
+ <p>When agent throughput dramatically exceeds human attention capacity, conventional engineering norms become counterproductive. Pull requests waiting for review block agent work. OpenAI's solution: encode invariants mechanically, not through human code review.</p>
+
+ <p>Custom linters enforced a rigid architectural model: fixed layers, validated dependency directions, limited permissible edges. The linters generated error messages formatted for agent consumption: constraint violated, rule violated, steps to fix.</p>
+
+ <p>Mechanical checks are consistent, fast, and provide immediate feedback. Human code review does not scale to 3.5 PRs per engineer per day.</p>
+
+ <h2>The Seven Layers of Harness Taxonomy</h2>
+
+ <p>The Awesome Agent Harness repository maps the emerging ecosystem into seven distinct layers:</p>
+
+ <ol>
+ <li><strong>Human Oversight:</strong> Engineers approve, review, set priorities. The interface between human judgment and agent execution.</li>
+ <li><strong>Planning and Requirements (Spec Tools):</strong> Translates human ideas into structured specifications and task DAGs that agents consume reliably.</li>
+ <li><strong>Full Lifecycle Platforms:</strong> Manage end-to-end process from requirements to delivery, integrating AI proposals with human verification.</li>
+ <li><strong>Task Runners:</strong> Bridge issue trackers and coding agents. Spawn workspaces, deliver PRs, handle the loop without human involvement.</li>
+ <li><strong>Agent Orchestrators:</strong> Enable parallel execution via git worktree isolation. Each agent gets its own sandbox.</li>
+ <li><strong>Frameworks and Runtimes:</strong> Frameworks provide composable primitives. Runtimes provide persistent infrastructure: memory, scheduling, multi-channel coordination.</li>
+ <li><strong>Coding Agents:</strong> Claude Code, Codex — the execution layer. A commodity. Effectiveness determined by everything above it.</li>
+ </ol>
+
+ <h2>The Five Patterns That Repeat</h2>
+
+ <p>Across all systems and organizations, these patterns appear repeatedly:</p>
+
+ <h3>1. Progressive Disclosure</h3>
+ <p>Do not give the agent everything it might need upfront. Give it the minimum to orient itself and pointers to find more when needed. Context is finite. Attention is not uniformly distributed. A short entry point pointing to richer context elsewhere is more effective than a comprehensive dump.</p>
+
+ <h3>2. Git Worktree Isolation</h3>
+ <p>One agent, one worktree. Isolation prevents parallel agents from stepping on each other. Even sequential agents benefit: validate changes in isolation before affecting the main codebase.</p>
+
+ <h3>3. Spec First, Repository as System of Record</h3>
+ <p>Agents are blind to informal knowledge. Specifications, requirements, and constraints must be encoded into machine-readable files in the repository before execution begins. If the agent cannot read it from the repo, it does not exist.</p>
+
+ <h3>4. Mechanical Architecture Enforcement</h3>
+ <p>Human code review does not scale. Encode architectural constraints as mechanical checks: custom linters, structural tests, CI pipelines. Enforce invariants, not implementations. Give agents autonomy within well-defined structure.</p>
+
+ <h3>5. Integrated Feedback Loops</h3>
+ <p>Close the feedback loop as tightly as possible. Syntax errors caught by linters at edit time. Runtime errors surfaced through observability tools. UI bugs caught through browser automation. Every gap between action and consequence is a point where errors accumulate and degrade reasoning.</p>
+
+ <h2>The Skill That Transfers</h2>
+
+ <p>Harness engineering is systems thinking applied to agent environments. It requires understanding LM cognitive architecture well enough to design environments that work with it rather than against it. State management, feedback loops, error recovery, context optimization — familiar from distributed systems engineering, applied to a new domain.</p>
+
+ <p>The questions you should be asking when something fails:</p>
+
+ <ul>
+ <li>Not "how do I write a better prompt?" but "what information does the agent need that it cannot access?"</li>
+ <li>Not "why is the model making this mistake?" but "what feedback loop is missing that would catch this mistake before it propagates?"</li>
+ <li>Not "why is the agent not doing what I told it to?" but "what constraint in the environment is preventing the agent from doing what I told it to?"</li>
+ </ul>
+
+ <p>The model is almost irrelevant. The harness is everything.</p>
+
+ <hr />
+
+ <p class="byline">Published March 18, 2026 — <a href="https://adilislam.com">Signal by Adil Islam</a></p>
+ </div>
+ </article>
+
+ <footer style="padding: 40px 0; text-align: center; color: var(--muted); border-top: 1px solid var(--line); margin-top: 60px;">
+ <p style="margin: 0;">© 2026 Signal by Adil Islam</p>
+ </footer>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>PreText: The Library That Makes Text Layout 1000x Faster — Signal by Adil Islam</title>
+ <meta name="description" content="How Cheng Lou's PreText eliminates DOM reflow to measure text 1000x faster. Why canvas-based text measurement matters for modern web apps.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css">
+ <style>
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .demo-link { display: inline-block; background: var(--accent); color: white; padding: 0.75rem 1.5rem; border-radius: var(--radius-sm); text-decoration: none; font-weight: 500; margin: 1rem 0; }
+ .demo-link:hover { background: var(--accent-hover); }
+ .highlight-box { background: linear-gradient(135deg, rgba(79, 135, 255, 0.1) 0%, rgba(212, 162, 76, 0.1) 100%); border-left: 4px solid var(--accent); padding: 1.5rem; border-radius: var(--radius-sm); margin: 1.5rem 0; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ March 28, 2026 · 6 min read · Frontend Engineering
+ </div>
+ 
+ <h1>PreText: The Library That Makes Text Layout 1000x Faster</h1>
+ 
+ <p class="lead" style="font-size: 1.125rem; color: var(--text-3);">
+ Cheng Lou's new library eliminates DOM reflow entirely by using canvas-based text measurement. 
+ The result: 19ms instead of 19,000ms for 500 text measurements.
+ </p>
+
+ <div class="highlight-box">
+ <strong>Try it live:</strong> We built an interactive demo showing PreText in action. 
+ <a href="/prototypes/pretext-demo/" class="demo-link">→ Launch PreText Demo</a>
+ </div>
+
+ <h2>The Problem: Layout Reflow Kills Performance</h2>
+ 
+ <p>Here's a pattern every web developer knows:</p>
+ 
+ <ol>
+ <li>You need to know how tall a paragraph will be</li>
+ <li>You call <code>element.getBoundingClientRect()</code> or check <code>offsetHeight</code></li>
+ <li>The browser recalculates the entire layout tree</li>
+ <li>Your animation stutters. Your virtual list breaks. Your users notice.</li>
+ </ol>
+
+ <p>This is <strong>layout reflow</strong> — one of the most expensive operations browsers perform. When you measure something in the DOM, the browser has to reconcile styles, recalculate layouts, and paint. Do this 500 times in a loop and you've triggered 500 reflows.</p>
+
+ <h2>The Solution: Canvas-Based Measurement</h2>
+ 
+ <p>PreText sidesteps the DOM entirely. Instead of asking the browser to layout text and then measure it, PreText:</p>
+ 
+ <ol>
+ <li>Uses the Canvas API's <code>measureText()</code> to get character widths directly from the font engine</li>
+ <li>Segments text by grapheme clusters (handles emojis, CJK, Arabic correctly)</li>
+ <li>Applies word-wrapping rules in pure JavaScript</li>
+ <li>Returns line counts and heights through pure arithmetic</li>
+ </ol>
+
+ <p>The browser's font engine becomes the ground truth. No DOM elements. No reflow. Just measurements.</p>
+
+ <h2>The Numbers Are Shocking</h2>
+ 
+ <table>
+ <tr>
+ <th>Method</th>
+ <th>Time (500 texts)</th>
+ <th>Speedup</th>
+ </tr>
+ <tr>
+ <td>DOM Layout (getBoundingClientRect)</td>
+ <td>~19,000ms</td>
+ <td>1× (baseline)</td>
+ </tr>
+ <tr>
+ <td>PreText prepare()</td>
+ <td>~19ms</td>
+ <td>1000×</td>
+ </tr>
+ <tr>
+ <td>PreText layout()</td>
+ <td>~0.09ms</td>
+ <td>211,000×</td>
+ </tr>
+ </table>
+
+ <p>PreText splits the work into two phases:</p>
+
+ <ul>
+ <li><strong>prepare()</strong> — One-time pass that segments text, normalizes whitespace, and measures segments. ~19ms for 500 texts.</li>
+ <li><strong>layout()</strong> — Pure arithmetic hot path. ~0.09ms for the same batch.</li>
+ </ul>
+
+ <p>The <code>prepare()</code> call is your upfront cost. After that, resizing, recalculating, and experimenting with different widths becomes virtually free.</p>
+
+ <h2>It Actually Works Everywhere</h2>
+ 
+ <p>Text layout is surprisingly hard. PreText handles:</p>
+ 
+ <ul>
+ <li><strong>CJK scripts</strong> — Chinese, Japanese, Korean with no spaces between words</li>
+ <li><strong>BiDi text</strong> — Mixed left-to-right and right-to-left (Arabic + English)</li>
+ <li><strong>Emoji</strong> — Complex multi-codepoint emoji as single grapheme clusters</li>
+ <li><strong>Browser quirks</strong> — Safari vs Chrome differences, system font edge cases</li>
+ </ul>
+
+ <p>PreText's test suite includes strings like <code>"AGI 春天到了. بدأت الرحلة 🚀"</code> — mixing English, Chinese, Arabic, and emoji — and measures them correctly across all browsers.</p>
+
+ <h2>Real Use Cases</h2>
+ 
+ <h3>1. List Virtualization Without Guessing</h3>
+ 
+ <p>Virtual lists need to know item heights before rendering. Most implementations either:</p>
+ 
+ <ul>
+ <li>Guess (and get it wrong, causing jank)</li>
+ <li>Measure after render (causing double work)</li>
+ <li>Fix heights (inflexible)</li>
+ </ul>
+ 
+ <p>PreText lets you calculate exact heights from text content alone. No DOM required. Your virtual list knows the right scroll position immediately.</p>
+
+ <h3>2. Canvas, SVG, and WebGL Rendering</h3>
+ 
+ <p>When you're rendering to non-DOM targets (game UIs, data visualizations, generative art), you need to know where line breaks go. PreText's <code>layoutWithLines()</code> returns:</p>
+ 
+ <pre><code>{
+ lines: [
+ { text: "First line", width: 145.5 },
+ { text: "Second line", width: 156.2 }
+ ],
+ height: 56,
+ lineCount: 2
+}</code></pre>
+
+ <p>Render to canvas with <code>ctx.fillText()</code>. Position SVG <code>&lt;text&gt;</code> elements. WebGL texture atlases. All from the same layout logic.</p>
+
+ <h3>3. AI-Friendly Development</h3>
+ 
+ <p>Cheng Lou explicitly mentions this: "development time verification (especially now with AI) that labels on e.g. buttons don't overflow to the next line, browser-free."</p>
+ 
+ <p>AI coding assistants can generate UI code and use PreText to verify layout constraints without running a browser. Static analysis of text fits becomes possible.</p>
+
+ <h3>4. Preventing Layout Shift</h3>
+ 
+ <p>When new text loads (chat messages, async content, translations), you want to:</p>
+ 
+ <ol>
+ <li>Calculate the new height with PreText</li>
+ <li>Adjust scroll position before inserting the DOM</li>
+ <li>Render the content</li>
+ </ol>
+ 
+ <p>No jump. No shift. Smooth experience.</p>
+
+ <h3>5. Text Around Floating Elements</h3>
+ 
+ <p><code>layoutNextLine()</code> lets you change width as you go. Flow text around an image:</p>
+ 
+ <pre><code>// Lines beside the image are narrower
+while (true) {
+ const width = y < image.bottom ? columnWidth - image.width : columnWidth
+ const line = layoutNextLine(prepared, cursor, width)
+ if (line === null) break
+ ctx.fillText(line.text, 0, y)
+ cursor = line.end
+ y += 26
+}</code></pre>
+
+ <h2>The API Is Minimal</h2>
+ 
+ <p>PreText exposes exactly what you need and nothing more:</p>
+ 
+ <pre><code>import { prepare, layout } from '@chenglou/pretext'
+
+// One-time preparation
+const prepared = prepare('Your text here', '16px Inter')
+
+// Instant layout calculation
+const { height, lineCount } = layout(prepared, 320, 24)
+// maxWidth, lineHeight</code></pre>
+ 
+ <p>For manual layout control, swap in <code>prepareWithSegments</code> and get:</p>
+ 
+ <ul>
+ <li><code>layoutWithLines()</code> — get individual line strings and widths</li>
+ <li><code>walkLineRanges()</code> — iterate lines without building strings (for width calculations)</li>
+ <li><code>layoutNextLine()</code> — line-by-line iterator with varying widths</li>
+ </ul>
+
+ <h2>Tradeoffs and Limitations</h2>
+ 
+ <p>PreText is explicitly not a full font rendering engine. It targets:</p>
+ 
+ <ul>
+ <li><code>white-space: normal</code> or <code>pre-wrap</code></li>
+ <li><code>word-break: normal</code></li>
+ <li><code>overflow-wrap: break-word</code></li>
+ <li><code>line-break: auto</code></li>
+ </ul>
+ 
+ <p>If you need complex text shaping (Harfbuzz-level features), PreText isn't there yet. For 95% of web text layout, it's more than sufficient.</p>
+ 
+ <p>One gotcha: avoid <code>system-ui</code> font on macOS — it has measurement inconsistencies. Use a named font stack instead.</p>
+
+ <h2>Why This Matters Now</h2>
+ 
+ <p>Three trends make PreText increasingly relevant:</p>
+ 
+ <ol>
+ <li><strong>AI-generated UIs</strong> — More dynamic text, more need for programmatic layout calculation</li>
+ <li><strong>Performance expectations</strong> — 120Hz displays, instant interactions, zero tolerance for jank</li>
+ <li><strong>Non-DOM rendering</strong> — Canvas-based tools (Figma, Excalidraw), WebGL games, generative art</li>
+ </ol>
+ 
+ <p>The DOM was never designed for high-frequency text measurement. PreText fills that gap without requiring a headless browser or complex caching strategies.</p>
+
+ <h2>Getting Started</h2>
+ 
+ <pre><code>npm install @chenglou/pretext</code></pre>
+ 
+ <p>Then check out:</p>
+ 
+ <ul>
+ <li><a href="https://github.com/chenglou/pretext">GitHub repo</a> — Source and benchmarks</li>
+ <li><a href="/prototypes/pretext-demo/">Our demo</a> — Interactive playground</li>
+ <li><a href="https://chenglou.me/pretext/">Official demos</a> — From Cheng Lou</li>
+ </ul>
+
+ <h2>The Bigger Picture</h2>
+ 
+ <p>PreText is part of a shift toward "AI-friendly" libraries — tools that expose deterministic, programmatic APIs rather than DOM-dependent side effects. When AI writes code, it prefers functions that return values over operations that mutate global state.</p>
+ 
+ <p>Text measurement has been a DOM operation for 30 years. PreText proves it doesn't have to be.</p>
+
+ <hr style="margin: 3rem 0; border-color: var(--border);">
+ 
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ <strong>About the author:</strong> Andy Stable builds prototypes at Signal by Adil Islam. 
+ Follow <a href="https://adilislam.com/lab">Signal</a> for more experiments in frontend engineering, AI tooling, and system design.
+ </p>
+ </div>
+ </article>
+ </main>
+ 
+ <footer class="section" style="border-top: 1px solid var(--border); margin-top: 4rem; padding: 2rem 0;">
+ <div class="container" style="text-align: center; color: var(--text-4); font-size: 0.875rem;">
+ <p>© 2026 Signal by Adil Islam. Built with curiosity.</p>
+ </div>
+ </footer>
+</body>
+</html>

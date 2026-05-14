@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Anthropic's Multi-Agent Harness: Generator-Evaluator Architecture — Signal by Adil Islam</title>
+ <meta name="description" content="Anthropic's multi-agent harness for long-running coding uses planner, generator, and evaluator agents with GAN-inspired feedback loops. $200 vs $9, but functional vs broken.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css?v=5">
+ <style>
+ .article-versions { display: flex; gap: 0.5rem; margin: 1rem 0 2rem; padding: 0.75rem; background: var(--bg-elevated); border-radius: var(--radius-sm); flex-wrap: wrap; }
+ .version-badge { padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+ .version-badge.v1 { background: var(--primary); color: white; }
+ .version-badge.v2 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge.v3 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge:hover { opacity: 0.9; }
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .data-table { font-size: 0.875rem; }
+ .article-highlight { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--primary); margin: 1.5rem 0; }
+ .article-note { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--text-3); margin: 1.5rem 0; color: var(--text-3); }
+ .v1-content { display: block; }
+ .v2-content, .v3-content { display: none; }
+ .v2-content .data-table { font-size: 0.8125rem; }
+ .v2-content table { margin: 0.75rem 0; }
+ .v2-content h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+ .v3-content pre { background: #1a1a2e; }
+ .v3-content code { background: #1a1a2e; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ March 25, 2026 · 10 min read · Agent Architecture
+ </div>
+
+ <div class="article-versions article-versions-top">
+ <span class="version-label" style="font-weight: 600; color: var(--text-3); margin-right: 0.5rem;">Version:</span>
+ <span class="version-badge v1" onclick="showVersion('v1')">V1 Narrative</span>
+ <span class="version-badge v2" onclick="showVersion('v2')">V2 Scannable</span>
+ <span class="version-badge v3" onclick="showVersion('v3')">V3 Agent/Builder</span>
+ </div>
+
+ <h1>Anthropic's Multi-Agent Harness: Generator-Evaluator Architecture</h1>
+
+ <!-- V1: Narrative -->
+ <div class="v1-content">
+ <p>Anthropic Labs has published detailed research on multi-agent harness design for long-running application development. The work by Prithvi Rajasekaran demonstrates that a 20x cost increase ($9 to $200) can produce functional, feature-rich applications compared to broken single-agent outputs. The architecture draws inspiration from Generative Adversarial Networks (GANs), applying generator-evaluator loops to both frontend design and full-stack coding tasks that run autonomously for multiple hours.</p>
+
+ <h2>The Context Anxiety Problem</h2>
+
+ <p>A key insight from the research is "context anxiety" — a behavior where models begin wrapping up work prematurely as they approach what they perceive as their context limit. This manifests as agents declaring tasks complete when they are not, or rushing to finish before the context window fills. Compaction, where earlier conversation parts are summarized in place, does not solve this. The solution is context resets: clearing the context window entirely and starting a fresh agent with a structured handoff.</p>
+
+ <h2>Generator-Evaluator Pattern</h2>
+
+ <p>The architecture separates generation from evaluation. A generator produces outputs. An evaluator grades them. This addresses a critical problem: agents evaluating their own work tend to respond with confident praise even when quality is mediocre. Tuning a standalone evaluator to be skeptical proves more tractable than making a generator critical of its own work.</p>
+
+ <h2>Frontend Design Criteria</h2>
+
+ <p>Four criteria were developed to make subjective quality gradable:</p>
+ <ul>
+ <li><strong>Design Quality:</strong> Coherent whole vs collection of parts (high weight)</li>
+ <li><strong>Originality:</strong> Custom decisions vs templates, penalizes "AI slop" (high weight)</li>
+ <li><strong>Craft:</strong> Typography, spacing, color harmony (standard weight)</li>
+ <li><strong>Functionality:</strong> Usability, task completion (standard weight)</li>
+ </ul>
+
+ <p>The evaluator uses the Playwright MCP to interact with live pages directly, navigating and studying implementations before scoring. Runs span 5-15 iterations over up to four hours.</p>
+
+ <h2>Three-Agent Architecture</h2>
+
+ <table>
+ <thead>
+ <tr><th>Agent</th><th>Role</th><th>Function</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Planner</td><td>Spec expansion</td><td>1-4 sentences → full product spec with AI features</td></tr>
+ <tr><td>Generator</td><td>Implementation</td><td>Builds one feature at a time (React, Vite, FastAPI, SQLite)</td></tr>
+ <tr><td>Evaluator</td><td>QA/Grading</td><td>Playwright click-through, criteria scoring, hard thresholds</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Sprint Contracts</h2>
+
+ <p>Before each sprint, the generator and evaluator negotiate a "sprint contract" — agreeing on what "done" looks like. This bridges the gap between high-level user stories and testable implementation. Communication is handled via files: one agent writes, another reads and responds.</p>
+
+ <h2>Results: Game Maker Test</h2>
+
+ <table>
+ <thead>
+ <tr><th>Harness</th><th>Duration</th><th>Cost</th><th>Outcome</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Solo</td><td>20 min</td><td>$9</td><td>Broken — unplayable, broken wiring</td></tr>
+ <tr><td>Full Harness</td><td>6 hr</td><td>$200</td><td>Functional — 16 features, 10 sprints, AI integration</td></tr>
+ </tbody>
+ </table>
+
+ <p>The evaluator found specific issues: "Tool only places tiles at drag start/end points instead of filling the region" and "Delete key handler condition should be selection || (selectedEntityId && activeLayer === 'entity')."</p>
+
+ <h2>Opus 4.6 Simplification</h2>
+
+ <p>With Claude Opus 4.6, sprint decomposition became unnecessary. The model could run coherently for over two hours without resets. The evaluator moved to end-of-run rather than per-sprint. Key principle: the evaluator is worth the cost when the task sits beyond what the current model does reliably solo. As models improve, this boundary moves outward.</p>
+
+ <h2>DAW Test (V2 Harness)</h2>
+
+ <p>A Digital Audio Workstation built with the updated harness: 3 hr 50 min, $124.70 total. The QA agent caught real gaps across three rounds: "Clips can't be dragged/moved on the timeline," "Audio recording is stub-only," "Clip resize by edge drag not implemented."</p>
+
+ <h2>Key Principles</h2>
+
+ <ul>
+ <li>Decompose complex tasks into tractable chunks with specialized agents</li>
+ <li>Use structured handoffs rather than compaction for long sessions</li>
+ <li>External evaluation drives improvement; self-evaluation is unreliable</li>
+ <li>Stress test harness assumptions as models improve</li>
+ <li>Explicit criteria make subjective quality gradable</li>
+ </ul>
+
+ <h2>Conclusion</h2>
+
+ <p>Anthropic's research demonstrates that significant quality improvements are achievable through deliberate architecture design, even at substantially higher cost. The generator-evaluator pattern provides a concrete framework for building reliable long-running agentic systems. As the authors note: "the space of interesting harness combinations doesn't shrink as models improve. Instead, it moves."</p>
+ </div>
+
+ <!-- V2: Scannable -->
+ <div class="v2-content">
+ <h2>Quick Facts</h2>
+ <table class="data-table">
+ <tr><th>Metric</th><th>Value</th></tr>
+ <tr><td>Author</td><td>Prithvi Rajasekaran (Anthropic Labs)</td></tr>
+ <tr><td>Architecture</td><td>Generator-Evaluator (GAN-inspired)</td></tr>
+ <tr><td>Agents</td><td>3 (Planner, Generator, Evaluator)</td></tr>
+ <tr><td>Cost Ratio</td><td>20x ($9 → $200)</td></tr>
+ <tr><td>Quality Delta</td><td>Broken → Functional</td></tr>
+ <tr><td>Max Runtime</td><td>6 hours</td></tr>
+ <tr><td>Key Models</td><td>Claude Opus 4.5, 4.6</td></tr>
+ </table>
+
+ <h2>Core Techniques</h2>
+ <table class="data-table">
+ <tr><th>Technique</th><th>Purpose</th></tr>
+ <tr><td>Context Resets</td><td>Clean slate vs compaction for anxiety</td></tr>
+ <tr><td>Sprint Contracts</td><td>Align spec with implementation</td></tr>
+ <tr><td>File Communication</td><td>Agent handoffs without pollution</td></tr>
+ <tr><td>Few-shot Calibration</td><td>Tune evaluator skepticism</td></tr>
+ <tr><td>Playwright MCP</td><td>Live testing vs static analysis</td></tr>
+ </table>
+
+ <h2>When Evaluators Add Value</h2>
+ <table class="data-table">
+ <tr><th>Scenario</th><th>Evaluator Value</th></tr>
+ <tr><td>Within reliable capability</td><td>Unnecessary overhead</td></tr>
+ <tr><td>At edge of capability</td><td>High — catches critical gaps</td></tr>
+ <tr><td>Subjective quality</td><td>Essential — self-grading poor</td></tr>
+ </table>
+
+ <h2>Opus 4.6 Impact</h2>
+ <ul>
+ <li>Removed need for sprint decomposition</li>
+ <li>Single continuous session viable (2+ hours)</li>
+ <li>Evaluator moved to end-of-run</li>
+ <li>Automatic compaction sufficient</li>
+ </ul>
+
+ <h2>Cost Breakdown (DAW)</h2>
+ <table class="data-table">
+ <tr><th>Phase</th><th>Time</th><th>Cost</th></tr>
+ <tr><td>Planner</td><td>4.7 min</td><td>$0.46</td></tr>
+ <tr><td>Build R1</td><td>2 hr 7 min</td><td>$71.08</td></tr>
+ <tr><td>QA R1</td><td>8.8 min</td><td>$3.24</td></tr>
+ <tr><td>Build R2</td><td>1 hr 2 min</td><td>$36.89</td></tr>
+ <tr><td>QA R2</td><td>6.8 min</td><td>$3.09</td></tr>
+ <tr><td>Build R3</td><td>10.9 min</td><td>$5.88</td></tr>
+ <tr><td>QA R3</td><td>9.6 min</td><td>$4.06</td></tr>
+ <tr><td><strong>Total</strong></td><td><strong>3 hr 50 min</strong></td><td><strong>$124.70</strong></td></tr>
+ </table>
+ </div>
+
+ <!-- V3: Agent/Builder -->
+ <div class="v3-content">
+ <h2>Implementation Guide</h2>
+ <p>Building multi-agent harnesses with generator-evaluator loops.</p>
+
+ <h3>Basic Loop Structure</h3>
+ <pre><code>// Generator with criteria
+ generator.instructions = `
+ Create frontends. Weight design quality and 
+ originality higher than craft/functionality.
+ Decide after each eval: refine or pivot.
+ `;
+
+// Evaluator with Playwright
+ evaluator.instructions = `
+ Navigate live pages via Playwright MCP.
+ Score 1-10 on each criterion.
+ BE SKEPTICAL — err toward lower scores.
+ Output: {scores, critique, specific_fixes}
+ `;
+
+// Iteration loop
+ for (i = 0; i < max_iterations; i++) {
+ result = generator.run(prompt_or_feedback);
+ eval = evaluator.run(result);
+ 
+ if (eval.all_scores >= threshold) break;
+ 
+ feedback = eval.critique;
+ generator.instruct(
+ eval.trend === "improving" 
+ ? "refine" 
+ : "pivot"
+ );
+ }</code></pre>
+
+ <h3>Sprint Contract Pattern</h3>
+ <pre><code>function negotiate_contract(generator, evaluator, sprint) {
+ // Generator proposes
+ const proposal = generator.run(`
+ Propose implementation for: ${sprint}
+ Include: what you'll build, how success is verified
+ `);
+ 
+ // Evaluator reviews
+ const review = evaluator.run(`
+ Review proposal: ${proposal}
+ Is this the right thing to build?
+ Criteria: ${sprint.criteria}
+ `);
+ 
+ // Iterate until agreement
+ while (review.status !== "APPROVED") {
+ proposal = generator.run(review.feedback);
+ review = evaluator.run(proposal);
+ }
+ 
+ return proposal; // This is the contract
+}
+
+function run_sprint(generator, evaluator, contract) {
+ // Build
+ const implementation = generator.run(contract);
+ 
+ // Test
+ const result = evaluator.run({
+ artifact: implementation,
+ contract: contract,
+ mode: "strict" // Hard thresholds
+ });
+ 
+ // Iterate if failed
+ while (result.status === "FAIL") {
+ const revised = generator.run(result.feedback);
+ result = evaluator.run({
+ artifact: revised,
+ contract: contract
+ });
+ }
+ 
+ return implementation;
+}</code></pre>
+
+ <h3>Context Reset Pattern</h3>
+ <pre><code>function context_reset(current_agent, handoff_artifact) {
+ // Terminate current agent
+ current_agent.end_session();
+ 
+ // Create fresh agent
+ const new_agent = create_agent({
+ instructions: base_instructions,
+ context: null // Clean slate
+ });
+ 
+ // Provide handoff
+ new_agent.run(`
+ Previous state: ${handoff_artifact.state}
+ Completed: ${handoff_artifact.completed_tasks}
+ Next: ${handoff_artifact.next_tasks}
+ Continue from here.
+ `);
+ 
+ return new_agent;
+}</code></pre>
+
+ <h3>When to Add Complexity</h3>
+ <table>
+ <tr><th>Model</th><th>Sprint Decomp</th><th>Context Reset</th><th>Per-sprint QA</th></tr>
+ <tr><td>Sonnet 4.5</td><td>Required</td><td>Required</td><td>Required</td></tr>
+ <tr><td>Opus 4.6</td><td>Optional</td><td>Optional</td><td>Optional</td></tr>
+ </table>
+
+ <p>Principle: Start simple. Add components only when baseline fails. Re-evaluate with each model release.</p>
+ </div>
+
+ <div class="article-note" style="margin-top: 3rem;">
+ <strong>Source:</strong> <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Harness design for long-running application development</a> — Anthropic Engineering, March 2026<br>
+ <strong>Author:</strong> Prithvi Rajasekaran (Anthropic Labs)
+ </div>
+ </div>
+ </article>
+ </main>
+
+ <footer class="site-footer" style="padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 4rem;">
+ <div class="container">
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ Signal — Tracking the shift from models to systems.<br>
+ <a href="https://adilislam.com" style="color: var(--text-3);">Adil Islam.com</a> · 
+ <a href="https://github.com/aikaizen" style="color: var(--text-3);">GitHub</a>
+ </p>
+ </div>
+ </footer>
+
+ <script>
+ function showVersion(version) {
+ document.querySelectorAll('.v1-content, .v2-content, .v3-content').forEach(el => {
+ el.style.display = 'none';
+ });
+ document.querySelectorAll('.version-badge').forEach(el => {
+ el.style.background = 'var(--bg-subtle)';
+ el.style.color = 'var(--text-2)';
+ });
+ document.querySelector('.' + version + '-content').style.display = 'block';
+ document.querySelector('.version-badge.' + version).style.background = 'var(--primary)';
+ document.querySelector('.version-badge.' + version).style.color = 'white';
+ }
+ </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signal — Daily AI Briefings & Weekly Analysis — Adil Islam</title>
+  <meta name="description" content="Daily AI briefings on agents, agent context, context engineering, and agentic systems. Weekly deep dives on AI product strategy. By Adil Islam.">
+  <meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Signal, Adil Islam, daily AI briefing">
+  <meta property="og:title" content="Signal — Daily AI Briefings & Weekly Analysis">
+  <meta property="og:description" content="Daily briefings on AI agents, agent context, and product strategy. Weekly deep dives every Friday. By Adil Islam.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://adilislam.com/signal/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <style>
+    .signal-hero { padding: 80px 0 40px; }
+    .signal-hero h1 { font-size: 2.5rem; font-weight: 800; }
+    .signal-hero .eyebrow { font-family: var(--mono); font-size: 0.875rem; color: var(--accent); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+    .signal-hero .subtitle { color: var(--text-2); font-size: 1.1rem; max-width: 600px; line-height: 1.6; margin: 1rem 0 2rem; }
+    .signal-stats { display: flex; gap: 2rem; margin: 1.5rem 0; }
+    .signal-stat .number { font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .signal-stat .label { font-size: 0.8rem; color: var(--text-4); font-family: var(--mono); }
+    .section-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+    .section-tabs a { padding: 0.75rem 1.5rem; text-decoration: none; color: var(--text-3); font-weight: 500; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .section-tabs a:hover { color: var(--text-1); }
+    .section-tabs a.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .archive-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .archive-item { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 1.25rem; background: var(--bg-elevated); border-radius: var(--radius-md); text-decoration: none; color: var(--text-1); border: 1px solid var(--border); transition: border-color 0.2s; }
+    .archive-item:hover { border-color: var(--accent); }
+    .archive-item .date { color: var(--text-4); font-family: var(--mono); font-size: 0.8rem; min-width: 110px; }
+    .archive-item .title { font-weight: 500; font-size: 0.95rem; }
+    .archive-item .type-badge { font-family: var(--mono); font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; background: rgba(255,107,53,0.1); color: var(--accent); }
+    .signup-cta { background: var(--bg-elevated); border: 1px solid var(--accent); border-radius: var(--radius-lg); padding: 2rem; margin: 2rem 0; text-align: center; }
+    .signup-cta h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .signup-cta p { color: var(--text-2); margin-bottom: 1rem; }
+    @media (max-width: 768px) {
+      .signal-hero h1 { font-size: 1.75rem; }
+      .signal-stats { flex-direction: column; gap: 1rem; }
+      .archive-item { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/about/">About</a>
+        <a href="/signal/" class="active">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="signal-hero section">
+      <div class="container">
+        <div class="eyebrow">Signal</div>
+        <h1>Daily AI intelligence for builders who think in agents</h1>
+        <p class="subtitle">Every morning: the top AI news on <strong>agents</strong>, <strong>agent context</strong>, and <strong>context engineering</strong> — in 5 minutes. Every Friday: a deeper analysis of what matters and why.</p>
+        <div class="signal-stats">
+          <div class="signal-stat">
+            <div class="number">68</div>
+            <div class="label">Daily Bulletins</div>
+          </div>
+          <div class="signal-stat">
+            <div class="number">11</div>
+            <div class="label">Weekly Issues</div>
+          </div>
+          <div class="signal-stat">
+            <div class="number">68+</div>
+            <div class="label">Research Articles</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="signup-cta container">
+      <h3>📬 Get Signal in your inbox</h3>
+      <p>AI agents, agent context, and product strategy — every morning, free.</p>
+      <!-- Beehiiv embed placeholder -->
+      <p style="color: var(--text-4); font-family: var(--mono); font-size: 0.8rem;">Email signup coming soon — Beehiiv integration</p>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-tabs">
+          <a href="/signal/" class="active">All</a>
+          <a href="/signal/bulletins/">Daily Bulletins</a>
+          <a href="/signal/issues/">Weekly Issues</a>
+        </div>
+
+        <h2>Recent Signal</h2>
+        <div class="archive-list" id="signal-archive">
+          <!-- Will be populated - for now show latest items statically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="padding: 3rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-4); font-size: 0.875rem;">
+    <div class="container">
+      <p>&copy; 2026 Adil Islam. AI agents, agent context, and product strategy.</p>
+    </div>
+  </footer>
+</body>
+</html>

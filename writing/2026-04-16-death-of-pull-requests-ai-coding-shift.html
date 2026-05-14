@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>The Death of Pull Requests: AI Coding's Impact on Code Collaboration — Signal by Adil Islam</title>
+ <meta name="description" content="GitHub now allows disabling pull requests for the first time in history. The rise of AI coding agents is fundamentally reshaping how we collaborate on code.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css?v=5">
+ <style>
+ .article-versions { display: flex; gap: 0.5rem; margin: 1rem 0 2rem; padding: 0.75rem; background: var(--bg-elevated); border-radius: var(--radius-sm); flex-wrap: wrap; }
+ .version-badge { padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+ .version-badge.v1 { background: var(--primary); color: white; }
+ .version-badge.v2 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge.v3 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge:hover { opacity: 0.9; }
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .data-table { font-size: 0.875rem; }
+ .article-highlight { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--primary); margin: 1.5rem 0; }
+ .article-note { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--text-3); margin: 1.5rem 0; color: var(--text-3); }
+ .v1-content { display: block; }
+ .v2-content, .v3-content { display: none; }
+ .v2-content .data-table { font-size: 0.8125rem; }
+ .v2-content table { margin: 0.75rem 0; }
+ .v2-content h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+ .v3-content pre { background: #1a1a2e; }
+ .v3-content code { background: #1a1a2e; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ April 16, 2026 · 8 min read · Agent Infrastructure
+ </div>
+
+ <div class="article-versions article-versions-top">
+ <span class="version-label" style="font-weight: 600; color: var(--text-3); margin-right: 0.5rem;">Version:</span>
+ <span class="version-badge v1" onclick="showVersion('v1')">V1 Narrative</span>
+ <span class="version-badge v2" onclick="showVersion('v2')">V2 Scannable</span>
+ <span class="version-badge v3" onclick="showVersion('v3')">V3 Agent/Builder</span>
+ </div>
+
+ <h1>The Death of Pull Requests: AI Coding's Impact on Code Collaboration</h1>
+
+ <!-- V1: Narrative -->
+ <div class="v1-content">
+ <p>For anyone who learned to code in the last 15 years, it's hard to imagine a life without Git, GitHub, and Pull Requests. But there was a time before them — and it may well come to pass that there is life after. On April 16, 2026, GitHub made history by allowing repository owners to disable pull requests entirely, a feature previously restricted to issues only. This isn't a minor UI tweak. It's a signal that the fundamental mechanics of code collaboration are being rewritten by the rise of AI coding agents.</p>
+
+ <h2>The 21-Year Arc of Pull Requests</h2>
+
+ <p>Pull requests were arguably invented in 2005, successfully popularized by GitHub in 2008, and have dominated open source collaboration ever since. For two decades, the PR has been the atomic unit of code review, the checkpoint where human judgment meets proposed changes. But the model was built for human collaborators — humans who write code in bursts, review in batches, and merge when satisfied.</p>
+
+ <p>AI agents don't work this way. They generate code continuously, iterate in loops, and produce changes at a scale that makes traditional PR review impractical. When an agent can produce 50 meaningful commits in an hour, the human bottleneck becomes the problem, not the solution.</p>
+
+ <h2>The Rise of "Prompt Requests"</h2>
+
+ <p>Pete Steinberger and Theo have been vocal advocates for what they call "Prompt Requests" — a fundamental shift from reviewing code to refining prompts. The logic is compelling:</p>
+
+ <ul>
+ <li><strong>No merge conflicts:</strong> Agents work from specifications, not branches</li>
+ <li><strong>Easier iteration:</strong> Tweaking a prompt is faster than reviewing hundreds of lines</li>
+ <li><strong>Security:</strong> Less risk of malicious code slipping through innocent-looking PRs</li>
+ </ul>
+
+ <p>The maintainer's role shifts from code reviewer to specification curator. Instead of reading diffs, you refine the prompt that generates the code. Instead of catching bugs in review, you catch ambiguity in requirements.</p>
+
+ <h2>Reputation-Based Systems</h2>
+
+ <p>Mitchell Hashimoto and Amp Code have pioneered alternative approaches: reputation-based systems for handling untrusted code contributions. Rather than reviewing every line, you review the agent that produced it. High-reputation agents get commit access. Low-reputation agents submit to automated evaluation harnesses.</p>
+
+ <p>This mirrors how we already handle dependencies. You don't review every line of React or TensorFlow — you trust the source. As AI agents become more deterministic and observable, the same trust model applies to generated code.</p>
+
+ <h2>GitHub's Strategic Shift</h2>
+
+ <p>GitHub's decision to allow disabling PRs isn't happening in a vacuum. It follows closely on the heels of their broader "Death of Code Review" initiatives, including AI-powered auto-review and agent-driven code suggestions. The platform is positioning itself for a world where:</p>
+
+ <ul>
+ <li>Most code is written by agents, not humans</li>
+ <li>Review happens via evaluation harnesses, not human eyes</li>
+ <li>Collaboration moves from "propose and review" to "specify and verify"</li>
+ </ul>
+
+ <h2>What This Means for Builders</h2>
+
+ <p>The shift isn't immediate or universal. Human review still matters for architecture, security-critical code, and novel algorithms. But the default is changing. If you're building agent systems today, you should be designing for a world without PRs:</p>
+
+ <ul>
+ <li>Invest in specification quality — prompts are the new pull requests</li>
+ <li>Build evaluation harnesses that can verify agent outputs</li>
+ <li>Design for continuous integration, not batch review</li>
+ <li>Track agent reputation and capability metrics</li>
+ </ul>
+
+ <h2>The Broader Implication</h2>
+
+ <p>As Aaron Levie noted in "Building for Trillions of Agents": "the path forward is to make software that agents want." Humans invented git for human collaboration reasons. Agents need different primitives. The PR was a human checkpoint. The future belongs to verification harnesses, specification contracts, and reputation systems.</p>
+
+ <p>GitHub's move is an acknowledgment that the infrastructure of software development must evolve. The 21-year reign of the pull request is ending not with a bang, but with a settings toggle. What's emerging is a new collaboration model built for the agent era — one where the bottleneck isn't human attention, but specification clarity and verification rigor.</p>
+ </div>
+
+ <!-- V2: Scannable -->
+ <div class="v2-content">
+ <h2>Quick Facts</h2>
+ <table class="data-table">
+ <tr><th>Metric</th><th>Value</th></tr>
+ <tr><td>PR Invention</td><td>2005 (kernel dev)</td></tr>
+ <tr><td>GitHub Launch</td><td>2008</td></tr>
+ <tr><td>Disable PR Feature</td><td>April 16, 2026</td></tr>
+ <tr><td>Key Advocates</td><td>Pete Steinberger, Theo</td></tr>
+ <tr><td>Alt Approaches</td><td>Mitchell Hashimoto, Amp Code</td></tr>
+ <tr><td>New Primitive</td><td>Prompt Requests</td></tr>
+ </table>
+
+ <h2>Why PRs Are Dying</h2>
+ <table class="data-table">
+ <tr><th>Factor</th><th>Impact</th></tr>
+ <tr><td>Agent velocity</td><td>50 commits/hour vs human pace</td></tr>
+ <tr><td>Review bottleneck</td><td>Human attention becomes limiting factor</td></tr>
+ <tr><td>Merge conflicts</td><td>Agents work from spec, not branches</td></tr>
+ <tr><td>Security model</td><td>Reputation > line-by-line review</td></tr>
+ </table>
+
+ <h2>Prompt Request Advantages</h2>
+ <ul>
+ <li>No merge conflicts — spec-driven generation</li>
+ <li>Faster iteration — tweak prompt vs review code</li>
+ <li>Reduced attack surface — spec is smaller than diff</li>
+ <li>Scalable verification — harnesses vs human review</li>
+ </ul>
+
+ <h2>Reputation System Model</h2>
+ <table class="data-table">
+ <tr><th>Agent Tier</th><th>Access Level</th><th>Verification</th></tr>
+ <tr><td>High reputation</td><td>Direct commit</td><td>Spot checks</td></tr>
+ <tr><td>Medium reputation</td><td>Branch push</td><td>Harness evaluation</td></tr>
+ <tr><td>Low reputation</td><td>Spec submission</td><td>Full review</td></tr>
+ </table>
+
+ <h2>Builder Action Items</h2>
+ <ul>
+ <li>Invest in specification quality</li>
+ <li>Build evaluation harnesses</li>
+ <li>Design for continuous integration</li>
+ <li>Track agent reputation metrics</li>
+ <li>Prepare for verification-first workflows</li>
+ </ul>
+ </div>
+
+ <!-- V3: Agent/Builder -->
+ <div class="v3-content">
+ <h2>Implementation Guide</h2>
+ <p>Transitioning from PR-based to prompt-based workflows.</p>
+
+ <h3>Specification-First Pattern</h3>
+ <pre><code>// Old: PR with description
+const pr = {
+ title: "Add user auth",
+ description: "Implements JWT...",
+ diff: generateDiff()
+};
+
+// New: Prompt with spec
+const promptRequest = {
+ spec: `
+ Add user authentication:
+ - JWT tokens with 24h expiry
+ - Refresh token rotation
+ - Rate limit: 5 attempts/minute
+ `,
+ constraints: {
+ securityLevel: "high",
+ testCoverage: 0.9,
+ maxComplexity: 10
+ },
+ verification: authTestHarness
+};</code></pre>
+
+ <h3>Reputation Tracker</h3>
+ <pre><code>class AgentReputation {
+ constructor() {
+ this.metrics = {
+ successRate: 0, // % of tasks completed
+ bugRate: 0, // bugs per 1000 LOC
+ revertRate: 0, // % of commits reverted
+ reviewTime: 0, // avg time to acceptance
+ harnessScore: 0 // automated eval score
+ };
+ }
+ 
+ getTier() {
+ const score = this.calculateScore();
+ if (score > 0.9) return "trusted";
+ if (score > 0.7) return "verified";
+ if (score > 0.5) return "reviewed";
+ return "sandbox";
+ }
+ 
+ getAccessRights(tier) {
+ return {
+ trusted: { directCommit: true, autoMerge: true },
+ verified: { directCommit: true, autoMerge: false },
+ reviewed: { branchPush: true, requireHarness: true },
+ sandbox: { specSubmit: true, noPush: true }
+ }[tier];
+ }
+}</code></pre>
+
+ <h3>Verification Harness</h3>
+ <pre><code>async function verifyAgentOutput(spec, implementation) {
+ const checks = {
+ // Static analysis
+ lint: runLinter(implementation),
+ complexity: checkComplexity(implementation),
+ coverage: runTests(implementation),
+ 
+ // Semantic verification
+ specMatch: checkSpecCompliance(spec, implementation),
+ security: runSecurityScan(implementation),
+ 
+ // Integration
+ build: runBuild(implementation),
+ integration: runIntegrationTests(implementation)
+ };
+ 
+ const results = await Promise.all(Object.values(checks));
+ 
+ return {
+ pass: results.every(r => r.pass),
+ score: average(results.map(r => r.score)),
+ feedback: generateFeedback(results)
+ };
+}</code></pre>
+
+ <h3>Migration Strategy</h3>
+ <table>
+ <tr><th>Phase</th><th>Action</th><th>Timeline</th></tr>
+ <tr><td>1</td><td>Add harness evaluation to PR pipeline</td><td>Now</td></tr>
+ <tr><td>2</td><td>Track agent reputation metrics</td><td>2 weeks</td></tr>
+ <tr><td>3</td><td>Enable auto-merge for high-reputation agents</td><td>1 month</td></tr>
+ <tr><td>4</td><td>Transition to prompt-first workflow</td><td>3 months</td></tr>
+ <tr><td>5</td><td>Disable PRs for agent-only repos</td><td>6 months</td></tr>
+ </table>
+ </div>
+
+ <div class="article-note" style="margin-top: 3rem;">
+ <strong>Source:</strong> <a href="https://www.latent.space/p/ainews-rip-pull-requests-2005-2026" target="_blank" rel="noopener">RIP Pull Requests (2005-2026)</a> — Latent.Space, April 16, 2026<br>
+ <strong>Related:</strong> <a href="https://x.com/SamMorrowDrums/status/2044375099738825103" target="_blank" rel="noopener">GitHub Announcement</a>
+ </div>
+ </div>
+ </article>
+ </main>
+
+ <footer class="site-footer" style="padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 4rem;">
+ <div class="container">
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ Signal — Tracking the shift from models to systems.<br>
+ <a href="https://adilislam.com" style="color: var(--text-3);">Adil Islam.com</a> · 
+ <a href="https://github.com/aikaizen" style="color: var(--text-3);">GitHub</a>
+ </p>
+ </div>
+ </footer>
+
+ <script>
+ function showVersion(version) {
+ document.querySelectorAll('.v1-content, .v2-content, .v3-content').forEach(el => {
+ el.style.display = 'none';
+ });
+ document.querySelectorAll('.version-badge').forEach(el => {
+ el.style.background = 'var(--bg-subtle)';
+ el.style.color = 'var(--text-2)';
+ });
+ document.querySelector('.' + version + '-content').style.display = 'block';
+ document.querySelector('.version-badge.' + version).style.background = 'var(--primary)';
+ document.querySelector('.version-badge.' + version).style.color = 'white';
+ }
+ </script>
+</body>
+</html>

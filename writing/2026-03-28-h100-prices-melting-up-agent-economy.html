@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>H100 Prices Melting Up — What GPU Scarcity Signals About the Agent Economy — Signal by Adil Islam</title>
+ <meta name="description" content="H100 GPU rental prices are rising despite being 4 years old. The agent/reasoning model inflection is rewriting infrastructure economics. What this means for builders.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css">
+ <style>
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .highlight-box { background: var(--bg-elevated); border-left: 3px solid var(--accent); padding: 1rem 1.25rem; margin: 1.5rem 0; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ March 28, 2026 · 6 min read · Infrastructure
+ </div>
+ 
+ <h1>H100 Prices Melting Up — What GPU Scarcity Signals About the Agent Economy</h1>
+ 
+ <p>In October 2024, H100 rental prices bottomed out. The DeepSeek R1 shock had everyone predicting a GPU glut. Four months later, those same H100s are worth more than they were at launch. Dylan Patel noted they're worth more today than three years ago. This isn't normal depreciation behavior. Something fundamental has shifted in the demand curve for AI compute.</p>
+
+ <h2>The Depreciation Reversal</h2>
+
+ <p>GPUs follow predictable patterns. New architecture launches, older hardware depreciates 20-40% annually, cloud providers refresh fleets. The H100, introduced in late 2022, should be approaching mid-life obsolescence ahead of Blackwell's mainstream deployment.</p>
+
+ <p>Instead, rental prices have climbed steadily since December 2025. The inflection point isn't mysterious: it tracks exactly with the reasoning model breakthroughs and the first wave of production agent deployments.</p>
+
+ <div class="highlight-box">
+ <strong>The core dynamic:</strong> A 4-year-old chip is appreciating because the software running on it (reasoning models, agent harnesses) makes it significantly more productive than original projections assumed.
+ </div>
+
+ <p>Data center tokenomics run on razor-thin margins. When the underlying silicon becomes more expensive to rent, the entire stack feels pressure. Training runs get rescheduled. Inference batch sizes shrink. Startups with locked-in GPU contracts gain unexpected competitive moats.</p>
+
+ <h2>Why This Time Is Different</h2>
+
+ <p>Previous GPU demand spikes followed predictable patterns — crypto mining, training frenzies for foundation models. This one is driven by sustained inference workloads from agents that think longer and work iteratively.</p>
+
+ <table>
+ <thead>
+ <tr><th>Demand Driver</th><th>Duration</th><th>Hardware Impact</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Crypto mining</td><td>6-18 months</td><td>Discrete spikes, quick corrections</td></tr>
+ <tr><td>Foundation model training</td><td>Project-based</td><td>Scheduled bursts, predictable</td></tr>
+ <tr><td>Reasoning agents (current)</td><td>Persistent, growing</td><td>Continuous load, harder to forecast</td></tr>
+ </tbody>
+ </table>
+
+ <p>Training runs finish. Mining profitability crashes. But agents don't stop. A deployed coding assistant or research agent generates continuous inference load with high per-query compute requirements. Reasoning models use 10-100x more tokens than simple chat completions. The demand curve looks less like a series of spikes and more like a rising floor.</p>
+
+ <h2>The Infrastructure Implications</h2>
+
+ <p>For teams building on this infrastructure, the economics are shifting in real-time:</p>
+
+ <ul>
+ <li><strong>Locked-in contracts win:</strong> If you negotiated GPU access at 2024 prices, your unit economics just improved relative to new entrants</li>
+ <li><strong>Local deployment becomes competitive:</strong> TurboQuant, RotorQuant, and other compression methods that let you run frontier-class models on consumer hardware aren't just nice-to-have—they're margin-preserving necessities</li>
+ <li><strong>Model efficiency matters more:</strong> The gap between efficient and inefficient architectures translates directly to operating costs at scale</li>
+ </ul>
+
+ <p>The frontier labs are responding to this compute scarcity with aggressive scaling. Anthropic's rumored Capybara tier represents a bet that demand for top-tier reasoning will justify the infrastructure investment. Google's reported funding of Anthropic's data center reinforces that this is a capital-availability game now, not just an algorithmic one.</p>
+
+ <h2>What Builders Should Watch</h2>
+
+ <p>GPU pricing is a lagging indicator. By the time rental rates spike, the underlying demand shift has already occurred. The signals to watch going forward:</p>
+
+ <ol>
+ <li><strong>Agent session duration:</strong> Longer sessions = sustained inference load = continued pressure on GPU supply</li>
+ <li><strong>Multi-step reasoning adoption:</strong> Each reasoning step adds tokens and compute. Widespread adoption of o1/R1-style thinking increases per-task compute 10x or more</li>
+ <li><strong>Hardware alternatives:</strong> TPUs, custom silicon, and edge inference become economically viable faster when GPU prices rise</li>
+ </ol>
+
+ <p>The H100 price reversal isn't just an infrastructure story. It's an early signal that the agent economy has crossed from demonstration to production. The demand is real, sustained, and growing faster than supply can accommodate.</p>
+
+ <p>For teams building agent infrastructure at adilislam.com and across the ecosystem, the message is clear: compute efficiency isn't optimization anymore. It's survival.</p>
+
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+ Sources: Latent Space AI News, Dylan Patel (Dwarkesh interview), Matthew Sigel chart analysis
+ </div>
+ </div>
+ </article>
+ </main>
+
+ <footer class="footer">
+ <div class="container footer-inner">
+ <p>Adil Islam Signal — tracking the major changes in the AI landscape.</p>
+ <p style="font-size: 14px; color: var(--text-4); margin-top: 8px;">
+ <a href="/about/">About</a> · 
+ <a href="https://github.com/aikaizen/adilislam-main" target="_blank" rel="noopener">GitHub</a> · 
+ <a href="https://adilislam.com" target="_blank" rel="noopener">Adil Islam.com</a>
+ </p>
+ </div>
+ </footer>
+</body>
+</html>

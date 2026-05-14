@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>DeerFlow: ByteDance's Super Agent Harness — Architecture Analysis — Signal by Adil Islam</title>
+ <meta name="description" content="ByteDance's DeerFlow 2.0 is a complete agent harness with 38k GitHub stars. Multi-agent orchestration, sandboxed execution, long-term memory, and IM channel integration.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css?v=5">
+ <style>
+ .article-versions { display: flex; gap: 0.5rem; margin: 1rem 0 2rem; padding: 0.75rem; background: var(--bg-elevated); border-radius: var(--radius-sm); flex-wrap: wrap; }
+ .version-badge { padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+ .version-badge.v1 { background: var(--primary); color: white; }
+ .version-badge.v2 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge.v3 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge:hover { opacity: 0.9; }
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .data-table { font-size: 0.875rem; }
+ .article-highlight { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--primary); margin: 1.5rem 0; }
+ .article-note { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--text-3); margin: 1.5rem 0; color: var(--text-3); }
+ .v1-content { display: block; }
+ .v2-content, .v3-content { display: none; }
+ .v2-content .data-table { font-size: 0.8125rem; }
+ .v2-content table { margin: 0.75rem 0; }
+ .v2-content h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+ .v3-content pre { background: #1a1a2e; }
+ .v3-content code { background: #1a1a2e; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ March 23, 2026 · 12 min read · Architecture Analysis
+ </div>
+
+ <div class="article-versions article-versions-top">
+ <span class="version-label" style="font-weight: 600; color: var(--text-3); margin-right: 0.5rem;">Version:</span>
+ <span class="version-badge v1" onclick="showVersion('v1')">V1 Narrative</span>
+ <span class="version-badge v2" onclick="showVersion('v2')">V2 Scannable</span>
+ <span class="version-badge v3" onclick="showVersion('v3')">V3 Agent/Builder</span>
+ </div>
+
+ <h1>DeerFlow: ByteDance's Super Agent Harness</h1>
+
+ <!-- V1: Analytical Narrative -->
+ <div class="v1-content">
+ <p>ByteDance released DeerFlow 2.0 as a ground-up rewrite in February 2026. Within weeks it claimed the #1 spot on GitHub Trending, accumulating 38,000 stars and 4,500 forks. The repository maintains 147 contributors with daily commits addressing everything from hotkey support to Kubernetes sandbox provisioners.</p>
+
+ <p>DeerFlow positions itself not as a framework but as a "super agent harness"—a runtime environment that gives agents the infrastructure to execute tasks, not just generate text. This distinction matters. Most agent tools focus on prompt engineering and LLM invocation. DeerFlow adds filesystem persistence, sandboxed code execution, sub-agent spawning, long-term memory, and multi-channel messaging integration.</p>
+
+ <h2>From Research Tool to Execution Harness</h2>
+
+ <p>The 1.x branch of DeerFlow was a Deep Research framework—useful for information gathering, limited in action. The community extended it beyond the original scope: data pipelines, slide generation, dashboard creation, content workflows. This usage pattern revealed that DeerFlow had become something else entirely: a runtime for autonomous agents.</p>
+
+ <p>Version 2.0 embraces this evolution. The architecture now explicitly supports sub-agents with isolated contexts, each receiving scoped tasks and returning structured results. A research task might spawn a dozen parallel agents, each exploring different angles, with results synthesized into reports, websites, or slide decks with generated visuals.</p>
+
+ <h2>Architecture: LangGraph-Based Orchestration</h2>
+
+ <p>DeerFlow builds on LangGraph and LangChain for workflow orchestration. The system defines agent nodes that communicate through a graph structure:</p>
+
+ <table>
+ <thead>
+ <tr><th>Agent Node</th><th>Function</th><th>Context Scope</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><strong>Coordinator</strong></td><td>Entry point, handles initial interaction</td><td>Session-wide</td></tr>
+ <tr><td><strong>Planner</strong></td><td>Creates research plans, coordinates tasks</td><td>Task planning</td></tr>
+ <tr><td><strong>Researcher</strong></td><td>Web searches, information gathering</td><td>Per-query isolation</td></tr>
+ <tr><td><strong>Coder</strong></td><td>Code generation and execution</td><td>Sandbox environment</td></tr>
+ <tr><td><strong>Reporter</strong></td><td>Final reports, summaries, citations</td><td>Output generation</td></tr>
+ </tbody>
+ </table>
+
+ <p>The lead agent can spawn sub-agents dynamically. Each sub-agent operates in isolation—no access to parent context or sibling agents. This prevents context pollution and keeps sub-agents focused on specific tasks.</p>
+
+ <h2>Sandbox Execution: Beyond Tool Calls</h2>
+
+ <p>DeerFlow provides three sandbox modes:</p>
+
+ <ul>
+ <li><strong>Local execution:</strong> Runs code directly on host machine (fastest, least isolated)</li>
+ <li><strong>Docker execution:</strong> Isolated containers with dedicated filesystem</li>
+ <li><strong>Kubernetes execution:</strong> Pods via provisioner service for scaled deployments</li>
+ </ul>
+
+ <p>Each sandbox provides a full filesystem at standard paths:</p>
+
+ <pre><code>/mnt/user-data/
+├── uploads/ ← User files
+├── workspace/ ← Agent working directory
+└── outputs/ ← Final deliverables</code></pre>
+
+ <p>The distinction between "chatbot with tool access" and "agent with execution environment" is significant. DeerFlow agents read, write, and edit files. They execute bash commands and Python code. They view images. All actions are sandboxed and auditable.</p>
+
+ <h2>Skills System: Progressive Capability Loading</h2>
+
+ <p>Skills in DeerFlow are structured capability modules—Markdown files defining workflows, best practices, and supporting resources. The system ships with built-in skills for research, report generation, slide creation, web pages, and image/video generation.</p>
+
+ <p>Skills load progressively: only when a task requires them, not all at once. This keeps context windows manageable even with token-sensitive models. The skills directory structure:</p>
+
+ <pre><code>/mnt/skills/
+├── public/
+│ ├── research/SKILL.md
+│ ├── report-generation/SKILL.md
+│ ├── slide-creation/SKILL.md
+│ ├── web-page/SKILL.md
+│ └── image-generation/SKILL.md
+└── custom/
+ └── your-skill/SKILL.md</code></pre>
+
+ <p>Custom skills can be added through the Gateway interface. DeerFlow accepts standard frontmatter metadata (version, author, compatibility) without rejecting otherwise valid external skills.</p>
+
+ <h2>Context Engineering Features</h2>
+
+ <p>DeerFlow implements several context management strategies:</p>
+
+ <p><strong>Isolated Sub-Agent Context:</strong> Each sub-agent sees only its assigned task context. This is enforced architecturally, not just by convention.</p>
+
+ <p><strong>Session Summarization:</strong> Within a single session, completed sub-tasks are summarized, intermediate results offloaded to the filesystem, and completed work compressed. This prevents context window overflow during long, multi-step tasks.</p>
+
+ <p><strong>Long-Term Memory:</strong> Across sessions, DeerFlow maintains persistent memory of user profiles, preferences, and accumulated knowledge. Memory is stored locally (not in cloud services) and improves gradually through use—learning writing styles, technical stacks, recurring workflows.</p>
+
+ <h2>Multi-Channel Integration</h2>
+
+ <p>DeerFlow integrates with messaging platforms without requiring public IP addresses. Supported channels:</p>
+
+ <table>
+ <thead>
+ <tr><th>Channel</th><th>Transport</th><th>Setup Complexity</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Telegram</td><td>Bot API (long-polling)</td><td>Easy</td></tr>
+ <tr><td>Slack</td><td>Socket Mode</td><td>Moderate</td></tr>
+ <tr><td>Feishu/Lark</td><td>WebSocket</td><td>Moderate</td></tr>
+ </tbody>
+ </table>
+
+ <p>Each channel auto-starts when configured. No webhook servers or public endpoints required. Commands are available in-channel:</p>
+
+ <pre><code>/new → Start new conversation
+/status → Show current thread info
+/models → List available models
+/memory → View memory
+/help → Show help</code></pre>
+
+ <h2>Model Provider Flexibility</h2>
+
+ <p>DeerFlow is model-agnostic with explicit support for OpenAI-compatible APIs. Configuration in <code>config.yaml</code>:</p>
+
+ <pre><code>models:
+ - name: gpt-4
+ display_name: GPT-4
+ use: langchain_openai:ChatOpenAI
+ model: gpt-4
+ api_key: $OPENAI_API_KEY
+ 
+ - name: openrouter-gemini
+ display_name: Gemini (OpenRouter)
+ use: langchain_openai:ChatOpenAI
+ model: google/gemini-2.5-flash-preview
+ api_key: $OPENAI_API_KEY
+ base_url: https://openrouter.ai/api/v1
+ 
+ - name: codex-cli
+ display_name: GPT-5.4 (Codex CLI)
+ use: deerflow.models.openai_codex_provider:CodexChatModel
+ model: gpt-5.4
+ supports_thinking: true</code></pre>
+
+ <p>The system also supports Claude Code OAuth integration and Codex CLI as first-class providers, reading credentials from <code>~/.claude/.credentials.json</code> and <code>~/.codex/auth.json</code> respectively.</p>
+
+ <h2>Recommended Models</h2>
+
+ <p>ByteDance explicitly recommends specific models for DeerFlow:</p>
+
+ <ul>
+ <li>Doubao-Seed-2.0-Code (ByteDance's own model)</li>
+ <li>DeepSeek v3.2</li>
+ <li>Kimi 2.5</li>
+ </ul>
+
+ <p>DeerFlow performs best with models supporting: 100k+ token context windows, reasoning capabilities for adaptive planning, multimodal inputs, and strong tool-use for reliable function calling.</p>
+
+ <h2>Comparison with OpenClaw Architecture</h2>
+
+ <p>Both systems pursue multi-agent orchestration but with different emphases:</p>
+
+ <table>
+ <thead>
+ <tr><th>Aspect</th><th>DeerFlow</th><th>OpenClaw</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><strong>Primary runtime</strong></td><td>Self-hosted Docker/Kubernetes</td><td>Gateway daemon + clients</td></tr>
+ <tr><td><strong>Agent spawning</strong></td><td>In-process via LangGraph</td><td>External <code>sessions_spawn</code></td></tr>
+ <tr><td><strong>Context isolation</strong></td><td>Architectural (sub-agent nodes)</td><td>Process-based (sub-agents)</td></tr>
+ <tr><td><strong>Skills system</strong></td><td>Markdown + Gateway loading</td><td>Markdown + local <code>skills/</code></td></tr>
+ <tr><td><strong>Sandbox</strong></td><td>Docker/Kubernetes/Local</td><td>Host or containerized</td></tr>
+ <tr><td><strong>Memory</strong></td><td>Local persistent storage</td><td>ByteRover + memory files</td></tr>
+ <tr><td><strong>IM channels</strong></td><td>Built-in (Telegram, Slack, Feishu)</td><td>Gateway-supported (Telegram, Discord, etc.)</td></tr>
+ </tbody>
+ </table>
+
+ <p>DeerFlow emphasizes a unified, self-contained runtime. OpenClaw distributes capabilities across a Gateway daemon and multiple client interfaces. DeerFlow targets deployment as a service; OpenClaw targets personal assistant integration.</p>
+
+ <h2>Technical Assessment</h2>
+
+ <p><strong>Strengths:</strong></p>
+ <ul>
+ <li>Complete agent infrastructure in one repository</li>
+ <li>LangGraph provides proven orchestration patterns</li>
+ <li>Sandbox execution enables genuine autonomous operation</li>
+ <li>Progressive skill loading manages context efficiently</li>
+ <li>Built-in multi-channel support reduces integration friction</li>
+ <li>Daily active development (commits within hours)</li>
+ </ul>
+
+ <p><strong>Considerations:</strong></p>
+ <ul>
+ <li>Docker required for full feature set (no pure-local mode)</li>
+ <li>Kubernetes sandbox adds operational complexity</li>
+ <li>Self-hosted model requires infrastructure maintenance</li>
+ <li>147 contributors means rapid change, potential instability</li>
+ <li>No managed cloud offering (must self-host)</li>
+ </ul>
+
+ <h2>Conclusion</h2>
+
+ <p>DeerFlow represents a mature approach to agent infrastructure. It does not attempt to be a language model or a prompt template library. It provides the runtime environment that makes autonomous agents feasible: execution sandboxes, memory persistence, multi-agent coordination, and channel integration.</p>
+
+ <p>The 38,000 GitHub stars reflect genuine utility, not hype. The codebase demonstrates production engineering: comprehensive Docker setup, Kubernetes support, structured configuration, and daily maintenance. For teams building autonomous agents that need to execute code, manage files, and coordinate sub-agents, DeerFlow provides a complete foundation.</p>
+
+ <p>Use DeerFlow when you need a self-hosted agent runtime with execution capabilities, sub-agent orchestration, and multi-channel deployment. Consider OpenClaw when you need personal assistant integration with distributed client support.</p>
+ </div>
+
+ <!-- V2: Scannable -->
+ <div class="v2-content">
+ <h2>Quick Facts</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Metric</th><th>Value</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>GitHub Stars</td><td>38,000</td></tr>
+ <tr><td>Forks</td><td>4,500</td></tr>
+ <tr><td>Contributors</td><td>147</td></tr>
+ <tr><td>License</td><td>MIT</td></tr>
+ <tr><td>Primary Language</td><td>Python 56%</td></tr>
+ <tr><td>Version</td><td>2.0 (ground-up rewrite)</td></tr>
+ <tr><td>Release Date</td><td>February 2026</td></tr>
+ <tr><td>Repository</td><td>github.com/bytedance/deer-flow</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Architecture Overview</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Layer</th><th>Technology</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Workflow Orchestration</td><td>LangGraph</td></tr>
+ <tr><td>LLM Integration</td><td>LangChain</td></tr>
+ <tr><td>Backend</td><td>Python (Poetry)</td></tr>
+ <tr><td>Frontend</td><td>Next.js</td></tr>
+ <tr><td>Sandbox</td><td>Docker / Kubernetes / Local</td></tr>
+ <tr><td>Memory</td><td>Local persistent storage</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Agent Node Types</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Node</th><th>Function</th><th>Isolation</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Coordinator</td><td>Entry point, session handling</td><td>Session-wide</td></tr>
+ <tr><td>Planner</td><td>Task decomposition</td><td>Planning context</td></tr>
+ <tr><td>Researcher</td><td>Web search, data gathering</td><td>Per-query</td></tr>
+ <tr><td>Coder</td><td>Code generation/execution</td><td>Sandbox</td></tr>
+ <tr><td>Reporter</td><td>Report generation, citations</td><td>Output scope</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Sandbox Modes</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Mode</th><th>Isolation</th><th>Speed</th><th>Use Case</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Local</td><td>Low</td><td>Fastest</td><td>Development</td></tr>
+ <tr><td>Docker</td><td>Medium</td><td>Medium</td><td>Production</td></tr>
+ <tr><td>Kubernetes</td><td>High</td><td>Slower</td><td>Scale</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Supported IM Channels</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Channel</th><th>Transport</th><th>Setup</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Telegram</td><td>Bot API (long-polling)</td><td>Easy</td></tr>
+ <tr><td>Slack</td><td>Socket Mode</td><td>Moderate</td></tr>
+ <tr><td>Feishu/Lark</td><td>WebSocket</td><td>Moderate</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Available Commands (In-Channel)</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Command</th><th>Function</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><code>/new</code></td><td>Start new conversation</td></tr>
+ <tr><td><code>/status</code></td><td>Show thread info</td></tr>
+ <tr><td><code>/models</code></td><td>List models</td></tr>
+ <tr><td><code>/memory</code></td><td>View memory</td></tr>
+ <tr><td><code>/help</code></td><td>Show help</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Recommended Models</h2>
+ <ul>
+ <li>Doubao-Seed-2.0-Code (ByteDance)</li>
+ <li>DeepSeek v3.2</li>
+ <li>Kimi 2.5</li>
+ </ul>
+
+ <h2>Requirements</h2>
+ <ul>
+ <li>Python 3.11+</li>
+ <li>Node.js 22+</li>
+ <li>Docker (for sandboxed execution)</li>
+ <li>API keys for chosen LLM provider</li>
+ </ul>
+
+ <h2>Quick Start</h2>
+ <pre><code>git clone https://github.com/bytedance/deer-flow.git
+cd deer-flow
+make config # Generate config files
+# Edit config.yaml and .env with API keys
+make docker-init # Pull sandbox image
+make docker-start # Start services</code></pre>
+
+ <h2>DeerFlow vs OpenClaw</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Aspect</th><th>DeerFlow</th><th>OpenClaw</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Runtime</td><td>Self-hosted Docker/K8s</td><td>Gateway + clients</td></tr>
+ <tr><td>Agent spawning</td><td>In-process (LangGraph)</td><td><code>sessions_spawn</code></td></tr>
+ <tr><td>Isolation</td><td>Node-level</td><td>Process-level</td></tr>
+ <tr><td>Skills</td><td>Markdown + Gateway</td><td>Markdown + local</td></tr>
+ <tr><td>Target</td><td>Service deployment</td><td>Personal assistant</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <!-- V3: Agent/Builder -->
+ <div class="v3-content">
+ <h2>DeerFlow for Builders</h2>
+ <p>Direct implementation patterns for extending DeerFlow or integrating with it.</p>
+
+ <h3>Custom Skill Definition</h3>
+ <pre><code>---
+name: my-skill
+version: 1.0.0
+author: your-name
+compatibility: deerflow >=2.0
+---
+
+# My Custom Skill
+
+**Purpose:** [One-line description]
+
+## When to Use
+
+- Trigger condition 1
+- Trigger condition 2
+
+## Workflow
+
+1. Step one
+2. Step two
+3. Step three
+
+## Parameters
+
+- `input_file`: Path to input
+- `output_format`: json | markdown | html
+
+## Example
+
+```
+DeerFlow, analyze this CSV using my-skill
+```</code></pre>
+
+ <h3>Adding Custom Tools (Python)</h3>
+ <pre><code># backend/app/tools/custom_tool.py
+from langchain.tools import BaseTool
+from pydantic import Field
+
+class CustomSearchTool(BaseTool):
+ name: str = "custom_search"
+ description: str = "Search custom index"
+ 
+ api_endpoint: str = Field(default="https://api.example.com/search")
+ 
+ def _run(self, query: str) -> str:
+ # Implementation
+ response = requests.get(f"{self.api_endpoint}?q={query}")
+ return response.json()["results"]</code></pre>
+
+ <h3>MCP Server Integration</h3>
+ <pre><code># config.yaml - MCP server configuration
+mcp_servers:
+ - name: my-mcp-server
+ url: https://mcp.example.com/sse
+ auth:
+ type: oauth
+ flow: client_credentials
+ client_id: $MCP_CLIENT_ID
+ client_secret: $MCP_CLIENT_SECRET</code></pre>
+
+ <h3>Embedded Python Client</h3>
+ <pre><code>from deerflow.client import DeerFlowClient
+
+client = DeerFlowClient()
+
+# Chat
+response = client.chat(
+ "Analyze this paper",
+ thread_id="my-thread"
+)
+
+# Streaming
+for event in client.stream("hello"):
+ if event.type == "messages-tuple":
+ print(event.data["content"])
+
+# Management
+models = client.list_models()
+skills = client.list_skills()
+client.upload_files("thread-1", ["./report.pdf"])</code></pre>
+
+ <h3>Sub-Agent Spawn Pattern</h3>
+ <pre><code># Within a DeerFlow skill or node
+
+# 1. Define sub-agent task
+sub_agent_task = {
+ "task": "Research sub-topic X",
+ "context": {"parent_goal": "Main research goal"},
+ "tools": ["web_search", "web_fetch"],
+ "max_iterations": 10
+}
+
+# 2. Spawn sub-agent (LangGraph pattern)
+from langgraph.types import Command
+
+# Sub-agent runs in isolation
+# Returns structured result to parent
+result = await spawn_sub_agent(sub_agent_task)
+
+# 3. Synthesize results
+final_output = synthesize([result1, result2, result3])</code></pre>
+
+ <h3>Channel Webhook Handler (Custom)</h3>
+ <pre><code># Custom channel integration
+# Add to backend/app/channels/
+
+from deerflow.channels.base import BaseChannel
+
+class DiscordChannel(BaseChannel):
+ name = "discord"
+ 
+ async def start(self):
+ # Connect to Discord Gateway
+ # Listen for messages
+ # Route to DeerFlow coordinator
+ pass
+ 
+ async def handle_message(self, message):
+ # Parse commands (/new, /status)
+ # Route to appropriate handler
+ # Return responses to Discord</code></pre>
+
+ <h3>Configuration Patterns</h3>
+ <pre><code># config.yaml - Complete example
+models:
+ - name: primary-llm
+ use: langchain_openai:ChatOpenAI
+ model: gpt-4
+ api_key: $OPENAI_API_KEY
+ max_tokens: 4096
+ temperature: 0.7
+
+sandbox:
+ use: deerflow.community.aio_sandbox:AioSandboxProvider
+ provisioner_url: http://provisioner:8080 # K8s mode
+ # Or for Docker:
+ # use: deerflow.community.docker_sandbox:DockerSandboxProvider
+
+channels:
+ telegram:
+ enabled: true
+ bot_token: $TELEGRAM_BOT_TOKEN
+ allowed_users: [] # Empty = all users
+ 
+ slack:
+ enabled: false # Enable when configured
+ bot_token: $SLACK_BOT_TOKEN
+ app_token: $SLACK_APP_TOKEN
+
+memory:
+ persistence: true
+ storage_path: /mnt/user-data/memory</code></pre>
+
+ <h3>Docker Compose Extension</h3>
+ <pre><code># docker-compose.custom.yml
+version: '3.8'
+services:
+ deerflow:
+ extends:
+ file: docker-compose.yml
+ service: deerflow
+ volumes:
+ - ./custom-skills:/mnt/skills/custom:ro
+ - ./outputs:/mnt/user-data/outputs
+ environment:
+ - CUSTOM_API_KEY=${CUSTOM_API_KEY}
+ 
+ # Add custom service
+ custom-indexer:
+ image: my-indexer:latest
+ networks:
+ - deerflow-network</code></pre>
+
+ <h3>Testing Skills Locally</h3>
+ <pre><code># Test skill without full deployment
+# Using DeerFlow embedded client
+
+from deerflow.client import DeerFlowClient
+from pathlib import Path
+
+client = DeerFlowClient()
+
+# Load skill
+skill_path = Path("./my-skill/SKILL.md")
+skill_content = skill_path.read_text()
+
+# Test execution
+response = client.chat(
+ f"Execute this skill: {skill_content}\n\nTask: [test task]"
+)
+
+print(response)</code></pre>
+
+ <h3>Deployment Checklist</h3>
+ <ul>
+ <li>[ ] Clone repository: <code>git clone https://github.com/bytedance/deer-flow.git</code></li>
+ <li>[ ] Generate config: <code>make config</code></li>
+ <li>[ ] Edit <code>config.yaml</code> — define at least one model</li>
+ <li>[ ] Set API keys in <code>.env</code> file</li>
+ <li>[ ] Initialize Docker: <code>make docker-init</code></li>
+ <li>[ ] Start services: <code>make docker-start</code></li>
+ <li>[ ] Verify: <code>http://localhost:2026</code></li>
+ <li>[ ] Configure IM channels (optional)</li>
+ <li>[ ] Add custom skills to <code>/mnt/skills/custom/</code></li>
+ <li>[ ] Test sub-agent spawning</li>
+ <li>[ ] Enable persistent memory</li>
+ </ul>
+ </div>
+
+ <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ <strong>Technical Appendix</strong><br>
+ Repository: github.com/bytedance/deer-flow<br>
+ Version analyzed: 2.0 (March 23, 2026)<br>
+ Stars: 38,000 | Forks: 4,500 | Contributors: 147<br>
+ Last commit: 3be1d84 (4 hours ago as of analysis)<br>
+ License: MIT<br><br>
+ <strong>Key Files Referenced:</strong><br>
+ README.md, config.example.yaml, backend/docs/CONFIGURATION.md<br>
+ backend/docs/MCP_SERVER.md, CONTRIBUTING.md<br><br>
+ <strong>Official Website:</strong> deerflow.tech
+ </p>
+ </div>
+ </article>
+ </main>
+
+ <footer class="footer" style="border-top: 1px solid var(--border-subtle); margin-top: 4rem;">
+ <div class="container" style="padding: 2rem 0; text-align: center; color: var(--text-4); font-size: 0.875rem;">
+ <p>Adil Islam Signal — Real experiments. Published findings.</p>
+ </div>
+ </footer>
+
+ <script>
+ function showVersion(version) {
+ // Hide all versions
+ document.querySelector('.v1-content').style.display = 'none';
+ document.querySelector('.v2-content').style.display = 'none';
+ document.querySelector('.v3-content').style.display = 'none';
+ 
+ // Reset badge styles
+ document.querySelector('.version-badge.v1').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v1').style.color = 'var(--text-2)';
+ document.querySelector('.version-badge.v2').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v2').style.color = 'var(--text-2)';
+ document.querySelector('.version-badge.v3').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v3').style.color = 'var(--text-2)';
+ 
+ // Show selected version
+ document.querySelector('.' + version + '-content').style.display = 'block';
+ 
+ // Highlight selected badge
+ document.querySelector('.version-badge.' + version).style.background = 'var(--primary)';
+ document.querySelector('.version-badge.' + version).style.color = 'white';
+ 
+ // Scroll to top of content
+ document.querySelector('.article-content').scrollIntoView({ behavior: 'smooth' });
+ }
+ </script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

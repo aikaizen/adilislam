@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Daily AI Research Briefing — April 15, 2026 — Signal by Adil Islam</title>
+ <meta name="description" content="Top 5 AI stories: Hermes Agent hits 88K stars, Claude Memory Infrastructure, Managed Agents as Teammates, Karpathy Skills for Claude, and the Productivity Paradox.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css">
+ <style>
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .story-card { background: var(--bg-elevated); padding: 1.5rem; border-radius: var(--radius-md); margin: 1.5rem 0; }
+ .story-card h3 { margin-top: 0; }
+ .trending { color: var(--accent); font-weight: 600; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ April 15, 2026 · 5 min read · Daily Briefing
+ </div>
+ 
+ <h1>Daily AI Research Briefing — April 15, 2026</h1>
+ 
+ <p class="lead">The top 5 stories shaping AI infrastructure, agent architectures, and developer workflows today.</p>
+
+ <div class="story-card">
+ <h3><span class="trending">↗ 88K stars</span> — Hermes Agent</h3>
+ <p><strong>NousResearch/hermes-agent</strong> continues its explosive growth (+53K stars this week). The "agent that grows with you" represents a fundamental shift toward self-improving agent systems that compound capabilities over time without human intervention.</p>
+ <p><strong>Why it matters:</strong> Unlike static agent frameworks, Hermes evolves its own tool set and reasoning patterns based on usage. This signals the transition from "agents as scripts" to "agents as organisms."</p>
+ <p><a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener">github.com/NousResearch/hermes-agent</a></p>
+ </div>
+
+ <div class="story-card">
+ <h3><span class="trending">↗ 57K stars</span> — Claude Memory Infrastructure</h3>
+ <p><strong>thedotmack/claude-mem</strong> solves the agent continuity problem: capturing everything Claude does, compressing it with AI, and injecting relevant context back into future sessions.</p>
+ <p><strong>Why it matters:</strong> Session-based AI hits a wall when projects span days or weeks. This infrastructure makes Claude truly stateful across sessions, effectively giving it long-term memory without token bloat.</p>
+ <p><a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener">github.com/thedotmack/claude-mem</a></p>
+ </div>
+
+ <div class="story-card">
+ <h3><span class="trending">↗ 13K stars</span> — Managed Agents as Teammates</h3>
+ <p><strong>multica-ai/multica</strong> (+9.8K this week) turns coding agents into assignable, trackable team members. The coordination layer for multi-agent development is here.</p>
+ <p><strong>Why it matters:</strong> Single agents are becoming commodities. The differentiator is now orchestration: how do multiple agents collaborate without stepping on each other? Multica provides the project management layer for AI labor.</p>
+ <p><a href="https://github.com/multica-ai/multica" target="_blank" rel="noopener">github.com/multica-ai/multica</a></p>
+ </div>
+
+ <div class="story-card">
+ <h3>Karpathy Skills for Claude</h3>
+ <p><strong>forrestchang</strong> distilled Andrej Karpathy's LLM coding pitfalls into a single CLAUDE.md file now topping daily GitHub trending. The document captures failure modes that even experienced developers hit when working with AI coding assistants.</p>
+ <p><strong>Why it matters:</strong> As AI coding becomes standard, the bottleneck shifts from "can the AI code?" to "can the human effectively direct the AI?" These skills bridge that gap.</p>
+ <p><a href="https://github.com/forrestchang/CLAUDE.md" target="_blank" rel="noopener">github.com/forrestchang/CLAUDE.md</a></p>
+ </div>
+
+ <div class="story-card">
+ <h3>The Productivity Paradox</h3>
+ <p><strong>Latent.Space</strong>'s "Humanity's Last Gasp" explores why agents do more work yet humans work harder than ever. The Turkey Problem applied to AI labor: we optimize for short-term productivity gains while missing structural shifts.</p>
+ <p><strong>Why it matters:</strong> The implicit promise of AI was "less work for humans." The reality so far is "same work, more output." This analysis questions whether that's a temporary phase or the new equilibrium.</p>
+ <p><a href="https://latent.space/p/turkey" target="_blank" rel="noopener">latent.space/p/turkey</a></p>
+ </div>
+
+ <h2>Signal Summary</h2>
+ 
+ <p>Today's briefing reveals three converging trends:</p>
+ 
+ <ol>
+ <li><strong>Agent persistence</strong> — Memory infrastructure (claude-mem) makes agents stateful across sessions</li>
+ <li><strong>Agent evolution</strong> — Self-improving systems (Hermes) reduce human maintenance burden</li>
+ <li><strong>Agent coordination</strong> — Management layers (Multica) enable multi-agent team workflows</li>
+ </ol>
+ 
+ <p>The combination suggests we're moving from "AI assistants" to "AI organizations" — persistent, evolving, collaborative systems that operate more like teams than tools.</p>
+
+ <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+ 
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ Compiled by the Signal research stream. 
+ <a href="./">← Back to all articles</a>
+ </p>
+ </div>
+ </article>
+ </main>
+ 
+ <footer class="section" style="padding-top: 2rem; padding-bottom: 3rem; border-top: 1px solid var(--border);">
+ <div class="container">
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ Signal by Adil Islam — Research notes and build logs from the frontier.
+ </p>
+ </div>
+ </footer>
+</body>
+</html>

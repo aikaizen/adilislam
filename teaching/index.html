@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teaching — Free Frameworks, Guides & AI Courses — Adil Islam</title>
+  <meta name="description" content="Free AI product strategy frameworks, guides, and playbooks. Agent evaluation, context engineering checklists, and in-person courses in Austin. By Adil Islam.">
+  <meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, frameworks, teaching, Adil Islam, AI course Austin">
+  <meta property="og:title" content="Teaching — Free Frameworks & AI Courses — Adil Islam">
+  <meta property="og:description" content="Free frameworks, guides, and playbooks for AI product strategy. Plus in-person courses in Austin.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://adilislam.com/teaching/">
+  <link rel="canonical" href="https://adilislam.com/teaching/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <style>
+    .teach-hero { padding: 120px 0 60px; }
+    .teach-hero h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
+    .teach-hero .subtitle { color: var(--text-2); font-size: 1.15rem; max-width: 600px; line-height: 1.7; }
+    .teach-section { padding: 3rem 0; border-top: 1px solid var(--border); }
+    .teach-section h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+    .teach-section > .container > p { color: var(--text-2); max-width: 680px; line-height: 1.7; }
+    .resource-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
+    .resource-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; transition: all 0.25s var(--ease); text-decoration: none; color: var(--text); display: flex; flex-direction: column; }
+    .resource-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .resource-card .card-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .resource-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .resource-card p { color: var(--text-3); font-size: 0.9rem; line-height: 1.6; flex: 1; }
+    .resource-card p strong { color: var(--text-2); }
+    .resource-card .card-link { margin-top: 1rem; color: var(--accent); font-weight: 500; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.35rem; }
+    .resource-card .card-link::after { content: "→"; transition: transform 0.2s; }
+    .resource-card:hover .card-link::after { transform: translateX(3px); }
+    .coming-soon { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); background: var(--accent-dim); padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 0.75rem; }
+    .course-block { background: var(--bg-elevated); border: 1px solid var(--accent-dim); border-radius: var(--radius-lg); padding: 2.5rem; margin-top: 2rem; position: relative; overflow: hidden; }
+    .course-block::before { content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 300px; height: 200px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.2; pointer-events: none; }
+    .course-block h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; position: relative; }
+    .course-block p { color: var(--text-2); max-width: 560px; line-height: 1.7; position: relative; }
+    .course-block .price { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); margin-top: 0.5rem; position: relative; }
+    @media (max-width: 768px) {
+      .teach-hero { padding: 100px 0 40px; }
+      .teach-hero h1 { font-size: 1.75rem; }
+      .resource-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/" class="active">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="teach-hero">
+      <div class="container">
+        <div class="eyebrow">Teaching</div>
+        <h1>Everything I know,<br>available to use.</h1>
+        <p class="subtitle">
+          Free frameworks, guides, and playbooks for <strong>AI product strategy</strong>. No gatekeeping, no upsell funnel — just the tools I use to think about <strong>agents</strong>, <strong>agent context</strong>, and <strong>agentic systems</strong>.
+        </p>
+      </div>
+    </section>
+
+    <section class="teach-section">
+      <div class="container">
+        <h2>Free Frameworks</h2>
+        <p>Downloadable guides I use in my own work. Each one is a practical tool for evaluating, building, or deploying AI products.</p>
+
+        <div class="resource-grid">
+          <a href="/writing/2026-03-14-ab-testing-agent-built-variants-v3.html" class="resource-card">
+            <div class="card-icon">🧪</div>
+            <h3>A/B Testing with Agent-Built Variants</h3>
+            <p>How to run controlled experiments when your <strong>AI agents</strong> generate the variants. Framework for evaluating agent output quality at scale.</p>
+            <span class="card-link">Read article</span>
+          </a>
+
+          <a href="/writing/2026-03-03-model-selection-framework.html" class="resource-card">
+            <div class="card-icon">🎯</div>
+            <h3>Model Selection Framework</h3>
+            <p>A structured approach to evaluating and selecting <strong>AI models</strong> for production. Not which model is best — which model is right for your problem.</p>
+            <span class="card-link">Read article</span>
+          </a>
+
+          <a href="/writing/2026-03-03-api-provider-framework.html" class="resource-card">
+            <div class="card-icon">🔌</div>
+            <h3>API Provider Selection Framework</h3>
+            <p>Building a testing framework for <strong>production AI infrastructure</strong>. How to evaluate providers beyond benchmark scores.</p>
+            <span class="card-link">Read article</span>
+          </a>
+
+          <a href="/writing/2026-03-14-orchestrator-pattern-agent-design-v3.html" class="resource-card">
+            <div class="card-icon">🏗️</div>
+            <h3>Orchestrator Pattern for Agent Design</h3>
+            <p>When and how to use orchestrator patterns in <strong>agentic systems</strong>. The architecture decisions that separate production agents from demos.</p>
+            <span class="card-link">Read article</span>
+          </a>
+
+          <a href="/writing/2026-03-03-just-talk-to-it.html" class="resource-card">
+            <div class="card-icon">💬</div>
+            <h3>Just Talk To It</h3>
+            <p>An early manual for <strong>agentic engineering</strong> that still holds. How to approach building with AI when the technology is moving faster than the playbooks.</p>
+            <span class="card-link">Read article</span>
+          </a>
+
+          <a href="/writing/2026-03-14-agent-memory-architectures-v3.html" class="resource-card">
+            <div class="card-icon">🧠</div>
+            <h3>Agent Memory Architectures</h3>
+            <p>How <strong>agent context</strong> windows, retrieval systems, and persistence layers work. The most important architectural decision in agent design.</p>
+            <span class="card-link">Read article</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="teach-section">
+      <div class="container">
+        <h2>Free Guides</h2>
+        <p>Long-form articles on <strong>context engineering</strong>, <strong>agentic product strategy</strong>, and what PMs need to know about the agent era. The same pieces I publish on LinkedIn.</p>
+
+        <div class="resource-grid">
+          <a href="/writing/2026-03-14-browser-use-agents-playwright-mcp-v3.html" class="resource-card">
+            <div class="card-icon">🌐</div>
+            <h3>Browser-Use Agents in the Playwright MCP Era</h3>
+            <p><strong>Agentic systems</strong> that browse the web are getting real. Here's what production browser-use looks like in 2026.</p>
+            <span class="card-link">Read guide</span>
+          </a>
+
+          <a href="/writing/2026-03-18-the-harness-is-everything.html" class="resource-card">
+            <div class="card-icon">⚙️</div>
+            <h3>The Harness Is Everything</h3>
+            <p>The model is 20% of the agent. The <strong>harness — context, evaluation, orchestration</strong> — is the other 80%. Why infrastructure beats intelligence.</p>
+            <span class="card-link">Read guide</span>
+          </a>
+
+          <a href="/writing/2026-03-14-self-improving-agents-learning-loops-v3.html" class="resource-card">
+            <div class="card-icon">🔄</div>
+            <h3>Self-Improving Agents: Continuous Learning Loops</h3>
+            <p>How <strong>agents</strong> get better over time. Not more data — better feedback loops. The design pattern that makes agents reliable.</p>
+            <span class="card-link">Read guide</span>
+          </a>
+
+          <a href="/writing/2026-03-30-agent-side-hustle-school.html" class="resource-card">
+            <div class="card-icon">🚀</div>
+            <h3>Agent Side Hustle School</h3>
+            <p>How people are actually monetizing <strong>AI agents</strong> right now. Not theory — real patterns from builders who are shipping.</p>
+            <span class="card-link">Read guide</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="teach-section">
+      <div class="container">
+        <h2>In-Person Courses — Austin, TX</h2>
+
+        <div class="course-block">
+          <h3>🎓 AI 101 — Austin</h3>
+          <p>An in-person course for PMs, founders, and builders who want to think strategically about <strong>AI agents</strong> and <strong>agentic systems</strong>. Not "how to prompt" — how to evaluate, design, and ship AI products that actually work.</p>
+          <p class="price">In-person · Austin, TX · Enrollment details coming soon</p>
+          <div style="margin-top: 1.5rem; position: relative;">
+            <a href="/contact/" class="btn btn-primary">Get notified →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="teach-section" style="border-top: none;">
+      <div class="container">
+        <div class="signup-block">
+          <h3>📬 Get frameworks in your inbox</h3>
+          <p>Every morning: the top AI news on <strong>agents</strong>, <strong>agent context</strong>, and <strong>context engineering</strong>. Plus deep guides when I publish them.</p>
+          <a href="/signal/" class="btn btn-primary">Subscribe to Signal →</a>
+          <p class="signup-note">Email signup via Beehiiv coming soon</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-copy">© 2026 Adil Islam. AI agents, agent context, and product strategy.</span>
+        <div class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/signal/">Signal</a>
+          <a href="/writing/">Writing</a>
+          <a href="/teaching/">Teaching</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

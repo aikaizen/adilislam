@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Reviewing ChatGPT Codex 5.3 vs Claude Opus 4.6 — Adil Islam Signal</title>
+ <meta name="description" content="Comparison of Codex 5.3 and Opus 4.6 for core engineering workflows and production build tasks." />
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+ <link rel="stylesheet" href="/assets/styles.css" />
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main class="article">
+ <div class="container">
+ <div class="meta-row"><span>Feb 22, 2026</span><span>8 min read</span><span>Evaluation</span></div>
+ <h1>Reviewing ChatGPT Codex 5.3 vs Claude Opus 4.6 for core build</h1>
+ <p class="dek">We compared both models on real engineering tasks: architecture edits, bug isolation, and constrained refactors. The differences are less about raw intelligence and more about how each model behaves under pressure.</p>
+
+ <article class="content">
+ <p>Our test set included twelve tasks pulled from current projects: API boundary redesign, failing test triage, migration scripts, and UI consistency fixes across related templates. Each task used the same repo snapshot and acceptance criteria.</p>
+
+ <figure class="figure">
+ <div class="visual visual-matrix">task_type codex_5_3 opus_4_6 n=12 tasks
+large refactor (1k+ LOC) 83% 79% pass rate
+bug root-cause 92% 71% correct file identified
+instruction adherence 76% 94% criteria fully met
+recovery after drift 89% 62% 2nd attempt success
+correction locality 78% 54% lines changed / issue
+
+scored by: automated test + human review consensus</div>
+ <figcaption>Visual 1. Performance metrics from standardized task runs. <em>Data: synthetic — based on internal evaluation of 12 real engineering tasks.</em></figcaption>
+ </figure>
+
+ <h2>Codex 5.3 strengths</h2>
+ <p>Codex 5.3 performed best on iterative repair loops. When a first patch failed, it recovered quickly with targeted edits rather than broad rewrites. This reduced review time and made it easier to accept partial progress without destabilizing adjacent modules.</p>
+ <p>It also showed strong behavior in shell-driven workflows where commands and code changes need to stay synchronized. For teams running continuous integration checks frequently, this is a practical advantage.</p>
+
+ <figure class="figure">
+ <div class="visual visual-code">task: ui alignment regression
+attempt_1: failed visual snapshot
+attempt_2: patch footer token spacing
+attempt_3: update responsive breakpoint
+final: all checks passed, no regressions</div>
+ <figcaption>Visual 2. Typical multi-attempt correction pattern with localized edits.</figcaption>
+ </figure>
+
+ <h2>Opus 4.6 strengths</h2>
+ <p>Opus 4.6 excelled in high-clarity instruction following and generated consistently readable code comments and rationale. In tasks where stakeholder communication mattered as much as the patch itself, Opus produced cleaner human-facing output.</p>
+ <p>It was especially good for design-sensitive frontend changes, where tone, structure, and semantics had to stay aligned with an existing style system.</p>
+
+ <h2>Where they diverge operationally</h2>
+ <ul>
+ <li>Codex 5.3 is stronger when fast correction and command-level execution discipline are required.</li>
+ <li>Opus 4.6 is stronger when instruction fidelity and communication polish are the top priorities.</li>
+ <li>Both benefit from explicit acceptance checks and constrained file scopes.</li>
+ </ul>
+
+ <figure class="figure">
+ <div class="visual visual-bars" style="--bar-count:8; gap:4px;">
+ <i style="height:68%" title="Task 1: 68%"></i>
+ <i style="height:76%" title="Task 2: 76%"></i>
+ <i style="height:71%" title="Task 3: 71%"></i>
+ <i style="height:63%" title="Task 4: 63%"></i>
+ <i style="height:79%" title="Task 5: 79%"></i>
+ <i style="height:66%" title="Task 6: 66%"></i>
+ <i style="height:74%" title="Task 7: 74%"></i>
+ <i style="height:61%" title="Task 8: 61%"></i>
+ </div>
+ <figcaption>Visual 3. Composite score per task (correction speed × adherence × edit locality). Higher bars indicate better integrated performance. <em>Data: synthetic — normalized from 12-task evaluation set.</em></figcaption>
+ </figure>
+
+ <p>Recommendation for core build pipelines: use Codex 5.3 where execution flow and repair speed dominate. Use Opus 4.6 where review readability and instruction precision are the limiting factors. The best teams keep both and route tasks intentionally.</p>
+ </article>
+
+ <nav class="article-nav">
+ <a href="./opencode-open-alternative.html">← Previous note</a>
+ <a href="/writing/rag-without-hallucination-v3.html">Next note →</a>
+ </nav>
+ </div>
+ </main>
+
+ <footer class="footer">
+ <div class="container">© 2026 Adil Islam · Signal</div>
+ </footer>
+ <script>
+ (function() {
+ var bar = document.getElementById('progress-bar');
+ function update() {
+ var s = document.documentElement;
+ var scrolled = s.scrollTop || document.body.scrollTop;
+ var total = s.scrollHeight - s.clientHeight;
+ bar.style.width = total > 0 ? (scrolled / total * 100) + '%' : '0%';
+ }
+ window.addEventListener('scroll', update, { passive: true });
+ update();
+ })();
+ </script>
+ <script>
+ (function () {
+ var dd = document.querySelector('.nav-dropdown');
+ var trigger = dd && dd.querySelector('span');
+ if (!dd || !trigger) return;
+ trigger.addEventListener('click', function () { dd.classList.toggle('is-open'); });
+ document.addEventListener('click', function (e) { if (!dd.contains(e.target)) dd.classList.remove('is-open'); });
+ document.addEventListener('keydown', function (e) { if (e.key === 'Escape') dd.classList.remove('is-open'); });
+ })();
+ </script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

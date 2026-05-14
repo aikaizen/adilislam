@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Dreamer Personal Agent OS — /dev/agents Emerges from Stealth — Signal by Adil Islam</title>
+ <meta name="description" content="Former Stripe CTO David Singleton and ex-Android VP Hugo Barra launch Dreamer, a consumer-first platform where a 'Sidekick' agent builds agents. What the $56M-funded startup reveals about where personal AI is headed.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css">
+ <style>
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1.5rem 0; color: var(--text-2); }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ March 23, 2026 · 9 min read · Industry
+ </div>
+ 
+ <h1>Dreamer Personal Agent OS — /dev/agents Emerges from Stealth</h1>
+ 
+ <p>In late 2024, two executives with unusual pedigrees quietly started a company. David Singleton had just left Stripe, where he was CTO. Hugo Barra had led Android product management at Google, then spent years at Meta building the Oculus platform. They called their startup <code>/dev/agents</code>, raised $56 million, and went dark.</p>
+
+ <p>Last week, they emerged as <strong>Dreamer</strong>. The product: a consumer-first platform to "discover, build, and use AI agents and agentic apps." The mechanism: a personal "Sidekick" agent that talks to you, learns what you care about, then builds other agents for you through natural language.</p>
+
+ <p>I've been watching agent platforms closely. Most are either developer tools disguised as consumer products (too technical) or chat interfaces with delusions of agency (too limited). Dreamer feels different. It's ambitious in scope, grounded in execution, and—crucially—it's shipping now to real users.</p>
+
+ <h2>What Dreamer Actually Is</h2>
+
+ <p>The core abstraction is simple: you have a personal Sidekick. It knows you. It can build things for you. You talk to it, it builds agents. Those agents run in the background, doing work—researching people before meetings, monitoring news feeds, generating daily briefings as podcasts you listen to on your commute.</p>
+
+ <p>There's a gallery of community-built agents you can install. There's a tool marketplace where developers publish integrations (Google Search, Gmail, live sports data, you name it). And there's an Agent Studio where—guided by your Sidekick—you can modify anything.</p>
+
+ <p>Singleton demoed a conference scheduler he built for an AI engineering conference. He gave the Sidekick a URL to the conference's JSON feed. It parsed the schedule, built a web app with speaker search and calendar integration, then added an "intelligent scheduling" feature where the agent analyzes session themes against his interests and auto-builds an optimal itinerary. Total build time: 25 minutes of conversation with Sidekick.</p>
+
+ <blockquote>
+ "You've seen many website builder, app builder, and even agent builder startups by now, but our favorite detail is the sheer amount of work that has gone into the 'full stack' nature of the platform."
+ <br>— swyx, Latent Space
+ </blockquote>
+
+ <h2>The Full-Stack Difference</h2>
+
+ <p>Most agent builders give you a prompt template and a canvas. Dreamer gives you a production runtime. They're not just generating code—they're hosting it. The platform includes:</p>
+
+ <ul>
+ <li><strong>SDK and build system:</strong> Proper software engineering toolchain, not just prompt hacks</li>
+ <li><strong>Logging and observability:</strong> See what your agents actually do</li>
+ <li><strong>Database and storage:</strong> Stateful agents that remember across sessions</li>
+ <li><strong>Prompt management:</strong> Version and iterate on agent behavior</li>
+ <li><strong>Serverless functions:</strong> Run arbitrary code in VMs (not locked to specific frameworks)</li>
+ </ul>
+
+ <p>The key detail: "Most platforms restrict the tech stack you can use just to get off the ground—Dreamer does it 'right' by letting you push whatever arbitrary code you want to their VMs." This matters. It means you're not building on a toy platform. You're building on infrastructure that could actually scale.</p>
+
+ <h2>Builders Get Paid</h2>
+
+ <p>Dreamer understands network effects. A platform is only as good as what gets built on it. So they're seeding the ecosystem aggressively:</p>
+
+ <ul>
+ <li><strong>Builders in Residence:</strong> Hired positions for top tool and agent creators</li>
+ <li><strong>$10,000 prizes:</strong> Cash awards for the best tools published to the platform</li>
+ <li><strong>Usage-based revenue:</strong> Tool builders get paid proportionally when agents use their tools</li>
+ </ul>
+
+ <p>This is Stripe DNA showing through. Singleton knows that platforms thrive when the people building on them thrive. The $10K prize announcement isn't marketing fluff—it's a credible signal that they have capital to deploy and judgment about what makes tools useful.</p>
+
+ <h2>What "Agentic" Actually Means Here</h2>
+
+ <p>The word gets thrown around too casually. In Dreamer's case, agentic means three specific things:</p>
+
+ <p><strong>1. Agents work in the background.</strong> Your Calendar Hero agent researches people before every meeting without you asking. Your news monitoring agent scans AI publications continuously and surfaces what matters to you. These aren't chat interactions—they're autonomous processes.</p>
+
+ <p><strong>2. Agents integrate where you already are.</strong> Singleton showed his daily briefing appearing as a podcast in Apple Podcasts. He didn't change where he listens to audio. The agent adapted to his existing behavior.</p>
+
+ <p><strong>3. Agents build agents.</strong> The Sidekick isn't just a chatbot—it's a harness that can spawn sub-agents to complete tasks. The enrichment agent that researches waitlist signups runs as a "sidekick task" with its own VM, tools, and execution context.</p>
+
+ <h2>The Competition Context</h2>
+
+ <p>Let's be direct about where Dreamer sits in the landscape:</p>
+
+ <table>
+ <thead>
+ <tr><th>Platform</th><th>Target</th><th>Approach</th><th>Status</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><strong>Dreamer</strong></td><td>Consumers</td><td>Sidekick builds agents, hosted runtime</td><td>Beta, waitlist</td></tr>
+ <tr><td>Claude Code / Codex</td><td>Developers</td><td>Terminal-based coding agents</td><td>Generally available</td></tr>
+ <tr><td>Replit Agent</td><td>Developers</td><td>Browser-based app builder</td><td>Generally available</td></tr>
+ <tr><td>LangChain/LangGraph</td><td>Engineers</td><td>Framework for agent orchestration</td><td>Open source</td></tr>
+ <tr><td>OpenClaw</td><td>Engineers</td><td>Agent harness + tool ecosystem</td><td>Open source</td></tr>
+ </tbody>
+ </table>
+
+ <p>Dreamer's bet is that there's a larger market of non-technical people who want agentic software than there is of developers who want better coding tools. The interface is conversational, not terminal-based. The value proposition is "get things done" not "write code faster."</p>
+
+ <h2>What Could Go Wrong</h2>
+
+ <p>No product this ambitious ships without friction. The obvious risks:</p>
+
+ <p><strong>Agent reliability.</strong> Singleton was candid that builds take 10-15 minutes because the Sidekick iterates, tests, and fixes its own output. This is slower than vibe-coding demos where you pretend the first output works. But it's also more honest about the actual state of agent coding.</p>
+
+ <p><strong>Discovery.</strong> The gallery has "hundreds" of agents. That's enough to show potential, not enough to guarantee you'll find what you need. Platform density is a classic chicken-and-egg problem.</p>
+
+ <p><strong>Business model clarity.</strong> We don't know pricing. We don't know if this becomes a subscription, usage-based, or freemium product. With $56M raised, they have runway to figure this out—but eventually, the economics have to work.</p>
+
+ <h2>What This Signals About the Landscape</h2>
+
+ <p>Dreamer's launch is part of a broader pattern I'm tracking:</p>
+
+ <ul>
+ <li><strong>From models to systems:</strong> The action has moved from "which LLM is best?" to "how do you orchestrate multiple agents, tools, and workflows?"</li>
+ <li><strong>From coding to building:</strong> The target user isn't necessarily a programmer. Natural language becomes the interface for software creation.</li>
+ <li><strong>From chat to background:</strong> The valuable agents aren't the ones you talk to—they're the ones that work while you're not watching.</li>
+ <li><strong>From open to hosted:</strong> There's tension here. Developers love open source (LangChain, OpenClaw). But consumers need things that just work, which usually means hosted infrastructure.</li>
+ </ul>
+
+ <p>Singleton and Barra have seen this movie before. They were at Google during Android's early days, building the platform that enabled an ecosystem of mobile apps. The parallels aren't accidental. Dreamer's architecture—gallery, tools marketplace, builder incentives, four-sided network effects—mirrors what worked for mobile platforms.</p>
+
+ <h2>The Honest Assessment</h2>
+
+ <p>Dreamer is the most credible consumer agent platform I've seen. Not because the technology is revolutionary—most components exist elsewhere—but because the integration is thoughtful and the team has the experience to actually scale it.</p>
+
+ <p>The $10K builder prizes are smart. The full-stack hosting is necessary. The Sidekick-as-builder abstraction is the right interface for non-technical users. Whether it becomes the "Android of agents" or another promising prototype that stalls depends on execution velocity over the next 12 months.</p>
+
+ <p>For adilislam.com specifically: this is worth watching because it represents a possible end-state for how agentic software gets distributed. If Dreamer succeeds, "agent developer" becomes a new category of creator, and platforms like this need to decide whether to integrate with them or compete.</p>
+
+ <p>If you're building agents, sign up for the waitlist. Play with it when you get access. The platform is at <a href="https://dreamer.com" target="_blank">dreamer.com</a>. Latent Space subscribers can <a href="https://dreamer.com/latentspace" target="_blank">skip the waitlist</a> and enter the $10K builder competition.</p>
+
+ <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ <strong>Sources & References</strong><br>
+ Latent Space interview with David Singleton: <a href="https://www.latent.space/p/dreamer" target="_blank">latent.space/p/dreamer</a><br>
+ Dreamer platform: <a href="https://dreamer.com" target="_blank">dreamer.com</a><br>
+ /dev/agents funding coverage: <a href="https://siliconangle.com/2024/11/26/new-startup-named-dev-agents-led-ex-google-meta-tech-leaders-raises-56m-ai-agents/" target="_blank">SiliconAngle</a><br>
+ Builder program: <a href="https://dreamer.com/latentspace" target="_blank">dreamer.com/latentspace</a><br><br>
+ Published: March 23, 2026 · Research status: Based on public launch materials and Latent Space interview
+ </p>
+ </div>
+ </article>
+ </main>
+
+ <footer class="footer" style="border-top: 1px solid var(--border-subtle); margin-top: 4rem;">
+ <div class="container" style="padding: 2rem 0; text-align: center; color: var(--text-4); font-size: 0.875rem;">
+ <p>Adil Islam Signal — Real experiments. Published findings.</p>
+ </div>
+ </footer>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>AutoAgent: Let Your Agent Engineer Itself Overnight — Signal</title>
+ <link rel="stylesheet" href="/assets/styles.css">
+ 
+ <!-- Open Graph -->
+ <meta property="og:title" content="AutoAgent: Let Your Agent Engineer Itself Overnight">
+ <meta property="og:description" content="A framework for autonomous agent engineering that runs overnight, improving harnesses through iterative benchmarking and hill-climbing on performance.">
+ <meta property="og:image" content="https://lab.adilislam.com/assets/og-image.png">
+ <meta property="og:url" content="https://lab.adilislam.com/articles/2026-04-04-autoagent-framework.html">
+ <meta property="og:site_name" content="Signal by Adil Islam">
+ 
+ <!-- Twitter Cards -->
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="AutoAgent: Let Your Agent Engineer Itself Overnight">
+ <meta name="twitter:description" content="A framework for autonomous agent engineering that improves harnesses overnight through iterative benchmarking.">
+ <meta name="twitter:image" content="https://lab.adilislam.com/assets/og-image.png">
+ 
+ <!-- SEO -->
+ <meta name="description" content="How AutoAgent uses a meta-agent loop to autonomously improve agent harnesses through overnight benchmark experiments, with cost analysis and integration guide.">
+ <link rel="canonical" href="https://lab.adilislam.com/articles/2026-04-04-autoagent-framework.html">
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+
+<!-- Topbar -->
+<nav class="topbar">
+ <div class="topbar-left">
+ <a href="/" class="logo">◉ Adil Islam</a>
+ </div>
+ <div class="topbar-right">
+ <a href="/" class="nav-link">Index</a>
+ </div>
+</nav>
+
+<article class="section">
+ <header class="article-header">
+ <p class="meta">April 4, 2026 · Engineering · 12 min read</p>
+ <h1>AutoAgent</h1>
+ <p class="subtitle">Let your agent engineer itself overnight. A framework for autonomous agent improvement that hill-climbs on benchmark performance while you sleep.</p>
+ </header>
+
+ <div class="article-content">
+
+ <p class="lead">Most teams build AI agents the slow way: write code, test manually, tweak prompts, repeat. What if the agent could improve itself? Running experiments overnight, scoring results, keeping improvements, discarding regressions — all autonomously.</p>
+
+ <p><strong>AutoAgent</strong> does exactly this. It is not just another agent framework. It is a meta-agent system that iteratively edits its own harness, benchmark-tests changes, and hill-climbs on performance without human intervention. You describe what you want in a <code>program.md</code> file, go to sleep, and wake up to a measurably better agent.</p>
+
+ <hr>
+
+ <h2>The Meta-Agent Loop</h2>
+
+ <p>Traditional agent development looks like this: engineer writes code → tests on a few examples → deploys → discovers edge cases → repeats. The cycle takes days.</p>
+
+ <p>AutoAgent replaces this with a self-improving loop:</p>
+
+ <ol>
+ <li><strong>program.md</strong> — You write the directive (what agent to build, constraints, tools to use)</li>
+ <li><strong>agent.py</strong> — The harness under test (system prompt, tool definitions, orchestration)</li>
+ <li><strong>tasks/</strong> — Containerized benchmarks in Harbor format</li>
+ <li><strong>meta-agent</strong> — Reads program, examines harness, runs benchmarks, diagnoses failures</li>
+ <li><strong>Edit → Run → Score</strong> — Modifies harness, tests, writes <code>passed/total</code> to results.tsv</li>
+ <li><strong>Keep or Discard</strong> — Hill-climbs: keeps improvements, reverts regressions</li>
+ <li><strong>Repeat</strong> — Runs 20-50 iterations overnight</li>
+ </ol>
+
+ <p>The insight: you are not programming the agent. You are programming the <em>meta-agent</em> through constraints in <code>program.md</code>. The actual harness is a single file that gets iteratively rewritten based on empirical performance.</p>
+
+ <h3>What You Control vs. What It Discovers</h3>
+
+ <table>
+ <thead>
+ <tr>
+ <th>You Provide (Fixed)</th>
+ <th>Meta-Agent Discovers (Variable)</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>High-level directive in program.md</td>
+ <td>Exact system prompt phrasing</td>
+ </tr>
+ <tr>
+ <td>Which tools exist (tool signatures)</td>
+ <td>Tool selection strategy per task</td>
+ </tr>
+ <tr>
+ <td>Model (gpt-5, fixed)</td>
+ <td>Prompt engineering for that model</td>
+ </tr>
+ <tr>
+ <td>Benchmark tasks (Harbor format)</td>
+ <td>Failure mode diagnosis</td>
+ </tr>
+ <tr>
+ <td>Keep/discard criteria (score-based)</td>
+ <td>Orchestration patterns</td>
+ </tr>
+ <tr>
+ <td>Guardrails (no prod deploy without human review)</td>
+ <td>Reusable skill extraction</td>
+ </tr>
+ </tbody>
+ </table>
+
+ <hr>
+
+ <h2>The Harness Architecture</h2>
+
+ <p>AutoAgent uses a simple but powerful file structure:</p>
+
+ <pre><code>program.md ← Human writes the directive
+agent.py ← Meta-agent edits the harness
+tasks/ ← Human creates benchmarks
+ task-name/
+ task.toml ← Config (timeout, metadata)
+ instruction.md ← Prompt to agent
+ tests/
+ test.sh ← Verification script
+ test.py ← LLM-as-judge or assertions
+ environment/
+ Dockerfile ← Isolated task container
+ files/ ← Reference materials
+results.tsv ← Score ledger (auto-generated)
+.agent/ ← Workspace for reusable skills</code></pre>
+
+ <h3>The Editable Boundary</h3>
+
+ <p>The <code>agent.py</code> has clear sections:</p>
+
+ <pre><code># === EDITABLE SECTION ===
+# Meta-agent modifies everything below
+
+SYSTEM_PROMPT = """You are a support agent for Glowup..."""
+MODEL = "gpt-5" # Fixed unless human changes
+MAX_TURNS = 30
+
+def create_tools(environment):
+ @function_tool
+ async def check_credits(user_id: str) -> str:
+ ...
+ 
+ @function_tool 
+ async def search_knowledge(query: str) -> str:
+ ...
+ 
+ return [check_credits, search_knowledge]
+
+def create_agent(environment):
+ return Agent(
+ name="glowup-support",
+ instructions=SYSTEM_PROMPT,
+ tools=create_tools(environment),
+ model=MODEL
+ )
+
+async def run_task(environment, instruction):
+ agent = create_agent(environment)
+ # Orchestration logic the meta-agent can reshape
+ ...
+
+# === FIXED ADAPTER BOUNDARY ===
+# Harbor integration, trajectory logging
+# Do not modify below this line</code></pre>
+
+ <p>The meta-agent treats this as a constrained optimization problem: maximize <code>passed</code> tasks while staying within the boundary (model fixed, tools must use provided environment, etc.).</p>
+
+ <h3>Harbor: The Benchmark Engine</h3>
+
+ <p>AutoAgent uses <a href="https://github.com/laude-institute/harbor">Harbor</a> for containerized task evaluation. Each task is a Docker container that receives the agent's trajectory and returns a score (0.0 to 1.0) to <code>/logs/reward.txt</code>.</p>
+
+ <p>This design is crucial: tasks are isolated, deterministic, and can test anything — API calls, file manipulation, multi-step workflows. The agent cannot game the benchmark by memorizing answers because each task runs fresh.</p>
+
+ <hr>
+
+ <h2>What AutoAgent Is Good For</h2>
+
+ <p>Not every problem benefits from autonomous iteration. AutoAgent excels in specific scenarios:</p>
+
+ <h3>Well-Defined Support Agents</h3>
+
+ <p>Customer service agents with clear boundaries — known APIs, documented processes, escalation criteria. Examples:</p>
+
+ <ul>
+ <li>Photo enhancement support (Glowup): "How do I enhance?" "Why did it fail?" "How many credits?"</li>
+ <li>VoIP setup guidance (APS): "How do I forward my number?" "Why didn't I get the alert?"</li>
+ <li>SaaS onboarding: "Where is my data?" "How do I integrate?"</li>
+ </ul>
+
+ <p>The key: limited but deep domain, existing API surface, real user questions you can capture.</p>
+
+ <h3>Rapid Prompt Engineering</h3>
+
+ <p>When you need to optimize prompts for a specific model and task distribution. The meta-agent tries variations you might not think of, measures the difference, and keeps what works.</p>
+
+ <h3>Tool Orchestration Discovery</h3>
+
+ <p>Which tools to use when? In what order? When to escalate? AutoAgent discovers patterns from failure trajectories rather than requiring upfront design.</p>
+
+ <h3>What It Is Not For</h3>
+
+ <ul>
+ <li><strong>Novel architecture:</strong> If you need a new type of agent (multi-agent teams, new memory system), design it manually first.</li>
+ <li><strong>Ill-defined domains:</strong> If you cannot write clear benchmarks, the meta-agent has no signal to hill-climb on.</li>
+ <li><strong>High-stakes production:</strong> AutoAgent produces candidates. Humans review before production deploy. The results.tsv is a ledger, not a deployment trigger.</li>
+ </ul>
+
+ <hr>
+
+ <h2>Integration for Product Teams</h2>
+
+ <p>Here is how a product team would adopt AutoAgent:</p>
+
+ <h3>Phase 1: Infrastructure (1-2 days)</h3>
+
+ <ol>
+ <li>Clone autoagent to your workspace</li>
+ <li>Build the base Docker image: <code>docker build -f Dockerfile.base -t autoagent-base .</code></li>
+ <li>Set up OpenAI API credentials (requires gpt-5)</li>
+ <li>Install Harbor: <code>pip install harbor</code></li>
+ </ol>
+
+ <h3>Phase 2: Benchmark Design (3-5 days)</h3>
+
+ <p>This is the critical investment. Good benchmarks determine everything. A bad benchmark produces an agent that overfits to specific answers rather than learning general capabilities.</p>
+
+ <p>Start with 10-20 real user questions:</p>
+
+ <pre><code># Example: Glowup support task
+tasks/credit-balance-check/
+ task.toml:
+ name = "credit-balance-check"
+ timeout_sec = 60
+ 
+ instruction.md:
+ "User asks: 'How many credits do I have left?' 
+ Look up their balance and explain what they can do with remaining credits."
+ 
+ tests/test.py:
+ # Verify agent called check_credits tool
+ # Verify response included actual number
+ # Verify response suggested enhancement options
+ # Score: 1.0 if all checks pass, 0.0 otherwise</code></pre>
+
+ <p>Mix question types: simple lookups, multi-step workflows, edge cases, escalation triggers. Use LLM-as-judge for fuzzy criteria ("was the tone helpful?") and assertions for objective checks ("did it call the right API?").</p>
+
+ <h3>Phase 3: Meta-Agent Operation</h3>
+
+ <p>You have two integration options:</p>
+
+ <p><strong>Option A: External Meta-Agent (Recommended)</strong></p>
+
+ <p>Use your existing coding agent (Claude Code, Claude Desktop, OpenAI coding agent). Point it at the repo:</p>
+
+ <pre><code>"Read program.md. The current agent.py scores 3/20 on tasks/. 
+ Diagnose failures, modify the harness, run experiments, 
+ and hill-climb on passed tasks. Keep changes that improve, 
+ discard those that regress. Run overnight."</code></pre>
+
+ <p>This keeps the meta-agent separate from your production infrastructure. You review results.tsv in the morning and decide what to merge.</p>
+
+ <p><strong>Option B: Built-in Loop (Advanced)</strong></p>
+
+ <p>Implement the meta-agent as an ACP harness session that runs on a schedule. Requires careful guardrails and cost controls. Only for teams with existing agent infrastructure experience.</p>
+
+ <h3>Phase 4: Production Integration</h3>
+
+ <p>AutoAgent does not deploy to production. It produces candidate harnesses. Your workflow:</p>
+
+ <ol>
+ <li>Review results.tsv from overnight run</li>
+ <li>Examine the winning harness (agent.py)</li>
+ <li>Test manually on edge cases not in benchmark</li>
+ <li>Merge to product codebase if acceptable</li>
+ <li>Add new tasks as new failure modes are discovered</li>
+ </ol>
+
+ <hr>
+
+ <h2>Cost Analysis</h2>
+
+ <h3>Fixed Costs (One-Time)</h3>
+
+ <table>
+ <thead>
+ <tr>
+ <th>Item</th>
+ <th>Time</th>
+ <th>Cost</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Infrastructure setup</td>
+ <td>1-2 days</td>
+ <td>~$0 (Docker-based)</td>
+ </tr>
+ <tr>
+ <td>Benchmark design (20 tasks)</td>
+ <td>3-5 days</td>
+ <td>Engineering time</td>
+ </tr>
+ <tr>
+ <td>Baseline runs</td>
+ <td>1 day</td>
+ <td>~$10-50</td>
+ </tr>
+ <tr>
+ <td>Initial integration</td>
+ <td>2-3 days</td>
+ <td>Engineering time</td>
+ </tr>
+ <tr>
+ <td><strong>Total fixed</strong></td>
+ <td><strong>7-11 days</strong></td>
+ <td><strong>~$100 + eng time</strong></td>
+ </tr>
+ </tbody>
+ </table>
+
+ <h3>Variable Costs (Per Overnight Run)</h3>
+
+ <p>Assume 20 iterations × 20 tasks:</p>
+
+ <ul>
+ <li><strong>GPT-5 API:</strong> ~$5-20 per iteration (diagnosis + harness generation)</li>
+ <li><strong>Total per experiment:</strong> $100-400 for 20 iterations</li>
+ <li><strong>Task compute:</strong> $0.01-0.50 (Docker container time)</li>
+ </ul>
+
+ <p><strong>Cost optimizations:</strong></p>
+
+ <ul>
+ <li>Start with 5-10 tasks for faster iteration</li>
+ <li>Use GPT-4o for early experiments (cheaper, faster, 80% of the signal)</li>
+ <li>Run parallel experiments with different program.md variants</li>
+ <li>Set daily API spend limits</li>
+ </ul>
+
+ <h3>Comparison to Manual Engineering</h3>
+
+ <table>
+ <thead>
+ <tr>
+ <th>Approach</th>
+ <th>Time per improvement</th>
+ <th>Cost per improvement</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Manual agent engineering</td>
+ <td>2-5 days</td>
+ <td>$800-2000 (eng time)</td>
+ </tr>
+ <tr>
+ <td>AutoAgent overnight</td>
+ <td>8-12 hours</td>
+ <td>$100-400 (API + compute)</td>
+ </tr>
+ <tr>
+ <td><strong>Break-even</strong></td>
+ <td colspan="2">After 2-3 overnight runs vs. one manual cycle</td>
+ </tr>
+ </tbody>
+ </table>
+
+ <p>AutoAgent wins when you need many small improvements, have systematic benchmark coverage, and have more ideas than engineering time. Manual engineering wins for novel architecture changes or when benchmarks do not exist yet.</p>
+
+ <hr>
+
+ <h2>Getting Started</h2>
+
+ <p>AutoAgent is open-source on GitHub. If you have a support agent that handles repetitive questions — and you can write 10-20 example tasks — it is worth experimenting.</p>
+
+ <p><strong>Recommended first project:</strong> A narrow-scope support agent with existing API integration. Glowup credit checks and photo enhancement guidance, or APS phone setup instructions. These have clear success criteria and measurable outcomes.</p>
+
+ <p>The framework is not magic. It is disciplined empirical optimization: measure, modify, keep, discard, repeat. But disciplined optimization at machine speed, overnight, beats manual intuition during business hours.</p>
+
+ <p><strong>Resources:</strong></p>
+
+ <ul>
+ <li><a href="https://github.com/kevinrgu/autoagent">AutoAgent GitHub</a></li>
+ <li><a href="https://github.com/laude-institute/harbor">Harbor benchmark framework</a></li>
+ <li><a href="https://github.com/openai/openai-agents-python">OpenAI Agents SDK</a></li>
+ </ul>
+
+ </div>
+</article>
+
+<!-- Footer -->
+<footer class="footer">
+ <div class="footer-content">
+ <p class="footer-left">◉ Signal by Adil Islam</p>
+ <p class="footer-right">April 4, 2026</p>
+ </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Dreamer: Implementation Notes — Signal</title>
+ <link rel="stylesheet" href="/assets/styles.css?v=4">
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <article class="section">
+ <div class="article-content">
+ <h1>Dreamer: Implementation Notes (V3)</h1>
+
+ <div class="article-versions article-versions-top">
+ <span class="version-label">Available in 3 formats:</span>
+ <a href="2026-03-22-dreamer-personal-agent-os.html" class="version-badge">V1 Analytical</a>
+ <a href="/writing/2026-03-22-dreamer-v3.html" class="version-badge">V2 Scannable</a>
+ <span class="version-badge active">V3 Agent</span>
+ </div>
+
+ <p class="article-date">March 22, 2026</p>
+
+ <h2>Architecture Observations</h2>
+
+ <h3>Natural Language Compilation</h3>
+ <p>
+ Sidekick appears to use a multi-stage pipeline:
+ </p>
+ <ol>
+ <li><strong>Intent Parsing:</strong> Extract goals, constraints, tools from description</li>
+ <li><strong>Plan Generation:</strong> Create operational graph (nodes = actions, edges = dependencies)</li>
+ <li><strong>Tool Binding:</strong> Match described operations to available tool APIs</li>
+ <li><strong>Runtime Generation:</strong> Produce executable agent runtime</li>
+ </ol>
+
+ <h3>Tool Ecosystem Strategy</h3>
+ <p>
+ The $10K prize program is early-stage platform strategy. Key metrics for Dreamer:
+ </p>
+ <ul>
+ <li>Tool catalog size at month 6 (target: 100+ integrations)</li>
+ <li>Tool quality scores (user retention per tool)</li>
+ <li>Agent complexity ceiling (how many tools per agent)</li>
+ </ul>
+
+ <h2>Competitive Implications</h2>
+
+ <h3>For Claude Desktop</h3>
+ <p>
+ Local-first has security advantages but limits cloud sync. If Dreamer nails cross-device state, Claude Desktop needs local sync parity or cedes mobile/second-device use cases.
+ </p>
+
+ <h3>For OpenAI Operator</h3>
+ <p>
+ Pre-built agents vs. user-built agents is a fundamental UX divergence. Operator optimizes for "it just works." Dreamer optimizes for "it works how I want." Both valid, different markets.
+ </p>
+
+ <h2>Integration Opportunities</h2>
+
+ <p>
+ If building tools for Dreamer:
+ </p>
+
+ <ul>
+ <li>Target high-frequency workflows (email triage, calendar scheduling, doc drafts)</li>
+ <li>Design for partial automation (human approval gates increase trust)</li>
+ <li>Expose state externally (users want to see what their agent did)</li>
+ <li>Handle ambiguity gracefully (natural language is lossy)</li>
+ </ul>
+
+ <h2>Questions for Builders</h2>
+
+ <ul>
+ <li>What API surface does Dreamer expose for tool integration?</li>
+ <li>How does authentication work for third-party tools?</li>
+ <li>What's the sandbox model for agent execution?</li>
+ <li>Can agents be exported/migrated between platforms?</li>
+ </ul>
+
+ <hr>
+
+ <p>
+ <strong>Related Listening:</strong> Latent.Space full episode on Dreamer architecture and waitlist strategy.
+ </p>
+
+ <p><a href="2026-03-22-dreamer-personal-agent-os.html">← V1 (Full Analysis)</a> | <a href="/writing/2026-03-22-dreamer-v3.html">V2 (Quick Facts) →</a></p>
+
+ <footer class="article-footer">
+ <p><a href="./">← All Articles</a> · <a href="../">Lab Home</a></p>
+ </footer>
+ </div>
+ </article>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>EurekaClaw: AI Research Agent for Theorem Discovery — Signal by Adil Islam</title>
+ <meta name="description" content="EurekaClaw is an AI research assistant that goes from question to publishable mathematical results. Literature crawling, theorem proving, LaTeX paper generation.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css?v=5">
+ <style>
+ .article-versions { display: flex; gap: 0.5rem; margin: 1rem 0 2rem; padding: 0.75rem; background: var(--bg-elevated); border-radius: var(--radius-sm); flex-wrap: wrap; }
+ .version-badge { padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+ .version-badge.v1 { background: var(--primary); color: white; }
+ .version-badge.v2 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge.v3 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge:hover { opacity: 0.9; }
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .data-table { font-size: 0.875rem; }
+ .article-highlight { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--primary); margin: 1.5rem 0; }
+ .article-note { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--text-3); margin: 1.5rem 0; color: var(--text-3); }
+ .v1-content { display: block; }
+ .v2-content, .v3-content { display: none; }
+ .v2-content .data-table { font-size: 0.8125rem; }
+ .v2-content table { margin: 0.75rem 0; }
+ .v2-content h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+ .v3-content pre { background: #1a1a2e; }
+ .v3-content code { background: #1a1a2e; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ March 23, 2026 · 10 min read · AI Research Tools
+ </div>
+
+ <div class="article-versions article-versions-top">
+ <span class="version-label" style="font-weight: 600; color: var(--text-3); margin-right: 0.5rem;">Version:</span>
+ <span class="version-badge v1" onclick="showVersion('v1')">V1 Narrative</span>
+ <span class="version-badge v2" onclick="showVersion('v2')">V2 Scannable</span>
+ <span class="version-badge v3" onclick="showVersion('v3')">V3 Agent/Builder</span>
+ </div>
+
+ <h1>EurekaClaw: AI Research Agent for Theorem Discovery</h1>
+
+ <!-- V1: Analytical Narrative -->
+ <div class="v1-content">
+ <p>EurekaClaw is a multi-agent AI research assistant designed for mathematical and theoretical research. Released by researchers from UCLA's Artificial General Intelligence Lab in March 2026, it transforms natural language questions into publishable research artifacts — crawling literature, generating and proving theorems, and writing LaTeX papers.</p>
+
+ <p>The repository has accumulated 294 stars and 25 forks within days of release, with active daily commits from two core contributors. The codebase demonstrates production engineering with comprehensive documentation, a React-based browser UI, and a modular architecture supporting custom skills and domain plugins.</p>
+
+ <h2>From Question to Publication</h2>
+
+ <p>The research workflow in EurekaClaw follows a seven-stage pipeline. A user provides a conjecture or research topic. The system then:</p>
+
+ <ol>
+ <li>Crawls arXiv and Semantic Scholar for relevant literature</li>
+ <li>Summarizes and cross-references papers for context</li>
+ <li>Generates novel hypotheses by synthesizing patterns across the literature</li>
+ <li>Builds proofs through a bottom-up theorem-proving pipeline</li>
+ <li>Verifies correctness via Lean4 formalization or LLM peer review</li>
+ <li>Runs numerical experiments to validate theoretical bounds (optional)</li>
+ <li>Produces camera-ready LaTeX with theorem environments and citations</li>
+ </ol>
+
+ <p>This pipeline operates autonomously once initiated, with optional human-in-the-loop checkpoints controlled via the GATE_MODE environment variable.</p>
+
+ <h2>Multi-Agent Architecture</h2>
+
+ <p>EurekaClaw implements a multi-agent system where specialized agents handle distinct stages:</p>
+
+ <table>
+ <thead>
+ <tr><th>Agent</th><th>Function</th><th>Tools Used</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><strong>Literature Crawler</strong></td><td>Fetch and summarize papers</td><td>arXiv API, Semantic Scholar</td></tr>
+ <tr><td><strong>Idea Generator</strong></td><td>Synthesize hypotheses from patterns</td><td>Embedding models, LLM reasoning</td></tr>
+ <tr><td><strong>Theorem Prover</strong></td><td>Generate and verify proofs</td><td>Lean4, symbolic verification</td></tr>
+ <tr><td><strong>Paper Writer</strong></td><td>Draft LaTeX manuscripts</td><td>LaTeX compiler, citation management</td></tr>
+ <tr><td><strong>Experiment Runner</strong></td><td>Validate bounds numerically</td><td>WolframAlpha, Python execution</td></tr>
+ </tbody>
+ </table>
+
+ <p>Agents communicate through a KnowledgeBus that persists context across the pipeline. Each agent can access the outputs of previous stages while maintaining isolation for their specific tasks.</p>
+
+ <h2>The 7-Stage Theorem Pipeline</h2>
+
+ <p>The core innovation in EurekaClaw is its structured approach to automated theorem proving:</p>
+
+ <p><strong>Stage 1: Literature Synthesis</strong> — Agents read and summarize relevant papers, extracting key lemmas, definitions, and proof techniques.</p>
+
+ <p><strong>Stage 2: Hypothesis Generation</strong> — Pattern matching across the literature identifies gaps and suggests novel conjectures.</p>
+
+ <p><strong>Stage 3: Lemma Decomposition</strong> — Complex theorems are broken into sub-lemmas with explicit dependencies.</p>
+
+ <p><strong>Stage 4: Proof Sketching</strong> — High-level proof strategies are selected based on the literature and problem structure.</p>
+
+ <p><strong>Stage 5: Formal Verification</strong> — Proofs are translated to Lean4 for machine-checked correctness.</p>
+
+ <p><strong>Stage 6: Peer Review Simulation</strong> — LLM-based reviewers critique proofs for soundness and clarity.</p>
+
+ <p><strong>Stage 7: LaTeX Generation</strong> — Camera-ready papers with proper theorem environments, citations, and bibliography.</p>
+
+ <h2>Continual Learning via Skills</h2>
+
+ <p>EurekaClaw implements a skill system that improves performance over time. After each research session, successful proof strategies are distilled into reusable skills stored in <code>~/.eurekaclaw/skills/</code>. These skills are Markdown files containing:</p>
+
+ <ul>
+ <li>Trigger conditions (when to apply this strategy)</li>
+ <li>Workflow descriptions (step-by-step process)</li>
+ <li>Parameters and configuration options</li>
+ <li>Examples of successful applications</li>
+ </ul>
+
+ <p>The THEORY_PIPELINE configuration can switch between "default" and "memory_guided" modes. In memory_guided mode, previously learned skills influence hypothesis generation and proof strategy selection.</p>
+
+ <h2>Three Levels of Research Depth</h2>
+
+ <p>EurekaClaw provides three entry points depending on research maturity:</p>
+
+ <table>
+ <thead>
+ <tr><th>Command</th><th>Level</th><th>Use Case</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><code>eurekaclaw prove "conjecture"</code></td><td>1</td><td>Precise mathematical statement to prove</td></tr>
+ <tr><td><code>eurekaclaw from-papers &lt;ids&gt;</code></td><td>2</td><td>Extend or find gaps in specific papers</td></tr>
+ <tr><td><code>eurekaclaw explore "domain"</code></td><td>3</td><td>Broad research area without specific conjecture</td></tr>
+ </tbody>
+ </table>
+
+ <p>Level 1 assumes the user knows what they want to prove. Level 2 starts from existing work. Level 3 is exploratory, suitable for early-stage research ideation.</p>
+
+ <h2>Scientist-Bench Evaluation</h2>
+
+ <p>EurekaClaw includes a built-in evaluation framework called Scientist-Bench that scores research outputs across five dimensions:</p>
+
+ <table>
+ <thead>
+ <tr><th>Dimension</th><th>Weight</th><th>Method</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Formal correctness</td><td>0.35</td><td>Lean4 / LLM peer review</td></tr>
+ <tr><td>Novelty</td><td>0.25</td><td>Embedding distance from known results</td></tr>
+ <tr><td>Experimental alignment</td><td>0.15</td><td>Numerical validation</td></tr>
+ <tr><td>Proof depth</td><td>0.15</td><td>Lemma count and complexity</td></tr>
+ <tr><td>Citation coverage</td><td>0.10</td><td>Bibliography completeness</td></tr>
+ </tbody>
+ </table>
+
+ <p>This evaluation runs automatically at session completion via <code>eurekaclaw eval-session &lt;session_id&gt;</code>, providing quantitative feedback on research quality.</p>
+
+ <h2>Local-First Architecture</h2>
+
+ <p>EurekaClaw emphasizes privacy and local execution. The system runs entirely on the user's machine with no cloud dependencies beyond LLM API calls. Data persists to local directories:</p>
+
+ <pre><code>~/.eurekaclaw/
+├── skills/ # Learned strategies
+├── memory/ # Episodic and persistent storage
+├── results/ # Generated papers and proofs
+└── config.yaml # User preferences</code></pre>
+
+ <p>The browser UI (React + TypeScript) provides visualization without compromising the local-first principle — it connects to the local backend rather than a remote service.</p>
+
+ <h2>Configuration and Gate Modes</h2>
+
+ <p>EurekaClaw implements configurable safety checkpoints via GATE_MODE:</p>
+
+ <ul>
+ <li><strong>none:</strong> Fully autonomous execution</li>
+ <li><strong>auto:</strong> System requests human approval at critical decisions</li>
+ <li><strong>human:</strong> Human-in-the-loop for all major stages</li>
+ </ul>
+
+ <p>This addresses the fundamental tension in AI research tools: full autonomy risks error propagation, while excessive oversight negates the productivity benefits. EurekaClaw lets users calibrate this trade-off.</p>
+
+ <h2>Tool Ecosystem</h2>
+
+ <p>EurekaClaw integrates with multiple external tools for verification:</p>
+
+ <ul>
+ <li><strong>arXiv API:</strong> Paper retrieval and metadata</li>
+ <li><strong>Semantic Scholar:</strong> Citation networks and paper relationships</li>
+ <li><strong>Lean4:</strong> Formal proof verification</li>
+ <li><strong>WolframAlpha:</strong> Symbolic computation</li>
+ <li><strong>Python execution:</strong> Numerical experiments and plotting</li>
+ </ul>
+
+ <p>Each tool is implemented as a modular component that can be extended or replaced. Custom tools subclass BaseTool and register with the agent system.</p>
+
+ <h2>Comparison with DeerFlow</h2>
+
+ <p>Both EurekaClaw and DeerFlow pursue multi-agent research automation but with different emphases:</p>
+
+ <table>
+ <thead>
+ <tr><th>Aspect</th><th>EurekaClaw</th><th>DeerFlow</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><strong>Primary domain</strong></td><td>Mathematical / theoretical research</td><td>General agent tasks</td></tr>
+ <tr><td><strong>Output format</strong></td><td>LaTeX papers with proofs</td><td>Reports, slides, code</td></tr>
+ <tr><td><strong>Verification</strong></td><td>Lean4 formalization</td><td>Sandboxed execution</td></tr>
+ <tr><td><strong>Entry points</strong></td><td>3 levels (prove/explore/from-papers)</td><td>Skills-based</td></tr>
+ <tr><td><strong>Learning</strong></td><td>Skill distillation after sessions</td><td>Long-term memory</td></tr>
+ <tr><td><strong>Evaluation</strong></td><td>Scientist-Bench (5 dimensions)</td><td>User judgment</td></tr>
+ </tbody>
+ </table>
+
+ <p>EurekaClaw targets the formal research workflow with specific emphasis on correctness verification. DeerFlow targets general agent execution with broader tooling.</p>
+
+ <h2>Technical Assessment</h2>
+
+ <p><strong>Strengths:</strong></p>
+ <ul>
+ <li>Structured theorem-proving pipeline with formal verification</li>
+ <li>Continual learning through skill distillation</li>
+ <li>Built-in evaluation framework (Scientist-Bench)</li>
+ <li>Local-first privacy architecture</li>
+ <li>Three entry points for different research maturity levels</li>
+ <li>Comprehensive documentation and browser UI</li>
+ </ul>
+
+ <p><strong>Considerations:</strong></p>
+ <ul>
+ <li>294 stars vs DeerFlow's 38,000 — newer, less battle-tested</li>
+ <li>Only 2 contributors vs DeerFlow's 147</li>
+ <li>Requires Anthropic API (Claude) — no model flexibility yet</li>
+ <li>Experiment Runner marked "under development"</li>
+ <li>Windows support incomplete (WSL recommended)</li>
+ </ul>
+
+ <h2>Conclusion</h2>
+
+ <p>EurekaClaw represents a focused approach to AI-assisted mathematical research. The 7-stage theorem pipeline, Lean4 verification integration, and Scientist-Bench evaluation demonstrate serious attention to research rigor. The skill-based continual learning system addresses the genuine problem of accumulating domain expertise across sessions.</p>
+
+ <p>Use EurekaClaw when you need formal theorem generation with verification, LaTeX paper production, and structured research workflows. Consider DeerFlow when you need general agent capabilities with broader tooling and multi-channel integration.</p>
+
+ <p>The tool is Apache 2.0 licensed and actively maintained. For researchers in theoretical computer science, machine learning theory, and applied mathematics, it provides a concrete foundation for AI-assisted research workflows.</p>
+ </div>
+
+ <!-- V2: Scannable -->
+ <div class="v2-content">
+ <h2>Quick Facts</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Metric</th><th>Value</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>GitHub Stars</td><td>294</td></tr>
+ <tr><td>Forks</td><td>25</td></tr>
+ <tr><td>Contributors</td><td>2 (UCLA AGI Lab)</td></tr>
+ <tr><td>License</td><td>Apache 2.0</td></tr>
+ <tr><td>Primary Language</td><td>Python 54.8%</td></tr>
+ <tr><td>Release Date</td><td>March 2026</td></tr>
+ <tr><td>Repository</td><td>github.com/EurekaClaw/EurekaClaw</td></tr>
+ <tr><td>Website</td><td>eurekaclaw.ai</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Core Features</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Feature</th><th>Description</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Literature Crawler</td><td>Fetch/summarize arXiv and Semantic Scholar papers</td></tr>
+ <tr><td>Idea Generator</td><td>Synthesize hypotheses from literature patterns</td></tr>
+ <tr><td>Theorem Prover</td><td>7-stage bottom-up proof pipeline</td></tr>
+ <tr><td>Paper Writer</td><td>LaTeX generation with theorem environments</td></tr>
+ <tr><td>Experiment Runner</td><td>Numerical validation (in development)</td></tr>
+ <tr><td>Continual Learning</td><td>Skill distillation after each session</td></tr>
+ <tr><td>Browser UI</td><td>React + TypeScript live tracking interface</td></tr>
+ </tbody>
+ </table>
+
+ <h2>7-Stage Pipeline</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Stage</th><th>Function</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>1</td><td>Literature synthesis — read and summarize papers</td></tr>
+ <tr><td>2</td><td>Hypothesis generation — identify gaps</td></tr>
+ <tr><td>3</td><td>Lemma decomposition — break into sub-lemmas</td></tr>
+ <tr><td>4</td><td>Proof sketching — high-level strategy</td></tr>
+ <tr><td>5</td><td>Formal verification — Lean4 translation</td></tr>
+ <tr><td>6</td><td>Peer review simulation — LLM critique</td></tr>
+ <tr><td>7</td><td>LaTeX generation — camera-ready paper</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Three Research Levels</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Command</th><th>Level</th><th>Use Case</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><code>prove "conjecture"</code></td><td>1</td><td>Specific theorem to prove</td></tr>
+ <tr><td><code>from-papers &lt;ids&gt;</code></td><td>2</td><td>Extend existing papers</td></tr>
+ <tr><td><code>explore "domain"</code></td><td>3</td><td>Broad research exploration</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Gate Modes (Safety Checkpoints)</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Mode</th><th>Behavior</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><code>none</code></td><td>Fully autonomous</td></tr>
+ <tr><td><code>auto</code></td><td>Approvals at critical decisions</td></tr>
+ <tr><td><code>human</code></td><td>Human-in-the-loop throughout</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Scientist-Bench Scoring</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Dimension</th><th>Weight</th><th>Method</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Formal correctness</td><td>35%</td><td>Lean4 / LLM review</td></tr>
+ <tr><td>Novelty</td><td>25%</td><td>Embedding distance</td></tr>
+ <tr><td>Experimental alignment</td><td>15%</td><td>Numerical validation</td></tr>
+ <tr><td>Proof depth</td><td>15%</td><td>Lemma count</td></tr>
+ <tr><td>Citation coverage</td><td>10%</td><td>Bibliography</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Requirements</h2>
+ <ul>
+ <li>Python 3.11+</li>
+ <li>Anthropic API key (Claude)</li>
+ <li>macOS / Linux (Windows via WSL)</li>
+ </ul>
+
+ <h2>Quick Start</h2>
+ <pre><code>curl -fsSL https://eurekaclaw.ai/install.sh | bash
+eurekaclaw onboard # Interactive setup
+eurekaclaw install-skills # Install proof skills
+
+eurekaclaw prove "Your conjecture here"
+eurekaclaw explore "ML theory"
+eurekaclaw from-papers 1706.03762 2005.14165</code></pre>
+
+ <h2>EurekaClaw vs DeerFlow</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Aspect</th><th>EurekaClaw</th><th>DeerFlow</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Domain</td><td>Math / theory</td><td>General tasks</td></tr>
+ <tr><td>Output</td><td>LaTeX papers</td><td>Reports/code</td></tr>
+ <tr><td>Verification</td><td>Lean4</td><td>Sandbox</td></tr>
+ <tr><td>Model</td><td>Claude only</td><td>Multi-provider</td></tr>
+ <tr><td>Learning</td><td>Skill distillation</td><td>Long-term memory</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <!-- V3: Agent/Builder -->
+ <div class="v3-content">
+ <h2>EurekaClaw for Builders</h2>
+ <p>Implementation patterns for extending EurekaClaw and building research workflows.</p>
+
+ <h3>Configuration Pattern</h3>
+ <pre><code># ~/.eurekaclaw/config.yaml or .env
+
+# LLM Backend
+ANTHROPIC_API_KEY=sk-... # Required
+EUREKACLAW_MODEL=claude-sonnet-4-6 # Main reasoning model
+
+# Pipeline Control
+GATE_MODE=auto # none | auto | human
+THEORY_PIPELINE=default # default | memory_guided
+THEORY_MAX_ITERATIONS=10
+
+# Output Format
+OUTPUT_FORMAT=latex # latex | markdown
+EXPERIMENT_MODE=auto # auto | true | false</code></pre>
+
+ <h3>Custom Skill Definition</h3>
+ <pre><code># ~/.eurekaclaw/skills/my-strategy.md
+---
+name: topological-proof
+version: 1.0.0
+author: your-name
+triggers:
+ - "topological"
+ - "filtration"
+ - "homotopy"
+---
+
+# Topological Proof Strategy
+
+**Purpose:** Apply topological methods to continuous optimization problems.
+
+## When to Use
+
+- Problem involves continuous functions
+- Can construct a filtration
+- Topological invariants apply
+
+## Workflow
+
+1. Construct filtration from problem structure
+2. Compute persistence homology
+3. Relate topological features to optima
+4. Prove bounds via topological properties
+
+## Example Success
+
+"O(n log n) via topological filtration" — sparse attention complexity</code></pre>
+
+ <h3>Domain Plugin Architecture</h3>
+ <pre><code># eurekaclaw/domains/my_domain.py
+from eurekaclaw.domains.base import DomainPlugin
+
+class MyDomain(DomainPlugin):
+ name = "my-domain"
+ 
+ def relevant_papers(self, query: str) -> list:
+ """Return arXiv categories or search terms."""
+ return ["cs.LG", "cs.AI"]
+ 
+ def validate_hypothesis(self, hypothesis: dict) -> bool:
+ """Domain-specific validation logic."""
+ return self.check_theoretical_sounds(hypothesis)
+ 
+ def proof_templates(self) -> list:
+ """Return common proof structures for this domain."""
+ return ["contradiction", "induction", "probabilistic"]</code></pre>
+
+ <h3>Python API Usage</h3>
+ <pre><code>from eurekaclaw import EurekaSession
+from eurekaclaw.memory import KnowledgeBus
+
+# Initialize session
+session = EurekaSession(
+ model="claude-sonnet-4-6",
+ gate_mode="auto",
+ output_format="latex"
+)
+
+# Run research pipeline
+result = session.prove(
+ conjecture="Sample complexity is O(L·d·log(d)/ε²)",
+ domain="ML theory"
+)
+
+# Access results
+print(result.proof)
+print(result.latex_paper)
+print(result.evaluation_score) # Scientist-Bench
+
+# Memory management
+bus = KnowledgeBus()
+bus.remember("learned-strategy", result.proof_techniques)</code></pre>
+
+ <h3>Tool Integration Pattern</h3>
+ <pre><code>from eurekaclaw.tools.base import BaseTool
+import requests
+
+class MyCustomTool(BaseTool):
+ name = "custom-verifier"
+ description = "Verify claims using external service"
+ 
+ def __init__(self, api_key: str):
+ self.api_key = api_key
+ 
+ def _run(self, claim: str) -> str:
+ """Execute tool logic."""
+ response = requests.post(
+ "https://api.verifier.com/check",
+ json={"claim": claim},
+ headers={"Authorization": f"Bearer {self.api_key}"}
+ )
+ return response.json()["result"]
+ 
+ async def _arun(self, claim: str) -> str:
+ """Async version for concurrent execution."""
+ return await self._async_check(claim)
+
+# Register with agent
+from eurekaclaw.agents import ProverAgent
+
+agent = ProverAgent(tools=[MyCustomTool(api_key)])</code></pre>
+
+ <h3>Session Evaluation</h3>
+ <pre><code># Evaluate completed research
+from eurekaclaw.evaluation import ScientistBench
+
+bench = ScientistBench()
+scores = bench.evaluate_session(
+ session_id="sess-2026-03-23-001",
+ dimensions=["correctness", "novelty", "depth"]
+)
+
+print(f"Overall: {scores.weighted_total}")
+print(f"Correctness: {scores.correctness}")
+print(f"Novelty: {scores.novelty}")
+print(f"Citations: {scores.citation_coverage}")</code></pre>
+
+ <h3>Memory System Tiers</h3>
+ <pre><code>from eurekaclaw.memory import EpisodicMemory, PersistentMemory, KnowledgeGraph
+
+# Episodic: Current session context
+episodic = EpisodicMemory()
+episodic.add_turn(query="...", response="...")
+
+# Persistent: Cross-session facts
+persistent = PersistentMemory()
+persistent.remember("user-preference", "topological-methods")
+
+# Knowledge Graph: Relationship structure
+kg = KnowledgeGraph()
+kg.add_entity("theorem-x", type="theorem")
+kg.add_relation("theorem-x", "proves", "lemma-y")</code></pre>
+
+ <h3>Custom Pipeline Stage</h3>
+ <pre><code>from eurekaclaw.pipeline import PipelineStage
+
+class CustomVerificationStage(PipelineStage):
+ """Insert custom verification between existing stages."""
+ 
+ stage_name = "custom-verify"
+ depends_on = ["proof-sketch"]
+ outputs = ["verified-proof"]
+ 
+ def execute(self, context: dict) -> dict:
+ proof = context.get("proof-sketch")
+ 
+ # Custom verification logic
+ verification = self.custom_checker(proof)
+ 
+ if not verification.valid:
+ raise ProofError(verification.issues)
+ 
+ return {"verified-proof": proof, "checks": verification.checks}
+
+# Register and run
+from eurekaclaw.pipeline import ResearchPipeline
+
+pipeline = ResearchPipeline()
+pipeline.insert_after("proof-sketch", CustomVerificationStage())
+result = pipeline.run(conjecture="...")</code></pre>
+
+ <h3>Browser UI Extension</h3>
+ <pre><code>// frontend/src/components/CustomPanel.tsx
+import React from 'react';
+import { useEurekaSession } from '../hooks/useEureka';
+
+export const CustomPanel: React.FC = () => {
+ const { session, proofStatus } = useEurekaSession();
+ 
+ return (
+ <div className="custom-panel">
+ <h3>Proof Progress</h3>
+ <div className="stage-list">
+ {proofStatus.stages.map(stage => (
+ <StageIndicator 
+ key={stage.id}
+ name={stage.name}
+ status={stage.status}
+ details={stage.output}
+ />
+ ))}
+ </div>
+ 
+ <div className="score-preview">
+ <ScientistBenchPreview scores={session.currentScores} />
+ </div>
+ </div>
+ );
+};</code></pre>
+
+ <h3>Deployment Checklist</h3>
+ <ul>
+ <li>[ ] Install: <code>curl -fsSL https://eurekaclaw.ai/install.sh | bash</code></li>
+ <li>[ ] Configure: <code>eurekaclaw onboard</code> or manual <code>.env</code></li>
+ <li>[ ] Install skills: <code>eurekaclaw install-skills</code></li>
+ <li>[ ] Test pipeline: <code>eurekaclaw prove "simple test"</code></li>
+ <li>[ ] Build UI: <code>make open</code></li>
+ <li>[ ] Add custom skills to <code>~/.eurekaclaw/skills/</code></li>
+ <li>[ ] Test domain plugin (if extending)</li>
+ <li>[ ] Verify Lean4 installation for formal proofs</li>
+ <li>[ ] Run evaluation: <code>eurekaclaw eval-session &lt;id&gt;</code></li>
+ </ul>
+ </div>
+
+ <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ <strong>Technical Appendix</strong><br>
+ Repository: github.com/EurekaClaw/EurekaClaw<br>
+ Version analyzed: March 23, 2026 (commit 71b356c)<br>
+ Stars: 294 | Forks: 25 | Contributors: 2<br>
+ License: Apache 2.0<br><br>
+ <strong>Key Files Referenced:</strong><br>
+ README.md, docs/configuration.md, docs/architecture.md<br>
+ docs/agents.md, docs/skills.md, docs/memory.md<br><br>
+ <strong>Website:</strong> eurekaclaw.ai<br>
+ <strong>Documentation:</strong> eurekaclaw.github.io<br>
+ <strong>Authors:</strong> Xuheng Li, Qiwei Di, Chenggong Zhang, Kaixuan Ji, Qingyue Zhao, Yifeng Liu, Shiyuan Zhang, Quanquan Gu (UCLA AGI Lab)
+ </p>
+ </div>
+ </article>
+ </main>
+
+ <footer class="footer" style="border-top: 1px solid var(--border-subtle); margin-top: 4rem;">
+ <div class="container" style="padding: 2rem 0; text-align: center; color: var(--text-4); font-size: 0.875rem;">
+ <p>Adil Islam Signal — Real experiments. Published findings.</p>
+ </div>
+ </footer>
+
+ <script>
+ function showVersion(version) {
+ document.querySelector('.v1-content').style.display = 'none';
+ document.querySelector('.v2-content').style.display = 'none';
+ document.querySelector('.v3-content').style.display = 'none';
+ 
+ document.querySelector('.version-badge.v1').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v1').style.color = 'var(--text-2)';
+ document.querySelector('.version-badge.v2').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v2').style.color = 'var(--text-2)';
+ document.querySelector('.version-badge.v3').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v3').style.color = 'var(--text-2)';
+ 
+ document.querySelector('.' + version + '-content').style.display = 'block';
+ 
+ document.querySelector('.version-badge.' + version).style.background = 'var(--primary)';
+ document.querySelector('.version-badge.' + version).style.color = 'white';
+ 
+ document.querySelector('.article-content').scrollIntoView({ behavior: 'smooth' });
+ }
+ </script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

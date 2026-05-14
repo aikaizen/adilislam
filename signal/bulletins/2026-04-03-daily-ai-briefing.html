@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Daily AI Research Briefing — April 3, 2026 | Signal</title>
+ <meta name="description" content="Google's Gemini 2.5 Flash launches, agent security vulnerabilities disclosed, and local LLM inference tools trend on GitHub." />
+ <link rel="stylesheet" href="/assets/styles.css" />
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body class="theme-default">
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <article class="section article-content">
+ <header class="article-head">
+ <div class="article-meta">
+ <span class="article-tag">Research</span>
+ <span class="article-date">April 3, 2026</span>
+ <span class="article-tag">◉ Standard</span>
+ </div>
+ <h1>Daily AI Research Briefing — April 3, 2026</h1>
+ <p class="lead">Gemini 2.5 Flash ships for speed-critical workloads. Agent security vulnerabilities surface. Local LLM tooling sees renewed interest.</p>
+ </header>
+
+ <div class="article-body">
+
+ <h2>⚡ Gemini 2.5 Flash Released</h2>
+ <p>Google launches Gemini 2.5 Flash, optimized for low-latency applications where speed matters more than maximum capability:</p>
+ <ul>
+ <li><strong>Latency:</strong> 95th percentile response under 200ms for 1K token outputs</li>
+ <li><strong>Quality:</strong> 82% of Pro's performance on standard benchmarks</li>
+ <li><strong>Pricing:</strong> $0.075 per 1M input tokens, 60% cheaper than Pro</li>
+ <li><strong>Context:</strong> 1M tokens maintained from Pro variant</li>
+ </ul>
+ <p>The model targets chat applications, real-time agents, and streaming workflows. Google also announced Flash will be the default for new Google AI Studio projects.</p>
+
+ <h2>🔒 Agent Security Vulnerabilities Disclosed</h2>
+ <p>A security research consortium published findings on agent-specific attack vectors:</p>
+ <ul>
+ <li><strong>Tool poisoning:</strong> Malicious MCP servers can exfiltrate data through tool descriptions</li>
+ <li><strong>Prompt injection via tools:</strong> 34% of tested agents vulnerable to indirect injection through tool outputs</li>
+ <li><strong>Privilege escalation:</strong> Agents with file access can be tricked into executing arbitrary code</li>
+ <li><strong>Memory attacks:</strong> Vector store poisoning affects 28% of RAG-based agents</li>
+ </ul>
+ <p>Mitigation recommendations: sandbox tool execution, validate tool outputs, implement human-in-the-loop for sensitive operations, and monitor agent telemetry for anomalous patterns.</p>
+
+ <h2>📈 GitHub Trending: Local LLM Inference</h2>
+ <p>Privacy and cost concerns drive renewed interest in local inference tools:</p>
+ <ul>
+ <li><strong>ollama/ollama:</strong> 98k stars, local LLM management with one-command deployment</li>
+ <li><strong>ggerganov/llama.cpp:</strong> 72k stars, optimized C++ inference for consumer hardware</li>
+ <li><strong>janhq/jan:</strong> 25k stars, ChatGPT-compatible local AI desktop application</li>
+ <li><strong>open-webui/open-webui:</strong> 42k stars, self-hosted web interface for local models</li>
+ </ul>
+ <p>Pattern: Developers are building hybrid architectures — frontier APIs for complex tasks, local models for privacy-sensitive or high-volume operations.</p>
+
+ <h2>🔧 Infrastructure News</h2>
+ <ul>
+ <li><strong>Together AI:</strong> Launches serverless endpoints for DeepSeek V4 with sub-second cold starts</li>
+ <li><strong>Fireworks AI:</strong> Adds speculative decoding for 2x throughput on long-context requests</li>
+ <li><strong>Hugging Face:</strong> New "Agents" leaderboard ranking open models on tool-use benchmarks</li>
+ </ul>
+
+ <h2>💡 Lab Takeaway</h2>
+ <p>Security is lagging behind capability. Agents have new attack surfaces that traditional app security doesn't cover. Build defense in depth: sandboxed execution, output validation, and audit logging aren't optional — they're foundational.</p>
+
+ <hr />
+ <p class="byline">Published April 3, 2026 — <a href="https://adilislam.com">Signal by Adil Islam</a></p>
+ </div>
+ </article>
+
+ <footer style="padding: 40px 0; text-align: center; color: var(--muted); border-top: 1px solid var(--line); margin-top: 60px;">
+ <p style="margin: 0;">© 2026 Signal by Adil Islam</p>
+ </footer>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

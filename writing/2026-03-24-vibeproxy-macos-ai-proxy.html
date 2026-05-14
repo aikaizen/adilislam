@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>VibeProxy: Route AI Subscriptions to Coding Tools — Signal by Adil Islam</title>
+ <meta name="description" content="VibeProxy is a native macOS menu bar app that lets you use Claude Code, ChatGPT, Gemini and other AI subscriptions with coding tools - no API keys needed.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css?v=5">
+ <style>
+ .article-versions { display: flex; gap: 0.5rem; margin: 1rem 0 2rem; padding: 0.75rem; background: var(--bg-elevated); border-radius: var(--radius-sm); flex-wrap: wrap; }
+ .version-badge { padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+ .version-badge.v1 { background: var(--primary); color: white; }
+ .version-badge.v2 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge.v3 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge:hover { opacity: 0.9; }
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .data-table { font-size: 0.875rem; }
+ .article-highlight { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--accent); margin: 1.5rem 0; }
+ .article-note { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--text-3); margin: 1.5rem 0; color: var(--text-3); }
+ .v1-content { display: block; }
+ .v2-content, .v3-content { display: none; }
+ .v2-content .data-table { font-size: 0.8125rem; }
+ .v2-content table { margin: 0.75rem 0; }
+ .v2-content h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+ .v3-content pre { background: #1a1a2e; }
+ .v3-content code { background: #1a1a2e; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ March 24, 2026 · 8 min read · Developer Tools
+ </div>
+
+ <div class="article-versions article-versions-top">
+ <span class="version-label" style="font-weight: 600; color: var(--text-3); margin-right: 0.5rem;">Version:</span>
+ <span class="version-badge v1" onclick="showVersion('v1')">V1 Narrative</span>
+ <span class="version-badge v2" onclick="showVersion('v2')">V2 Scannable</span>
+ <span class="version-badge v3" onclick="showVersion('v3')">V3 Agent/Builder</span>
+ </div>
+
+ <h1>VibeProxy: Route AI Subscriptions to Coding Tools</h1>
+
+ <!-- V1: Analytical Narrative -->
+ <div class="v1-content">
+ <p>VibeProxy is a native macOS menu bar application that solves a specific friction point: using your existing AI subscriptions (Claude Code, ChatGPT, Gemini, Qwen, Antigravity, Z.AI GLM) with third-party AI coding tools like Factory Droids and Amp CLI without purchasing separate API keys. Released by Automaze in October 2025, it has accumulated 1,856 stars, 122 forks, and 140 releases as of March 2026.</p>
+
+ <p>The core insight is simple. Many developers already pay for AI subscriptions (Claude Max, ChatGPT Plus) but cannot use those same credentials with specialized coding tools. Those tools typically require API keys with separate billing. VibeProxy bridges this gap by acting as a local proxy server that authenticates via OAuth with your existing subscriptions, then exposes a compatible API interface that third-party tools can consume.</p>
+
+ <h2>Architecture: Local Proxy with OAuth</h2>
+
+ <p>VibeProxy is built on CLIProxyAPIPlus, an open-source unified proxy server for AI services. The macOS app wraps this server in a native SwiftUI interface that handles the complexity of OAuth flows, token management, and API routing. The architecture consists of three layers:</p>
+
+ <ul>
+ <li><strong>Presentation layer:</strong> Native SwiftUI menu bar app with real-time status indicators and settings</li>
+ <li><strong>Control layer:</strong> ServerManager process controller that starts/stops the proxy server</li>
+ <li><strong>Service layer:</strong> CLIProxyAPIPlus binary that handles protocol translation and API routing</li>
+ </ul>
+
+ <p>When you click "Connect" for a provider like Claude Code, VibeProxy opens your browser to the OAuth page. After authentication, it monitors <code>~/.cli-proxy-api/</code> for credential files and automatically detects when authentication completes. The proxy server then routes API requests from your coding tools to the appropriate provider using your existing subscription.</p>
+
+ <h2>Provider Support and Authentication Modes</h2>
+
+ <p>VibeProxy supports six providers with different authentication mechanisms:</p>
+
+ <table>
+ <thead>
+ <tr><th>Provider</th><th>Auth Method</th><th>Subscription Required</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Claude Code</td><td>OAuth</td><td>Claude Max or Pro</td></tr>
+ <tr><td>Codex / ChatGPT</td><td>OAuth</td><td>ChatGPT Plus</td></tr>
+ <tr><td>Gemini</td><td>OAuth via Antigravity</td><td>Gemini Advanced</td></tr>
+ <tr><td>Qwen</td><td>OAuth</td><td>Qwen subscription</td></tr>
+ <tr><td>Antigravity</td><td>OAuth</td><td>Antigravity access</td></tr>
+ <tr><td>Z.AI GLM</td><td>API key</td><td>Z.AI account</td></tr>
+ <tr><td>GitHub Copilot</td><td>OAuth</td><td>Copilot subscription</td></tr>
+ </tbody>
+ </table>
+
+ <p>Most providers use OAuth, which means VibeProxy never stores your actual credentials — only the OAuth tokens. The exception is Z.AI GLM, which requires an explicit API key. The Vercel AI Gateway integration (added January 2026) provides an additional layer for Claude requests, routing through Vercel's officially sanctioned gateway to reduce account risk from direct OAuth token usage.</p>
+
+ <h2>Multi-Account and Failover</h2>
+
+ <p>A distinctive feature is multi-account support per provider. You can connect multiple Claude Code accounts, for example, and VibeProxy distributes requests across them with automatic round-robin load balancing. If one account hits rate limits, it fails over to the next available account. This is useful for teams sharing access or individuals with multiple subscriptions.</p>
+
+ <p>Provider Priority controls let you enable or disable specific providers instantly. This changes which models are available to your coding tools without reconfiguration. The change takes effect immediately via "hot reload" — no server restart required.</p>
+
+ <h2>Integration Targets</h2>
+
+ <p>VibeProxy is specifically designed for two coding tools:</p>
+
+ <ul>
+ <li><strong>Factory Droids:</strong> AI coding agents for automated development workflows</li>
+ <li><strong>Amp CLI:</strong> Terminal-based AI coding assistant with fallback support</li>
+ </ul>
+
+ <p>The project includes dedicated setup guides for each. Factory Droids uses the proxy for all AI interactions, while Amp CLI can fall back to your subscriptions when its primary provider is unavailable.</p>
+
+ <h2>Distribution and Trust</h2>
+
+ <p>VibeProxy distributes as a signed and notarized macOS application, which means it passes Gatekeeper without warnings. The app bundle is self-contained — the CLIProxyAPIPlus binary, configuration files, and static resources are all bundled inside the .app. No separate installation steps or dependencies.</p>
+
+ <p>Updates are handled via Sparkle, the standard macOS auto-update framework. Starting with v1.6, VibeProxy checks for updates daily and installs them seamlessly. There are separate builds for Apple Silicon (M1/M2/M3/M4) and Intel, though the Intel build is noted as "untested — please report issues."</p>
+
+ <h2>Security Model</h2>
+
+ <p>The security architecture has three components:</p>
+
+ <p><strong>OAuth delegation:</strong> VibeProxy never sees your actual service passwords. It initiates OAuth flows that delegate authentication to the provider's official login pages. Tokens are stored in <code>~/.cli-proxy-api/</code> with standard file permissions.</p>
+
+ <p><strong>Local-only operation:</strong> The proxy server binds to localhost. No external network exposure. API keys and tokens never leave your machine except to the provider's official endpoints.</p>
+
+ <p><strong>Vercel AI Gateway option:</strong> For Claude specifically, you can route requests through Vercel's AI Gateway rather than directly to Anthropic. This adds an intermediary that some users may prefer for audit logging or additional access controls.</p>
+
+ <h2>Development Activity</h2>
+
+ <p>The repository shows consistent activity with 587 commits, 140 releases, and 13 contributors. Release v1.8.121 shipped on March 23, 2026 (the day of this analysis), adding Gemini 3 Pro support via Antigravity, GPT-5.1/Codex, Claude Sonnet 4.5/Opus 4.5 with extended thinking, GitHub Copilot, and Z.AI GLM-4.7. The commit history shows a mix of feature work, provider updates, and infrastructure maintenance.</p>
+
+ <p>The codebase is primarily Swift (92%), with Shell scripts (6.5%) for build automation and Makefiles (1.5%). The project uses Swift Package Manager and includes comprehensive build scripts for creating the signed, notarized app bundles.</p>
+
+ <h2>Friction Points</h2>
+
+ <p><strong>macOS-only:</strong> No Windows or Linux support. This is a native SwiftUI app, so cross-platform would require a complete rewrite.</p>
+
+ <p><strong>Provider dependency:</strong> When providers change their authentication flows or API specifications, VibeProxy requires updates. The changelog shows multiple releases triggered by provider-side changes.</p>
+
+ <p><strong>Intel support:</strong> Listed as untested. Apple Silicon is the primary target platform.</p>
+
+ <p><strong>Single-user focus:</strong> While multi-account is supported, the app is designed for individual developers rather than team-wide deployment. No enterprise features like centralized configuration or usage auditing.</p>
+
+ <h2>Comparison with Alternatives</h2>
+
+ <p>Direct API key usage is the obvious alternative. VibeProxy's value proposition only applies if you already have subscriptions and want to avoid double-paying for API credits. If you're starting fresh, API keys may be simpler.</p>
+
+ <p>CLIProxyAPIPlus (the underlying server) can be used directly without VibeProxy's UI. This is lighter weight but requires manual configuration and lacks the convenience features (menu bar, auto-updates, visual status).</p>
+
+ <p>Vercel's AI Gateway alone handles the routing layer but doesn't solve the OAuth/subscription integration. VibeProxy combines both concerns: subscription access + proxy routing.</p>
+
+ <h2>Technical Assessment</h2>
+
+ <p><strong>Strengths:</strong></p>
+ <ul>
+ <li>Solves a genuine billing friction (subscription → API without double pay)</li>
+ <li>Native macOS experience with proper code signing and notarization</li>
+ <li>Multi-account support with round-robin and failover</li>
+ <li>Hot reload for provider configuration</li>
+ <li>Active maintenance with frequent provider updates</li>
+ <li>Open source (MIT) with underlying CLIProxyAPIPlus also open</li>
+ </ul>
+
+ <p><strong>Considerations:</strong></p>
+ <ul>
+ <li>macOS-only limits audience</li>
+ <li>Requires trust in OAuth token handling</li>
+ <li>Provider API changes can break functionality</li>
+ <li>Intel Macs are second-class citizens</li>
+ <li>No visible enterprise/team features</li>
+ </ul>
+
+ <h2>Conclusion</h2>
+
+ <p>VibeProxy is a focused utility that solves one problem well: using existing AI subscriptions with third-party coding tools. The 1,856 stars suggest the problem resonates with developers who have subscriptions but hesitate to purchase additional API credits for experimental tools.</p>
+
+ <p>The architecture is sound: OAuth for authentication, local proxy for routing, native UI for convenience. The Vercel AI Gateway integration shows awareness of security concerns. The consistent release cadence (140 releases in ~5 months) indicates active maintenance.</p>
+
+ <p>Use VibeProxy if you're a macOS user with existing AI subscriptions who wants to try Factory Droids, Amp CLI, or similar tools without committing to API billing. Skip it if you need cross-platform support, prefer direct API keys, or require enterprise deployment features.</p>
+ </div>
+
+ <!-- V2: Scannable -->
+ <div class="v2-content">
+ <h2>Quick Facts</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Metric</th><th>Value</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>GitHub Stars</td><td>1,856</td></tr>
+ <tr><td>Forks</td><td>122</td></tr>
+ <tr><td>Contributors</td><td>13</td></tr>
+ <tr><td>Releases</td><td>140 (v1.8.121 latest)</td></tr>
+ <tr><td>Commits</td><td>587</td></tr>
+ <tr><td>License</td><td>MIT</td></tr>
+ <tr><td>Primary Language</td><td>Swift 92%</td></tr>
+ <tr><td>Platform</td><td>macOS 13+ (Ventura)</td></tr>
+ <tr><td>Architecture</td><td>Apple Silicon + Intel</td></tr>
+ <tr><td>Latest Release</td><td>March 23, 2026</td></tr>
+ <tr><td>Repository</td><td>github.com/automazeio/vibeproxy</td></tr>
+ <tr><td>Author</td><td>Automaze, Ltd. (@ranaroussi)</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Supported Providers</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Provider</th><th>Auth</th><th>Subscription</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Claude Code</td><td>OAuth</td><td>Claude Max/Pro</td></tr>
+ <tr><td>Codex / ChatGPT</td><td>OAuth</td><td>ChatGPT Plus</td></tr>
+ <tr><td>Gemini</td><td>OAuth (Antigravity)</td><td>Gemini Advanced</td></tr>
+ <tr><td>Qwen</td><td>OAuth</td><td>Qwen subscription</td></tr>
+ <tr><td>Antigravity</td><td>OAuth</td><td>Antigravity access</td></tr>
+ <tr><td>Z.AI GLM</td><td>API key</td><td>Z.AI account</td></tr>
+ <tr><td>GitHub Copilot</td><td>OAuth</td><td>Copilot sub</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Core Features</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Feature</th><th>Description</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Native macOS UI</td><td>SwiftUI menu bar app with dark mode</td></tr>
+ <tr><td>One-click auth</td><td>OAuth flow with automatic credential detection</td></tr>
+ <tr><td>Multi-account</td><td>Multiple accounts per provider, round-robin load</td></tr>
+ <tr><td>Failover</td><td>Auto-switch when rate-limited</td></tr>
+ <tr><td>Provider Priority</td><td>Hot reload enable/disable providers</td></tr>
+ <tr><td>Vercel AI Gateway</td><td>Safer Claude routing option</td></tr>
+ <tr><td>Auto-updates</td><td>Sparkle daily checks, seamless install</td></tr>
+ <tr><td>Code signed</td><td>Notarized, no Gatekeeper warnings</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Integration Targets</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Tool</th><th>Use Case</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Factory Droids</td><td>AI coding agents for dev workflows</td></tr>
+ <tr><td>Amp CLI</td><td>Terminal AI with fallback support</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Installation</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Method</th><th>Command/Step</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Download (ARM64)</td><td>Releases → VibeProxy-arm64.zip</td></tr>
+ <tr><td>Download (Intel)</td><td>Releases → VibeProxy-x86_64.zip (untested)</td></tr>
+ <tr><td>Install</td><td>Drag to /Applications</td></tr>
+ <tr><td>Build from source</td><td>See INSTALLATION.md</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Setup Flow</h2>
+ <ol>
+ <li>Launch VibeProxy (menu bar icon appears)</li>
+ <li>Click icon → "Open Settings"</li>
+ <li>Server starts automatically</li>
+ <li>Click "Connect" for desired provider</li>
+ <li>Complete OAuth in browser</li>
+ <li>VibeProxy auto-detects credentials</li>
+ <li>Configure Factory Droids/Amp CLI to use proxy</li>
+ </ol>
+
+ <h2>Latest Models (v1.8.121)</h2>
+ <ul>
+ <li>Gemini 3 Pro (via Antigravity)</li>
+ <li>GPT-5.1 / GPT-5.1 Codex</li>
+ <li>Claude Sonnet 4.5 / Opus 4.5 with extended thinking</li>
+ <li>GitHub Copilot</li>
+ <li>Z.AI GLM-4.7</li>
+ </ul>
+
+ <h2>File Locations</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Path</th><th>Purpose</th></tr>
+ </thead>
+ <tbody>
+ <tr><td><code>~/.cli-proxy-api/</code></td><td>OAuth tokens and credentials</td></tr>
+ <tr><td><code>/Applications/VibeProxy.app</code></td><td>Application bundle</td></tr>
+ <tr><td>Menu bar icon</td><td>Status indicator and controls</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Comparison</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Approach</th><th>Pros</th><th>Cons</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>VibeProxy</td><td>Native UI, multi-account, auto-updates</td><td>macOS only</td></tr>
+ <tr><td>CLIProxyAPIPlus direct</td><td>Lighter, no UI dependencies</td><td>Manual config</td></tr>
+ <tr><td>Direct API keys</td><td>Simpler, cross-platform</td><td>Double billing</td></tr>
+ <tr><td>Vercel Gateway alone</td><td>Audit logging, controls</td><td>No OAuth/subscription integration</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Friction Points</h2>
+ <ul>
+ <li>macOS-only (SwiftUI dependency)</li>
+ <li>Provider API changes require updates</li>
+ <li>Intel support untested</li>
+ <li>No enterprise/team features</li>
+ <li>Single-user design</li>
+ </ul>
+ </div>
+
+ <!-- V3: Agent/Builder -->
+ <div class="v3-content">
+ <h2>VibeProxy for Builders</h2>
+ <p>Implementation patterns for extending VibeProxy and building similar OAuth proxy systems.</p>
+
+ <h3>Architecture Overview</h3>
+ <pre><code>VibeProxy/
+├── Sources/
+│ ├── main.swift # App entry point
+│ ├── AppDelegate.swift # Menu bar & window management
+│ ├── ServerManager.swift # Server process control & auth
+│ ├── SettingsView.swift # SwiftUI main interface
+│ └── AuthStatus.swift # Auth file monitoring (~/.cli-proxy-api/)
+├── Resources/
+│ ├── cli-proxy-api-plus # Proxy server binary
+│ ├── config.yaml # Server configuration
+│ └── icon-*.png # Menu bar icons
+├── Package.swift # SPM configuration
+└── Makefile # Build automation</code></pre>
+
+ <h3>OAuth Token Monitoring Pattern</h3>
+ <pre><code>// AuthStatus.swift - Simplified pattern
+import Foundation
+
+class AuthStatus {
+ let authPath = FileManager.default
+ .homeDirectoryForCurrentUser
+ .appendingPathComponent(".cli-proxy-api")
+ 
+ func monitorAuthFiles() {
+ // Monitor for credential file changes
+ let monitor = FileMonitor(path: authPath)
+ monitor.onChange = { [weak self] in
+ self?.detectProviderCredentials()
+ }
+ monitor.start()
+ }
+ 
+ func detectProviderCredentials() {
+ // Check for provider-specific files
+ let providers = ["claude", "codex", "gemini", "qwen"]
+ for provider in providers {
+ let credFile = authPath
+ .appendingPathComponent("\(provider).json")
+ if FileManager.default.fileExists(atPath: credFile.path) {
+ updateStatus(provider: provider, connected: true)
+ }
+ }
+ }
+}</code></pre>
+
+ <h3>Proxy Server Control</h3>
+ <pre><code>// ServerManager.swift - Process management pattern
+import Foundation
+
+class ServerManager {
+ private var process: Process?
+ private let proxyBinary: URL
+ 
+ func startServer() {
+ process = Process()
+ process?.executableURL = proxyBinary
+ process?.arguments = ["--config", configPath]
+ 
+ // Pipe output for logging
+ let pipe = Pipe()
+ process?.standardOutput = pipe
+ process?.standardError = pipe
+ 
+ do {
+ try process?.run()
+ updateStatus(.running)
+ } catch {
+ updateStatus(.failed(error))
+ }
+ }
+ 
+ func stopServer() {
+ process?.terminate()
+ process?.waitUntilExit()
+ updateStatus(.stopped)
+ }
+}</code></pre>
+
+ <h3>Provider Configuration Schema</h3>
+ <pre><code># CLIProxyAPIPlus config.yaml
+providers:
+ claude:
+ type: oauth
+ auth_url: "https://claude.ai/oauth/authorize"
+ token_url: "https://claude.ai/oauth/token"
+ scopes: ["claude_api"]
+ credential_file: "~/.cli-proxy-api/claude.json"
+ 
+ gemini:
+ type: oauth
+ auth_url: "https://antigravity.ai/oauth/authorize"
+ token_url: "https://antigravity.ai/oauth/token"
+ credential_file: "~/.cli-proxy-api/gemini.json"
+ 
+ zai:
+ type: api_key
+ api_key_header: "Authorization"
+ credential_file: "~/.cli-proxy-api/zai.json"
+
+# Round-robin and failover settings
+load_balancing:
+ strategy: round_robin
+ failover_on: [429, 503, 504]
+ retry_attempts: 3
+
+# Provider priority (hot reload enabled)
+priority:
+ enabled: [claude, gemini, codex]
+ disabled: []</code></pre>
+
+ <h3>Multi-Account Round-Robin</h3>
+ <pre><code>// Simplified routing logic
+class LoadBalancer {
+ var accounts: [ProviderAccount]
+ var currentIndex = 0
+ 
+ func nextAccount() -> ProviderAccount? {
+ guard !accounts.isEmpty else { return nil }
+ 
+ // Round-robin selection
+ let account = accounts[currentIndex]
+ currentIndex = (currentIndex + 1) % accounts.count
+ 
+ return account
+ }
+ 
+ func reportFailure(_ account: ProviderAccount) {
+ // Mark for failover, remove temporarily
+ account.lastError = Date()
+ account.consecutiveFailures += 1
+ 
+ if account.consecutiveFailures > 3 {
+ account.isActive = false
+ }
+ }
+}</code></pre>
+
+ <h3>Sparkle Auto-Update Integration</h3>
+ <pre><code>// Auto-update configuration
+import Sparkle
+
+class UpdateManager {
+ let updaterController: SPUStandardUpdaterController
+ 
+ init() {
+ updaterController = SPUStandardUpdaterController(
+ startingUpdater: true,
+ updaterDelegate: self,
+ userDriverDelegate: nil
+ )
+ 
+ // Daily check (default Sparkle behavior)
+ updaterController.updater.updateCheckInterval = 86400
+ 
+ // Appcast feed URL
+ updaterController.updater.feedURL = URL(string:
+ "https://github.com/automazeio/vibeproxy/releases.atom"
+ )
+ }
+}</code></pre>
+
+ <h3>Building Signed App Bundle</h3>
+ <pre><code>#!/bin/bash
+# create-app-bundle.sh
+
+APP_NAME="VibeProxy"
+BUNDLE_ID="io.automaze.vibeproxy"
+
+# Build Swift package
+swift build -c release
+
+# Create .app structure
+mkdir -p "${APP_NAME}.app/Contents/MacOS"
+mkdir -p "${APP_NAME}.app/Contents/Resources"
+
+# Copy binary
+cp .build/release/${APP_NAME} "${APP_NAME}.app/Contents/MacOS/"
+
+# Copy resources
+cp -r Resources/* "${APP_NAME}.app/Contents/Resources/"
+
+# Sign with Developer ID
+codesign --force --options runtime \
+ --sign "Developer ID Application: Automaze Ltd" \
+ --entitlements entitlements.plist \
+ "${APP_NAME}.app"
+
+# Notarize
+xcrun notarytool submit "${APP_NAME}.app" \
+ --apple-id "dev@automaze.io" \
+ --team-id "XXXXXXXXXX" \
+ --wait
+
+# Staple ticket
+xcrun stapler staple "${APP_NAME}.app"</code></pre>
+
+ <h3>Client Integration (Factory Droids)</h3>
+ <pre><code># ~/.factory/droids/config.yaml
+ai:
+ provider: vibeproxy
+ endpoint: http://localhost:8080/v1
+ 
+ # VibeProxy handles auth, no API key needed
+ # Falls back to next provider if rate-limited
+ fallback_providers:
+ - claude
+ - gemini
+ - codex</code></pre>
+
+ <h3>Vercel AI Gateway Integration</h3>
+ <pre><code># Routing through Vercel Gateway for Claude
+providers:
+ claude:
+ type: oauth
+ credential_file: "~/.cli-proxy-api/claude.json"
+ 
+ # Use Vercel AI Gateway instead of direct Anthropic
+ proxy:
+ enabled: true
+ gateway_url: "https://ai-gateway.vercel.app/v1"
+ headers:
+ "x-vercel-ai-gateway-key": "${VERCEL_GW_KEY}"
+ 
+ # Anthropic endpoint (fallback if gateway fails)
+ direct_endpoint: "https://api.anthropic.com/v1"</code></pre>
+
+ <h3>Security Checklist for OAuth Proxies</h3>
+ <ul class="checklist">
+ <li class="checked">OAuth flows delegated to provider (never handle passwords)</li>
+ <li class="checked">Tokens stored in user home (not app bundle)</li>
+ <li class="checked">File permissions 0600 on credential files</li>
+ <li class="checked">Localhost binding only (no external exposure)</li>
+ <li class="checked">Keychain integration for sensitive storage (optional)</li>
+ <li>Audit logging for token access (enterprise)</li>
+ <li>Token rotation schedule (optional)</li>
+ <li>Rate limit tracking per account</li>
+ </ul>
+
+ <h3>Custom Provider Extension</h3>
+ <pre><code># Adding a new provider to VibeProxy
+
+# 1. Add provider icon
+# Resources/icon-newprovider.png
+
+# 2. Extend Provider enum
+enum Provider: String, CaseIterable {
+ case claude, codex, gemini, qwen, zai, newprovider
+ 
+ var authType: AuthType {
+ switch self {
+ case .newprovider: return .oauth
+ default: return ...
+ }
+ }
+ 
+ var icon: String { "icon-\(rawValue).png" }
+}
+
+# 3. Add OAuth configuration
+# config.yaml entry for newprovider
+
+# 4. Build and test
+make build
+./VibeProxy.app/Contents/MacOS/VibeProxy</code></pre>
+
+ <h3>Deployment Checklist</h3>
+ <ul class="checklist">
+ <li>[ ] Build release binary: <code>swift build -c release</code></li>
+ <li>[ ] Create app bundle: <code>./create-app-bundle.sh</code></li>
+ <li>[ ] Code sign with Developer ID</li>
+ <li>[ ] Notarize with Apple</li>
+ <li>[ ] Staple notarization ticket</li>
+ <li>[ ] Test on clean macOS VM</li>
+ <li>[ ] Verify Gatekeeper allows launch</li>
+ <li>[ ] Test OAuth flow end-to-end</li>
+ <li>[ ] Test auto-update mechanism</li>
+ <li>[ ] Create GitHub release with both architectures</li>
+ </ul>
+ </div>
+
+ <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ <strong>Technical Appendix</strong><br>
+ Repository: github.com/automazeio/vibeproxy<br>
+ Version analyzed: v1.8.121 (March 23, 2026)<br>
+ Stars: 1,856 | Forks: 122 | Contributors: 13<br>
+ License: MIT<br><br>
+ <strong>Key Files Referenced:</strong><br>
+ README.md, INSTALLATION.md, FACTORY_SETUP.md, AMPCODE_SETUP.md, CHANGELOG.md<br><br>
+ <strong>Website:</strong> automaze.io<br>
+ <strong>Author:</strong> Ran Aroussi (@ranaroussi)<br>
+ <strong>Underlying:</strong> CLIProxyAPIPlus (github.com/router-for-me/CLIProxyAPIPlus)
+ </p>
+ </div>
+ </article>
+ </main>
+
+ <footer class="footer" style="border-top: 1px solid var(--border-subtle); margin-top: 4rem;">
+ <div class="container" style="padding: 2rem 0; text-align: center; color: var(--text-4); font-size: 0.875rem;">
+ <p>Adil Islam Signal — Real experiments. Published findings.</p>
+ </div>
+ </footer>
+
+ <script>
+ function showVersion(version) {
+ document.querySelector('.v1-content').style.display = 'none';
+ document.querySelector('.v2-content').style.display = 'none';
+ document.querySelector('.v3-content').style.display = 'none';
+ 
+ document.querySelector('.version-badge.v1').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v1').style.color = 'var(--text-2)';
+ document.querySelector('.version-badge.v2').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v2').style.color = 'var(--text-2)';
+ document.querySelector('.version-badge.v3').style.background = 'var(--bg-subtle)';
+ document.querySelector('.version-badge.v3').style.color = 'var(--text-2)';
+ 
+ document.querySelector('.' + version + '-content').style.display = 'block';
+ 
+ document.querySelector('.version-badge.' + version).style.background = 'var(--primary)';
+ document.querySelector('.version-badge.' + version).style.color = 'white';
+ 
+ document.querySelector('.article-content').scrollIntoView({ behavior: 'smooth' });
+ }
+ </script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

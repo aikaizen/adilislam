@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily AI Bulletins — Signal by Adil Islam</title>
+  <meta name="description" content="Daily AI briefings on agents, agent context, context engineering, and agentic systems. 5-minute reads every morning by Adil Islam.">
+  <meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, daily AI briefing, Adil Islam">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  
+  <style>
+    .archive-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .archive-item { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 1.25rem; background: var(--bg-elevated); border-radius: var(--radius-md); text-decoration: none; color: var(--text-1); border: 1px solid var(--border); transition: border-color 0.2s; }
+    .archive-item:hover { border-color: var(--accent); }
+    .archive-item .date { color: var(--text-4); font-family: var(--mono); font-size: 0.8rem; min-width: 110px; }
+    .archive-item .title { font-weight: 500; font-size: 0.95rem; flex: 1; }
+    .archive-item .type-badge { font-family: var(--mono); font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; background: rgba(240,77,38,0.1); color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
+    .signup-cta { background: var(--bg-elevated); border: 1px solid var(--accent); border-radius: var(--radius-lg); padding: 2rem; margin: 2rem 0; text-align: center; }
+    .signup-cta h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .signup-cta p { color: var(--text-2); margin-bottom: 1rem; }
+    @media (max-width: 768px) {
+      .archive-item { flex-wrap: wrap; gap: 0.5rem; }
+      .archive-item .date { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/about/">About</a>
+        <a href="/signal/" class="active">Signal</a>
+        <a href="/writing/" >Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="eyebrow" style="font-family: var(--mono); font-size: 0.875rem; color: var(--accent); margin-bottom: 0.75rem;">Signal · Daily Bulletins</div>
+      <h1 style="font-size: 2rem; font-weight: 800;">Daily AI Bulletins</h1>
+      <p style="color: var(--text-2); max-width: 600px; margin: 1rem 0 2rem;">Every morning: the top stories on <strong>AI agents</strong>, <strong>agent context</strong>, <strong>context engineering</strong>, and <strong>agentic systems</strong> — in 5 minutes.</p>
+
+      <div class="signup-cta">
+        <h3>📬 Get Signal in your inbox</h3>
+        <p>AI agents, agent context, and product strategy — every morning, free.</p>
+        <a href="/signal/" class="btn btn-primary">Subscribe →</a>
+        <p style="color: var(--text-4); font-family: var(--mono); font-size: 0.8rem; margin-top: 0.5rem;">Email signup coming soon — Beehiiv integration</p>
+      </div>
+
+      <div class="archive-list">
+        <a href="2026-05-09-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 9, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 9, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-05-08-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 8, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 8, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-05-07-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 7, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 7, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-05-06-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 6, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 6, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-05-05-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 5, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 5, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-05-04-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 4, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 4, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-05-02-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 2, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 2, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-05-01-daily-ai-briefing.html" class="archive-item">
+          <span class="date">May 1, 2026</span>
+          <span class="title">Daily AI Research Briefing — May 1, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-30-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 30, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 30, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-29-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 29, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 29, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-28-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 28, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 28, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-27-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 27, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 27, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-26-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 26, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 26, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-25-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 25, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 25, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-24-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 24, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 24, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-23-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 23, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 23, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-22-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 22, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 22, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-21-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 21, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 21, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-20-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 20, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 20, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-16-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 16, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 16, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-15-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 15, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 15, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-14-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 14, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 14, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-13-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 13, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 13, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-12-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 12, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 12, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-11-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 11, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 11, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-10-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 10, 2026</span>
+          <span class="title">📡 Daily AI Research Briefing — April 10, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-09-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 9, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 9, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-08-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 8, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 8, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-07-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 7, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 7, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-06-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 6, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 6, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-05-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 5, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 5, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-03-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 3, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 3, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-02-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 2, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 2, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-04-01-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Apr 1, 2026</span>
+          <span class="title">Daily AI Research Briefing — April 1, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-31-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 31, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 31, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-30-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 30, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 30, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-29-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 29, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 29, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-28-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 28, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 28, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-27-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 27, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 27, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-26-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 26, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 26, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-25-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 25, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 25, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-24-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 24, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 24, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-23-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 23, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 23, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-22-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 22, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 22, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-21-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 21, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 21, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-20-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 20, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 20, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-19-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 19, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 19, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-18-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 18, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 18, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-17-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 17, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 17, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-16-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 16, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 16, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-15-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 15, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 15, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-14-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">📡 Daily AI Research Briefing — March 14, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-13-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 13, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 13, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-12-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 12, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 12, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-11-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 11, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 11, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-10-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 10, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 10, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-09-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 9, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 9, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-08-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 8, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 8, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-07-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 7, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 7, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-06-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 6, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 6, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-05-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 5, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 5, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-04-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 4, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 4, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-03-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 3, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 3, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-02-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 2, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 2, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-03-01-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Mar 1, 2026</span>
+          <span class="title">Daily AI Research Briefing — March 1, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-02-28-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Feb 28, 2026</span>
+          <span class="title">Daily AI Research Briefing — February 28, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-02-27-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Feb 27, 2026</span>
+          <span class="title">Daily AI Research Briefing — February 27, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+        <a href="2026-02-26-daily-ai-briefing.html" class="archive-item">
+          <span class="date">Feb 26, 2026</span>
+          <span class="title">Daily AI Research Briefing — February 26, 2026</span>
+          <span class="type-badge">Bulletin</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-copy">© 2026 Adil Islam. AI agents, agent context, and product strategy.</span>
+        <div class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/signal/">Signal</a>
+          <a href="/writing/">Writing</a>
+          <a href="/teaching/">Teaching</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

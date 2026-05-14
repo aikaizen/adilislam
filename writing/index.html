@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — AI Agents, Context Engineering & Agentic Systems — Adil Islam</title>
+  <meta name="description" content="In-depth research articles on AI agents, agent context, context engineering, agentic systems, and AI product strategy. By Adil Islam.">
+  <meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+  <meta property="og:title" content="Writing — Adil Islam">
+  <meta property="og:description" content="Research articles on AI agents, agent context, and agentic product strategy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  
+  <style>
+    .archive-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .archive-item { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 1.25rem; background: var(--bg-elevated); border-radius: var(--radius-md); text-decoration: none; color: var(--text-1); border: 1px solid var(--border); transition: border-color 0.2s; }
+    .archive-item:hover { border-color: var(--accent); }
+    .archive-item .date { color: var(--text-4); font-family: var(--mono); font-size: 0.8rem; min-width: 110px; }
+    .archive-item .title { font-weight: 500; font-size: 0.95rem; flex: 1; }
+    .archive-item .type-badge { font-family: var(--mono); font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; background: rgba(240,77,38,0.1); color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
+    .signup-cta { background: var(--bg-elevated); border: 1px solid var(--accent); border-radius: var(--radius-lg); padding: 2rem; margin: 2rem 0; text-align: center; }
+    .signup-cta h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .signup-cta p { color: var(--text-2); margin-bottom: 1rem; }
+    @media (max-width: 768px) {
+      .archive-item { flex-wrap: wrap; gap: 0.5rem; }
+      .archive-item .date { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/about/">About</a>
+        <a href="/signal/" >Signal</a>
+        <a href="/writing/" class="active">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="eyebrow" style="font-family: var(--mono); font-size: 0.875rem; color: var(--accent); margin-bottom: 0.75rem;">Writing</div>
+      <h1 style="font-size: 2.5rem; font-weight: 800;">Research & Analysis</h1>
+      <p style="color: var(--text-2); max-width: 600px; margin: 1rem 0 2rem; line-height: 1.6;">Deep dives on <strong>AI agents</strong>, <strong>agent context</strong>, <strong>context engineering</strong>, <strong>agentic systems</strong>, and AI product strategy. No hype — just signal.</p>
+
+      <div class="signup-cta">
+        <h3>📬 Get the daily Signal</h3>
+        <p>The same AI briefing I read every morning — published for you. Plus long-form articles and free frameworks.</p>
+        <a href="/signal/" class="btn btn-primary">Subscribe →</a>
+        <p style="color: var(--text-4); font-family: var(--mono); font-size: 0.8rem; margin-top: 0.5rem;">Email signup coming soon — Beehiiv integration</p>
+      </div>
+
+      <div class="archive-list">
+        <a href="zen-and-the-art-of-vibecoding.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Zen and the Art of Vibe Coding</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="tutor-architecture.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Tutor architecture: how we structure AI tutoring systems</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="the-great-acceleration-v3.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">The Great Acceleration</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="rubicon-counter-agentic.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">RUBICON — The Counter-Agentic Architecture</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="rag-without-hallucination-v3.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">RAG Without Hallucination</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="public-apis-usefulness-review.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Public APIs Classification — Usefulness Review</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="openrag-deployment-docker-blockers.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">OpenRAG Deployment Blocked at Docker Daemon: What 45 Minutes Revealed</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="opencode-open-alternative.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Opencode: An open alternative to Claude Code</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="openclaw-docker-security.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Openclaw: security and deployment best practices with Docker</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="nanoclaw-vs-openclaw.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Nanoclaw vs Openclaw: Which one should you deploy for your agent system</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="model-selection-framework-v3.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Model Selection Framework</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="just-talk-to-it-summary.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Just Talk To It</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="just-talk-to-it-agentic-manual.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">"Just Talk To It" — an early manual for agentic engineering that still holds</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="just-rebuild-it.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Just Rebuild It</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="image-models-preliminary-views-v3.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Image Model API Baseline</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="image-model-benchmark.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Image Generation API Benchmark</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="codex53-vs-opus46.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Reviewing ChatGPT Codex 5.3 vs Claude Opus 4.6 for core build</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="character-consistency-34-styles.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Character consistency across 34 art styles: what breaks and what holds</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="api-provider-framework.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">API Provider Selection: Building a Testing Framework for Production AI Infrastructure</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="aesthetic-scoring-early-childhood.html" class="archive-item">
+          <span class="date"></span>
+          <span class="title">Aesthetic scoring for early childhood: Image models and prompts reviewed</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-04-19-hermes-agent-grows-with-you.html" class="archive-item">
+          <span class="date">Apr 19, 2026</span>
+          <span class="title">Hermes Agent: The Agent That Grows With You</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-04-18-openclaw-two-sides-ted-talk.html" class="archive-item">
+          <span class="date">Apr 18, 2026</span>
+          <span class="title">The Two Sides of OpenClaw: What Peter Steinberger's TED Talk Didn't Show You</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-04-17-claude-opus-4-7-vision-breakthrough.html" class="archive-item">
+          <span class="date">Apr 17, 2026</span>
+          <span class="title">Claude Opus 4.7: The Vision Breakthrough Reshaping Agent Capabilities</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-04-16-death-of-pull-requests-ai-coding-shift.html" class="archive-item">
+          <span class="date">Apr 16, 2026</span>
+          <span class="title">The Death of Pull Requests: AI Coding's Impact on Code Collaboration</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-04-04-autoagent-framework.html" class="archive-item">
+          <span class="date">Apr 4, 2026</span>
+          <span class="title">AutoAgent</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-04-01-app-scaling-playbook.html" class="archive-item">
+          <span class="date">Apr 1, 2026</span>
+          <span class="title">The $400K App Scaling Playbook</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-30-agent-side-hustle-school.html" class="archive-item">
+          <span class="date">Mar 30, 2026</span>
+          <span class="title">Agent Side Hustle School</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-29-turboquant-rotorquant-local-agent-breakthrough.html" class="archive-item">
+          <span class="date">Mar 29, 2026</span>
+          <span class="title">TurboQuant and RotorQuant: The Local Agent Deployment Breakthrough</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-28-pretext-zero-dom-text-layout.html" class="archive-item">
+          <span class="date">Mar 28, 2026</span>
+          <span class="title">PreText: The Library That Makes Text Layout 1000x Faster</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-28-h100-prices-melting-up-agent-economy.html" class="archive-item">
+          <span class="date">Mar 28, 2026</span>
+          <span class="title">H100 Prices Melting Up — What GPU Scarcity Signals About the Agent Economy</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-27-stripe-projects-dev-agent-cli-trend.html" class="archive-item">
+          <span class="date">Mar 27, 2026</span>
+          <span class="title">Stripe Projects.dev and the "Everything is CLI" Agent Infrastructure Shift</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-26-claude-computer-use-biggest-launch.html" class="archive-item">
+          <span class="date">Mar 26, 2026</span>
+          <span class="title">Claude Cowork Dispatch with Computer Use — The Biggest Claude Launch Ever</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-25-anthropic-multi-agent-harness.html" class="archive-item">
+          <span class="date">Mar 25, 2026</span>
+          <span class="title">Anthropic's Multi-Agent Harness: Generator-Evaluator Architecture</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-24-vibeproxy-macos-ai-proxy.html" class="archive-item">
+          <span class="date">Mar 24, 2026</span>
+          <span class="title">VibeProxy: Route AI Subscriptions to Coding Tools</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-23-eurekaclaw-ai-research-agent.html" class="archive-item">
+          <span class="date">Mar 23, 2026</span>
+          <span class="title">EurekaClaw: AI Research Agent for Theorem Discovery</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-23-dreamer-personal-agent-os.html" class="archive-item">
+          <span class="date">Mar 23, 2026</span>
+          <span class="title">Dreamer Personal Agent OS — /dev/agents Emerges from Stealth</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-23-bytesance-deerflow-super-agent-harness.html" class="archive-item">
+          <span class="date">Mar 23, 2026</span>
+          <span class="title">DeerFlow: ByteDance's Super Agent Harness</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-22-dreamer-v3.html" class="archive-item">
+          <span class="date">Mar 22, 2026</span>
+          <span class="title">Dreamer: Implementation Notes (V3)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-22-dreamer-personal-agent-os.html" class="archive-item">
+          <span class="date">Mar 22, 2026</span>
+          <span class="title">Dreamer Launches Sidekick: A Personal Agent Operating System</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-18-the-harness-is-everything.html" class="archive-item">
+          <span class="date">Mar 18, 2026</span>
+          <span class="title">The Harness is Everything</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-18-pantheonos-harness-engineering.html" class="archive-item">
+          <span class="date">Mar 18, 2026</span>
+          <span class="title">PantheonOS: The Operating System for Harness Engineering</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-18-harness-engineering-research-v3.html" class="archive-item">
+          <span class="date">Mar 18, 2026</span>
+          <span class="title">Harness Engineering: Implementation Guide</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-18-claude-cowork-dispatch.html" class="archive-item">
+          <span class="date">Mar 18, 2026</span>
+          <span class="title">Claude Cowork Dispatch — Anthropic's Answer to OpenClaw</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-17-nvidia-gtc-2026-openclaw-vera-cpu.html" class="archive-item">
+          <span class="date">Mar 17, 2026</span>
+          <span class="title">NVIDIA GTC 2026: Jensen Huang Bets Big on OpenClaw, Vera CPU, and $1T Sales Backlog</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-16-agent-memory-battleground.html" class="archive-item">
+          <span class="date">Mar 16, 2026</span>
+          <span class="title">Agent Memory Is the New Battleground</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-15-superpowers-agent-skills-ecosystem.html" class="archive-item">
+          <span class="date">Mar 15, 2026</span>
+          <span class="title">obra/superpowers: The Agent Skills Ecosystem Explosion</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-self-improving-agents-learning-loops-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Self-Improving Agents: Continuous Learning Loops (Agent)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-orchestrator-pattern-agent-design-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">The Orchestrator Pattern: Why the Best AI Agents Don't Work Directly</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-openrouter-hunter-healer-agent-models-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">OpenRouter's Hunter & Healer Models — Purpose-Built Agent Intelligence (Agent)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-moltbook-meta-acquisition-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Meta Acquires Moltbook: The First Agent-Tooling Acqui-Hire (Agent)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-hermes-vs-openclaw-agent-platforms-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Hermes vs OpenClaw (Agent)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-context-drought-anthropic-1m-context-ga.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">The Context Drought: Anthropic Ships 1M in GA, but the Plateau is Real</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-coding-agent-wars-march-2026-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Claude Code vs Codex vs Gemini CLI — The Agent Coding Wars (Agent)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-clawhub-agent-skill-ecosystem-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">ClawHub Skill Ecosystem: Agent-Readable Spec</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-browser-use-agents-playwright-mcp-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Browser-Use Agents: Agent-Readable Spec</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-agent-stack-consolidation-march-2026.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Agent Stack Consolidation: What GitHub's Trending Page Reveals About March 2026</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-agent-memory-new-context-window.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Agent Memory Is the New Context Window</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-agent-memory-architectures-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Agent Memory Architectures (Agent)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-agent-harness-infrastructure-maturity.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">Agent Harnesses Hit Production: The Infrastructure Maturity Wave of March 2026</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-14-ab-testing-agent-built-variants-v3.html" class="archive-item">
+          <span class="date">Mar 14, 2026</span>
+          <span class="title">A/B Testing with Agent-Built Variants (Agent)</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-04-public-apis-usefulness-review.html" class="archive-item">
+          <span class="date">Mar 4, 2026</span>
+          <span class="title">Public APIs Usefulness Review: 400 APIs, 5 Tiers, 10 That Matter</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-04-openrag-deployment-docker-blockers.html" class="archive-item">
+          <span class="date">Mar 4, 2026</span>
+          <span class="title">OpenRAG Deployment Blocked at Docker Daemon: What 45 Minutes Revealed</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-03-zen-vibecoding-v3.html" class="archive-item">
+          <span class="date">Mar 3, 2026</span>
+          <span class="title">Zen and the Art of Vibe Coding</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-03-zen-and-the-art-of-vibecoding.html" class="archive-item">
+          <span class="date">Mar 3, 2026</span>
+          <span class="title">Zen and the Art of Vibe Coding</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-03-model-selection-framework.html" class="archive-item">
+          <span class="date">Mar 3, 2026</span>
+          <span class="title">Evaluating Large Language Models: A Framework for Production Selection</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-03-just-talk-to-it.html" class="archive-item">
+          <span class="date">Mar 3, 2026</span>
+          <span class="title">Just Talk To It</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-03-just-rebuild-it.html" class="archive-item">
+          <span class="date">Mar 3, 2026</span>
+          <span class="title">Just Rebuild It</span>
+          <span class="type-badge">Article</span>
+        </a>
+        <a href="2026-03-03-api-provider-framework.html" class="archive-item">
+          <span class="date">Mar 3, 2026</span>
+          <span class="title">API Provider Selection: Building a Testing Framework for Production AI Infrastructure</span>
+          <span class="type-badge">Article</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-copy">© 2026 Adil Islam. AI agents, agent context, and product strategy.</span>
+        <div class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/signal/">Signal</a>
+          <a href="/writing/">Writing</a>
+          <a href="/teaching/">Teaching</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

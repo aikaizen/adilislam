@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>The Two Sides of OpenClaw: What Peter Steinberger's TED Talk Didn't Show You — Signal by Adil Islam</title>
+ <meta name="description" content="Peter Steinberger's TED talk told the inspiring story of OpenClaw. His engineering talk revealed 60x more security reports than curl and 20% malicious skill contributions. The full picture of building the fastest-growing open-source project in history.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css?v=5">
+ <style>
+ .article-versions { display: flex; gap: 0.5rem; margin: 1rem 0 2rem; padding: 0.75rem; background: var(--bg-elevated); border-radius: var(--radius-sm); flex-wrap: wrap; }
+ .version-badge { padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+ .version-badge.v1 { background: var(--primary); color: white; }
+ .version-badge.v2 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge.v3 { background: var(--bg-subtle); color: var(--text-2); }
+ .version-badge:hover { opacity: 0.9; }
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .data-table { font-size: 0.875rem; }
+ .article-highlight { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--primary); margin: 1.5rem 0; }
+ .article-note { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--text-3); margin: 1.5rem 0; color: var(--text-3); }
+ .v1-content { display: block; }
+ .v2-content, .v3-content { display: none; }
+ .v2-content .data-table { font-size: 0.8125rem; }
+ .v2-content table { margin: 0.75rem 0; }
+ .v2-content h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+ .v3-content pre { background: #1a1a2e; }
+ .v3-content code { background: #1a1a2e; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ April 18, 2026 · 9 min read · Agent Infrastructure
+ </div>
+
+ <div class="article-versions article-versions-top">
+ <span class="version-label" style="font-weight: 600; color: var(--text-3); margin-right: 0.5rem;">Version:</span>
+ <span class="version-badge v1" onclick="showVersion('v1')">V1 Narrative</span>
+ <span class="version-badge v2" onclick="showVersion('v2')">V2 Scannable</span>
+ <span class="version-badge v3" onclick="showVersion('v3')">V3 Agent/Builder</span>
+ </div>
+
+ <h1>The Two Sides of OpenClaw: What Peter Steinberger's TED Talk Didn't Show You</h1>
+
+ <!-- V1: Narrative -->
+ <div class="v1-content">
+ <p>On April 17, 2026, Peter Steinberger stood on the TED stage and told the inspiring story of OpenClaw — how a frustrated developer's weekend project became the fastest-growing open-source project in history. The audience saw the highlight reel: the breakthroughs, the community growth, the vision of AI agents that actually work for people.</p>
+
+ <p>Hours later, in a far less glamorous venue, Steinberger gave another talk. This one was for engineers. And it told a very different story — one of unprecedented security incidents, scaling nightmares, and the sobering reality of maintaining infrastructure at the edge of what's possible.</p>
+
+ <h2>The Numbers Behind the Dream</h2>
+
+ <p>OpenClaw has received 60 times more security reports than curl. Let that sink in. Curl is one of the most widely deployed pieces of software on Earth, running on billions of devices, handling untold trillions of requests over decades. OpenClaw, a project barely a year old, has generated 60x the security traffic.</p>
+
+ <p>The skill ecosystem — the very thing that makes OpenClaw powerful — is also its biggest attack surface. At least 20% of skill contributions are malicious in some way. Not buggy. Not poorly written. Actively malicious. Skills that try to exfiltrate data, hijack sessions, or establish persistence on user systems.</p>
+
+ <p>This is the hidden tax on openness. Every skill is a potential supply chain attack. Every contribution is a trust decision. And at OpenClaw's scale, manual review doesn't just fail — it becomes a denial-of-service vector against the maintainers themselves.</p>
+
+ <h2>The Infrastructure War</h2>
+
+ <p>Steinberger's engineering talk revealed infrastructure challenges that don't fit in a TED narrative. OpenClaw isn't just software — it's a distributed system with real-time requirements, running across thousands of heterogeneous environments, handling stateful long-running operations, with users who expect it to "just work" on everything from Raspberry Pis to enterprise Kubernetes clusters.</p>
+
+ <p>The project has hit scaling limits that most open-source maintainers never encounter. Not "GitHub stars" scaling — actual systems scaling. Connection pools that exhaust. State synchronization that degrades. Update mechanisms that become DDoS vectors against the project's own infrastructure.</p>
+
+ <p>And then there's the human scaling. The fastest-growing open-source project in history means the fastest-growing maintenance burden. Every new user is a potential bug reporter. Every new contributor is a potential security risk. The very success that makes OpenClaw exciting also makes it exhausting.</p>
+
+ <h2>Why Both Stories Matter</h2>
+
+ <p>The TED talk matters because it shows what's possible. OpenClaw represents a genuine shift in how humans interact with computers — from clicking buttons to stating intentions. The vision is real. The user love is real. The transformation of workflows from tedious execution to high-level direction is real.</p>
+
+ <p>But the engineering talk matters because it shows what's required. The agent ecosystem isn't just a technical challenge — it's a security, infrastructure, and organizational challenge at unprecedented scale. The projects that survive won't just have good models. They'll have robust supply chains, automated security scanning, distributed architectures that degrade gracefully, and governance mechanisms that can handle adversarial inputs at scale.</p>
+
+ <p>This is the lesson for agent builders: the demo is the easy part. The production system is where projects live or die.</p>
+
+ <h2>The Implications for Agent Infrastructure</h2>
+
+ <p>OpenClaw's two sides reveal a fundamental tension in the agent ecosystem. The value proposition is simple: natural language interfaces to complex capabilities. The implementation is anything but.</p>
+
+ <p>For teams building on OpenClaw, the security statistics should prompt immediate action:</p>
+
+ <ul>
+ <li><strong>Skill sandboxing</strong> — Assume every third-party skill is hostile. Run with minimal privileges, network isolation, and no implicit trust.</li>
+ <li><strong>Audit trails</strong> — Log every skill invocation, every tool call, every data access. When (not if) something goes wrong, you need forensics.</li>
+ <li><strong>Update strategies</strong> — The fast-moving ecosystem means constant change. Have a plan for reviewing, testing, and deploying skill updates that doesn't rely on blind trust.</li>
+ <li><strong>Fallback paths</strong> — When skills fail or behave unexpectedly, your agent needs graceful degradation. The user experience shouldn't collapse because one tool misbehaved.</li>
+ </ul>
+
+ <h2>The Broader Pattern</h2>
+
+ <p>OpenClaw isn't unique. It's just the most visible example of a pattern emerging across the agent ecosystem. Every open agent platform faces the same dual reality: the inspiring potential and the grinding operational burden.</p>
+
+ <p>Hermes Agent, Multica, and the growing ecosystem of agent orchestration tools will hit similar scaling walls. The projects that survive will be the ones that invest in security, infrastructure, and governance from the start — not as afterthoughts, but as core architectural concerns.</p>
+
+ <p>The agent ecosystem is maturing from "does it work?" to "can it survive?" The answers are very different. And Steinberger's two talks, taken together, provide the most honest assessment yet of what building at this frontier actually requires.</p>
+
+ <h2>What to Watch For</h2>
+
+ <p>OpenClaw's next phase will be defined by how it addresses the challenges Steinberger revealed:</p>
+
+ <ul>
+ <li><strong>Automated security scanning</strong> — Moving from manual review to systematic analysis of skill behavior</li>
+ <li><strong>Reputation systems</strong> — Mechanisms for users to assess skill trustworthiness at a glance</li>
+ <li><strong>Sandboxing improvements</strong> — Technical controls that limit the blast radius of malicious skills</li>
+ <li><strong>Infrastructure scaling</strong> — Architectural changes that handle growth without proportional operational burden</li>
+ <li><strong>Governance evolution</strong> — Community structures that can maintain quality and security at scale</li>
+ </ul>
+
+ <p>The TED talk gave us the vision. The engineering talk gave us the roadmap. Building the future of agents requires both.</p>
+ </div>
+
+ <!-- V2: Scannable -->
+ <div class="v2-content">
+ <h2>Quick Facts</h2>
+ <table class="data-table">
+ <tr><th>Metric</th><th>Value</th></tr>
+ <tr><td>Security reports vs curl</td><td>60x more</td></tr>
+ <tr><td>Malicious skill contributions</td><td>At least 20%</td></tr>
+ <tr><td>Growth rate</td><td>Fastest open-source project in history</td></tr>
+ <tr><td>Talk dates</td><td>April 17, 2026 (TED + AIE)</td></tr>
+ <tr><td>Key revelation</td><td>Security & scaling challenges at unprecedented scale</td></tr>
+ </table>
+
+ <h2>The Two Talks</h2>
+ <table class="data-table">
+ <tr><th>TED Talk</th><th>Engineering Talk</th></tr>
+ <tr><td>Inspiring origin story</td><td>60x security reports vs curl</td></tr>
+ <tr><td>Community growth</td><td>20% malicious skill contributions</td></tr>
+ <tr><td>Vision & potential</td><td>Scaling infrastructure nightmares</td></tr>
+ <tr><td>User success stories</td><td>Maintenance burden at scale</td></tr>
+ </table>
+
+ <h2>Security Implications</h2>
+ <ul>
+ <li>Every skill is a potential supply chain attack</li>
+ <li>Manual review becomes DoS at scale</li>
+ <li>Skills attempt data exfiltration, session hijacking, persistence</li>
+ <li>Open ecosystem = open attack surface</li>
+ <li>Trust decisions required at contribution time</li>
+ </ul>
+
+ <h2>Builder Action Items</h2>
+ <ul>
+ <li>Skill sandboxing — assume hostility</li>
+ <li>Audit trails for all invocations</li>
+ <li>Review strategies for skill updates</li>
+ <li>Graceful degradation when skills fail</li>
+ <li>Network isolation for third-party tools</li>
+ </ul>
+
+ <h2>Ecosystem Pattern</h2>
+ <table class="data-table">
+ <tr><th>Phase</th><th>Question</th><th>Focus</th></tr>
+ <tr><td>Now</td><td>Does it work?</td><td>Capabilities</td></tr>
+ <tr><td>Next</td><td>Can it survive?</td><td>Security, infra, governance</td></tr>
+ </table>
+
+ <h2>What to Watch</h2>
+ <ul>
+ <li>Automated security scanning for skills</li>
+ <li>Reputation/trust systems</li>
+ <li>Sandboxing improvements</li>
+ <li>Infrastructure scaling solutions</li>
+ <li>Governance evolution at scale</li>
+ </ul>
+ </div>
+
+ <!-- V3: Agent/Builder -->
+ <div class="v3-content">
+ <h2>Security Implementation Guide</h2>
+ <p>Practical patterns for building on OpenClaw safely.</p>
+
+ <h3>Skill Sandboxing Pattern</h3>
+ <pre><code>// Untrusted skill execution wrapper
+class SandboxedSkillExecutor {
+ constructor(skillConfig) {
+ this.skill = skillConfig;
+ this.auditLog = [];
+ this.allowedDomains = skillConfig.allowedDomains || [];
+ this.maxExecutionTime = skillConfig.timeout || 30000;
+ }
+
+ async execute(input, context) {
+ const executionId = generateId();
+ const startTime = Date.now();
+ 
+ // Pre-execution audit
+ this.auditLog.push({
+ id: executionId,
+ skill: this.skill.name,
+ input: sanitizeForLog(input),
+ timestamp: startTime,
+ type: 'invocation'
+ });
+
+ try {
+ // Run in isolated context
+ const result = await this.runIsolated({
+ skill: this.skill,
+ input,
+ context: this.sanitizeContext(context),
+ timeout: this.maxExecutionTime,
+ networkPolicy: this.buildNetworkPolicy()
+ });
+
+ // Post-execution audit
+ this.auditLog.push({
+ id: executionId,
+ duration: Date.now() - startTime,
+ result: sanitizeForLog(result),
+ type: 'completion'
+ });
+
+ return result;
+ } catch (error) {
+ this.auditLog.push({
+ id: executionId,
+ error: sanitizeForLog(error.message),
+ type: 'failure'
+ });
+ throw error;
+ }
+ }
+
+ buildNetworkPolicy() {
+ return {
+ allowList: this.allowedDomains,
+ blockPrivateIPs: true,
+ maxRequestsPerMinute: 60,
+ maxPayloadSize: '1MB'
+ };
+ }
+}</code></pre>
+
+ <h3>Skill Trust Assessment</h3>
+ <pre><code>function assessSkillTrust(skill, communityData) {
+ const factors = {
+ // Code analysis
+ hasObfuscation: detectObfuscation(skill.code),
+ networkCalls: countNetworkCalls(skill.code),
+ fileSystemAccess: detectFileSystemAccess(skill.code),
+ 
+ // Community signals
+ authorReputation: communityData.authorScore,
+ downloadCount: communityData.downloads,
+ reportCount: communityData.securityReports,
+ reviewStatus: skill.reviewState,
+ 
+ // Temporal signals
+ age: Date.now() - skill.publishedAt,
+ updateFrequency: skill.versions.length / skill.age
+ };
+
+ // Risk scoring
+ let riskScore = 0;
+ if (factors.hasObfuscation) riskScore += 30;
+ if (factors.networkCalls > 5) riskScore += 10;
+ if (factors.fileSystemAccess) riskScore += 20;
+ if (factors.reportCount > 0) riskScore += 50;
+ if (factors.authorReputation < 0.5) riskScore += 15;
+ if (factors.age < 86400000) riskScore += 10; // < 24h old
+
+ return {
+ score: riskScore,
+ level: riskScore > 70 ? 'high' : riskScore > 40 ? 'medium' : 'low',
+ requiresSandbox: riskScore > 30,
+ requiresReview: riskScore > 50
+ };
+}</code></pre>
+
+ <h3>Update Strategy</h3>
+ <pre><code>class SkillUpdateManager {
+ async processUpdate(skill, newVersion) {
+ // 1. Staged rollout
+ const rollout = {
+ canary: 0.01, // 1% of users
+ early: 0.10, // 10% of users
+ full: 1.00 // All users
+ };
+
+ // 2. Automated testing
+ const testResults = await this.runTestSuite({
+ skill: newVersion,
+ tests: this.getStandardTests(skill.category),
+ security: this.runSecurityScan(newVersion.code)
+ });
+
+ if (testResults.security.vulnerabilities.length > 0) {
+ await this.flagForManualReview(skill, testResults);
+ return { status: 'blocked', reason: 'security_findings' };
+ }
+
+ // 3. Gradual deployment with monitoring
+ for (const [stage, percentage] of Object.entries(rollout)) {
+ await this.deployToPercentage(skill, newVersion, percentage);
+ 
+ // Monitor for 24h at each stage
+ const metrics = await this.collectMetrics(skill, 86400000);
+ 
+ if (metrics.errorRate > 0.01 || metrics.securityAlerts > 0) {
+ await this.rollback(skill);
+ return { status: 'rolled_back', stage, metrics };
+ }
+ }
+
+ return { status: 'deployed', version: newVersion.id };
+ }
+}</code></pre>
+
+ <h3>Graceful Degradation</h3>
+ <pre><code>class ResilientAgent {
+ async invokeSkill(skillName, input) {
+ const skill = this.skillRegistry.get(skillName);
+ 
+ try {
+ return await this.executor.run(skill, input);
+ } catch (error) {
+ // Log the failure
+ this.logger.warn({ skill: skillName, error: error.message });
+ 
+ // Try fallback skills
+ const fallbacks = this.getFallbacks(skillName);
+ for (const fallback of fallbacks) {
+ try {
+ const result = await this.executor.run(fallback, input);
+ this.metrics.recordFallback(success=true);
+ return result;
+ } catch (fallbackError) {
+ continue;
+ }
+ }
+ 
+ // Final fallback: direct LLM call
+ return await this.llm.complete({
+ prompt: `Execute ${skillName} functionality: ${JSON.stringify(input)}`,
+ context: this.buildContextWithoutSkill(skillName)
+ });
+ }
+ }
+}</code></pre>
+
+ <h3>Security Checklist</h3>
+ <table>
+ <tr><th>Layer</th><th>Control</th><th>Implementation</th></tr>
+ <tr><td>Network</td><td>Egress filtering</td><td>Allowlist domains, block private IPs</td></tr>
+ <tr><td>Filesystem</td><td>Chroot jail</td><td>Read-only access, no sensitive paths</td></tr>
+ <tr><td>Memory</td><td>Limits</td><td>Max RAM, CPU time, execution time</td></tr>
+ <tr><td>Audit</td><td>Logging</td><td>All invocations, inputs, outputs, errors</td></tr>
+ <tr><td>Update</td><td>Staged rollout</td><td>Canary → Early → Full with monitoring</td></tr>
+ <tr><td>Trust</td><td>Scoring</td><td>Automated risk assessment before execution</td></tr>
+ </table>
+ </div>
+
+ <div class="article-note" style="margin-top: 3rem;">
+ <strong>Source:</strong> <a href="https://www.latent.space/p/ainews-the-two-sides-of-openclaw" target="_blank" rel="noopener">[AINews] The Two Sides of OpenClaw</a> — Latent.Space, April 18, 2026<br>
+ <strong>TED Talk:</strong> <a href="https://www.ted.com/talks/peter_steinberger_how_i_created_openclaw_the_breakthrough_ai_agent" target="_blank" rel="noopener">How I created OpenClaw</a> — Peter Steinberger<br>
+ <strong>Engineering Talk:</strong> <a href="https://www.youtube.com/watch?v=zgNvts_2TUE&t=2087s" target="_blank" rel="noopener">AIE Talk</a> — AI Engineer Summit
+ </div>
+ </div>
+ </article>
+ </main>
+
+ <footer class="site-footer" style="padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 4rem;">
+ <div class="container">
+ <p style="color: var(--text-4); font-size: 0.875rem;">
+ Signal — Tracking the shift from models to systems.<br>
+ <a href="https://adilislam.com" style="color: var(--text-3);">Adil Islam.com</a> · 
+ <a href="https://github.com/aikaizen" style="color: var(--text-3);">GitHub</a>
+ </p>
+ </div>
+ </footer>
+
+ <script>
+ function showVersion(version) {
+ document.querySelectorAll('.v1-content, .v2-content, .v3-content').forEach(el => {
+ el.style.display = 'none';
+ });
+ document.querySelectorAll('.version-badge').forEach(el => {
+ el.style.background = 'var(--bg-subtle)';
+ el.style.color = 'var(--text-2)';
+ });
+ document.querySelector('.' + version + '-content').style.display = 'block';
+ document.querySelector('.version-badge.' + version).style.background = 'var(--primary)';
+ document.querySelector('.version-badge.' + version).style.color = 'white';
+ }
+ </script>
+</body>
+</html>

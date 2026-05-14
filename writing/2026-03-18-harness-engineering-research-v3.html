@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Harness Engineering (Implementation) — Signal</title>
+ <meta name="description" content="Technical implementation guide: SWE-agent ACI, Anthropic two-agent pattern, OpenAI mechanical enforcement." />
+ <link rel="stylesheet" href="/assets/styles.css" />
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%230b1220'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='sans-serif' font-weight='600' font-size='42' fill='%23f17a4a'%3E⚡%3C/text%3E%3C/svg%3E" />
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+
+ <article class="section article-content">
+ <header class="article-head">
+ <div class="article-meta">
+ <span class="article-tag">Implementation</span>
+ <span class="article-date">March 18, 2026</span>
+ </div>
+ <h1>Harness Engineering: Implementation Guide</h1>
+ <p class="lead">Technical patterns from SWE-agent, Anthropic, and OpenAI. Code-level details.</p>
+ </header>
+
+ <div class="article-body">
+
+ <h2>Implementation 1: The ACI Tool Suite</h2>
+
+ <p>The SWE-agent paper demonstrated that replacing bash commands with purpose-built tools produced 64% performance improvement. Here's the implementation pattern:</p>
+
+ <h3>Capped Search Tool</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>def search_file(pattern: str, path: str = ".") -&gt; str:
+ """
+ Search for pattern in files. Returns max 50 matches.
+ If &gt;50 matches, returns count + suggestion to refine.
+ """
+ matches = grep(pattern, path)
+ 
+ if len(matches) &gt; 50:
+ return (
+ f"Found {len(matches)} matches. Too many to display.\n"
+ f"Suggestion: Use a more specific pattern or narrow path.\n"
+ f"Example: search_file('def {pattern}', 'src/')"
+ )
+ 
+ return "\n".join(f"{m.file}:{m.line}: {m.text}" for m in matches[:50])</code></pre>
+
+ <p><strong>Key design decision:</strong> Hard cap forces refinement. Agents cannot proceed by being vague. Creates natural specificity loop.</p>
+
+ <h3>Stateful File Viewer</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>class FileViewer:
+ def __init__(self):
+ self.positions = {} # file -&gt; current_line
+ 
+ def view(self, file: str, offset: int = 0) -&gt; str:
+ """
+ Display 100 lines from file starting at current position + offset.
+ Goldilocks number: 30 lines loses context, full file loses focus.
+ """
+ current = self.positions.get(file, 0)
+ start = max(0, current + offset)
+ end = start + 100
+ 
+ lines = read_lines(file, start, end)
+ numbered = [f"{i:4d}| {line}" for i, line in enumerate(lines, start)]
+ 
+ self.positions[file] = start
+ return "\n".join(numbered)</code></pre>
+
+ <p><strong>Key design decisions:</strong></p>
+ <ul>
+ <li>100 lines — tested optimal for maintaining context without overwhelming</li>
+ <li>Explicit line numbers — agents reference directly, no counting cognitive load</li>
+ <li>Stateful — maintains position across interactions</li>
+ </ul>
+
+ <h3>Linter-Integrated Editor</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>def edit_file(file: str, start: int, end: int, replacement: str) -&gt; str:
+ """
+ Replace lines [start, end] with replacement text.
+ Runs linter immediately. Returns result or error with context.
+ """
+ original = read_lines(file, start, end)
+ 
+ # Apply edit
+ apply_replacement(file, start, end, replacement)
+ 
+ # Immediate validation
+ lint_result = run_linter(file)
+ 
+ if lint_result.errors:
+ # Revert and return actionable error
+ revert_to(file, original)
+ return (
+ f"Edit rejected: syntax error introduced\n"
+ f"Error: {lint_result.errors[0]}\n"
+ f"Original:\n{original}\n"
+ f"Your edit:\n{replacement}\n"
+ f"Fix the syntax error and try again."
+ )
+ 
+ return f"Edit successful. Lines {start}-{end} modified."</code></pre>
+
+ <p><strong>Key design decision:</strong> Edit + validate as atomic operation. Errors caught at introduction, not three steps later when chasing ghosts.</p>
+
+ <h2>Implementation 2: Two-Agent Architecture</h2>
+
+ <p>Anthropic's pattern for spanning context windows. Implementation structure:</p>
+
+ <h3>Initializer Agent</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code># initializer_system_prompt.md
+Your role is environment setup. Do not write features.
+Create the scaffolding that future coding agents will use.
+
+Required outputs:
+1. init.sh — script to reliably start dev environment
+2. feature_list.json — specific, end-to-end feature descriptions
+3. claude-progress.txt — initial empty progress log
+4. Git commit with message "[init] Environment initialized"
+
+Feature list requirements:
+- 200+ specific features for a production web app
+- Each feature: category, description, steps[], passes: false
+- All initially marked failing
+- No feature is "implement the app" — all are user-visible behaviors</code></pre>
+
+ <h3>Feature List Schema</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>{
+ "features": [
+ {
+ "category": "authentication",
+ "description": "User can sign up with email and password",
+ "steps": [
+ "Navigate to /signup",
+ "Enter email and password",
+ "Click submit",
+ "Verify redirect to dashboard",
+ "Verify user created in database"
+ ],
+ "passes": false
+ }
+ ]
+}</code></pre>
+
+ <p><strong>Key design decision:</strong> Feature list as ground truth. Agents cannot infer completion from code. Must verify against explicit criteria.</p>
+
+ <h3>Coding Agent Startup Sequence</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code># Standardized startup — executed at beginning of every session
+
+1. pwd — confirm working directory
+2. read claude-progress.txt — understand recent work
+3. git log --oneline -20 — see recent commits
+4. read feature_list.json — identify highest-priority incomplete feature
+5. run init.sh — start development environment
+6. run startup_test.py — verify application in working state
+7. IF startup_test FAILS: fix before touching anything new
+8. BEGIN work on one feature at a time</code></pre>
+
+ <h3>Session End Requirements</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code># Every session ends with:
+
+1. Git commit with descriptive message
+2. Update claude-progress.txt with:
+ - What was worked on
+ - What was completed
+ - What state things were left in
+3. Verify clean state (revert if needed)
+4. Update feature_list.json if feature passes</code></pre>
+
+ <h2>Implementation 3: Mechanical Enforcement</h2>
+
+ <p>OpenAI's approach: custom linters with remediation instructions formatted for agent consumption.</p>
+
+ <h3>Architecture Linter</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>def check_layer_violation(file_path: str, import_path: str) -&gt; Optional[str]:
+ """
+ Check if import violates layer architecture.
+ Returns remediation message or None.
+ """
+ file_layer = get_layer(file_path) # domain, service, api, etc.
+ import_layer = get_layer(import_path)
+ 
+ allowed = LAYER_RULES.get(file_layer, [])
+ 
+ if import_layer not in allowed:
+ return (
+ f"Architecture violation: {file_path} ({file_layer})\n"
+ f"imports {import_path} ({import_layer})\n"
+ f"Allowed imports from {file_layer}: {allowed}\n"
+ f"Fix: Move code to appropriate layer or use dependency inversion."
+ )
+ 
+ return None</code></pre>
+
+ <h3>Error Message Format</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code># Linter error format designed for agent consumption:
+
+{
+ "rule": "architecture.layer_violation",
+ "violated": "api/routes.py imports domain/models.py",
+ "constraint": "api layer may only import service layer",
+ "remediation": [
+ "Option 1: Move the required function to service layer",
+ "Option 2: Create a service-layer facade that domain calls",
+ "Option 3: Use dependency injection to break the coupling"
+ ]
+}</code></pre>
+
+ <p><strong>Key design decision:</strong> Error messages include remediation. Agents receive constraint, violation, and fix options in single context.</p>
+
+ <h2>Implementation 4: Git Worktree Orchestration</h2>
+
+ <p>Pattern for parallel agent execution without collision.</p>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>class AgentWorkspace:
+ def __init__(self, task_id: str, base_branch: str = "main"):
+ self.task_id = task_id
+ self.worktree_path = f"/worktrees/{task_id}"
+ self.branch = f"agent/{task_id}"
+ 
+ # Create isolated worktree
+ run(f"git worktree add {self.worktree_path} -b {self.branch}")
+ 
+ def execute(self, agent_fn) -&gt; Result:
+ """Run agent in isolated workspace."""
+ old_cwd = os.getcwd()
+ try:
+ os.chdir(self.worktree_path)
+ result = agent_fn()
+ 
+ # Validate before merge
+ if self.all_checks_pass():
+ return Result.success(self.commit_and_push())
+ else:
+ return Result.failure(self.get_errors())
+ finally:
+ os.chdir(old_cwd)
+ 
+ def cleanup(self):
+ """Remove worktree after merge or failure."""
+ run(f"git worktree remove {self.worktree_path}")
+ run(f"git branch -D {self.branch}")</code></pre>
+
+ <h2>Implementation 5: Application Legibility</h2>
+
+ <p>OpenAI's investment in making the application observable to agents.</p>
+
+ <h3>Browser Automation Integration</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>class BrowserTool:
+ """CDP-based browser automation for end-to-end verification."""
+ 
+ def navigate(self, url: str) -&gt; str:
+ """Navigate to URL, return DOM snapshot."""
+ 
+ def click(self, selector: str) -&gt; str:
+ """Click element, return updated DOM."""
+ 
+ def fill(self, selector: str, value: str) -&gt; str:
+ """Fill form field, return updated DOM."""
+ 
+ def screenshot(self) -&gt; bytes:
+ """Capture screenshot for visual verification."""
+ 
+ def assert_visible(self, text: str) -&gt; bool:
+ """Verify text is visible on page."""
+
+# Agent usage:
+# 1. Navigate to feature URL
+# 2. Perform user actions (click, fill)
+# 3. Assert expected outcome visible
+# 4. Only mark feature passed if assertion succeeds</code></pre>
+
+ <h3>Observability Integration</h3>
+
+ <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin: 16px 0;"><code>class ObservabilityTools:
+ """Query logs, metrics, traces from isolated agent task."""
+ 
+ def query_logs(self, query: str, since: str = "1h") -&gt; List[LogEntry]:
+ """LogQL query against task-specific logs."""
+ 
+ def query_metrics(self, metric: str, range: str = "1h") -&gt; List[MetricPoint]:
+ """PromQL query against task-specific metrics."""
+ 
+ def query_traces(self, trace_id: str) -&gt; Trace:
+ """TraceQL query for distributed trace details."""
+
+# Each agent task runs on isolated app instance with own observability.
+# Data torn down after task complete. Agents debug like human engineers.</code></pre>
+
+ <h2>Summary: The Implementation Stack</h2>
+
+ <table style="width: 100%; border-collapse: collapse; margin: 24px 0;">
+ <tr style="border-bottom: 1px solid var(--line);">
+ <th style="text-align: left; padding: 12px 8px;">Component</th>
+ <th style="text-align: left; padding: 12px 8px;">Pattern</th>
+ <th style="text-align: left; padding: 12px 8px;">Source</th>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Capped search tools</td>
+ <td style="padding: 8px;">Forces specificity</td>
+ <td style="padding: 8px;">SWE-agent</td>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Stateful file viewer (100 lines)</td>
+ <td style="padding: 8px;">Removes cognitive load</td>
+ <td style="padding: 8px;">SWE-agent</td>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Linter at edit time</td>
+ <td style="padding: 8px;">Catches errors immediately</td>
+ <td style="padding: 8px;">SWE-agent</td>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Two-agent split</td>
+ <td style="padding: 8px;">Scaffolder + executor</td>
+ <td style="padding: 8px;">Anthropic</td>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Feature list as ground truth</td>
+ <td style="padding: 8px;">Prevents fake-done</td>
+ <td style="padding: 8px;">Anthropic</td>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Startup sequence</td>
+ <td style="padding: 8px;">Orient before work</td>
+ <td style="padding: 8px;">Anthropic</td>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Mechanical enforcement</td>
+ <td style="padding: 8px;">Linters, not review</td>
+ <td style="padding: 8px;">OpenAI</td>
+ </tr>
+ <tr style="border-bottom: 1px solid rgba(241, 122, 74, 0.2);">
+ <td style="padding: 8px;">Git worktree isolation</td>
+ <td style="padding: 8px;">Parallel execution</td>
+ <td style="padding: 8px;">General</td>
+ </tr>
+ <tr>
+ <td style="padding: 8px;">Browser + observability</td>
+ <td style="padding: 8px;">End-to-end verification</td>
+ <td style="padding: 8px;">OpenAI</td>
+ </tr>
+ </table>
+
+ <p><strong>Core principle:</strong> Model capability is a commodity. Environment design determines performance. The harness is the implementation surface.</p>
+
+ <hr />
+
+ <p class="byline">Published March 18, 2026 — <a href="https://adilislam.com">Signal by Adil Islam</a></p>
+ </div>
+ </article>
+
+ <footer style="padding: 40px 0; text-align: center; color: var(--muted); border-top: 1px solid var(--line); margin-top: 60px;">
+ <p style="margin: 0;">© 2026 Signal by Adil Islam</p>
+ </footer>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
