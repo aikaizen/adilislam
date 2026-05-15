@@ -7,7 +7,7 @@
 <meta name="description" content="Adil Islam — Principal Product Manager at IBM. Product leader across AI, data, and enterprise SaaS. Harvard, Dartmouth, Amherst.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================
    CSS CUSTOM PROPERTIES & RESET
@@ -2218,9 +2218,427 @@ body.theme-gradient {
   body { background: white !important; color: black !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* ============================================
+   THEME 6: EDITORIAL (adilislam.com)
+   ============================================ */
+body.theme-editorial {
+  --bg: #09090b;
+  --bg-alt: #131316;
+  --text: #e8e6e1;
+  --text-secondary: #c4c1ba;
+  --text-4: #5c5955;
+  --accent: #e05a30;
+  --accent-hover: #f06a3a;
+  --border: #1e1e22;
+  --border-strong: #2a2a2f;
+  --card-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  --heading-font: 'Fraunces', 'Playfair Display', Georgia, serif;
+  --body-font: 'Inter', system-ui, sans-serif;
+
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--body-font);
+  font-size: 16px;
+}
+
+/* Grain overlay */
+.theme-editorial::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  mix-blend-mode: screen;
+}
+
+.theme-editorial .theme-bar {
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+.theme-editorial .theme-btn {
+  background: transparent;
+  color: var(--text-4);
+  border: 1px solid transparent;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+.theme-editorial .theme-btn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.theme-editorial .theme-btn.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+.theme-editorial .theme-btn::after { background: var(--accent); }
+
+/* Hero */
+.theme-editorial .hero {
+  padding: 100px 0 60px;
+  text-align: left;
+}
+.theme-editorial .hero-name {
+  font-family: var(--heading-font);
+  font-size: clamp(2.25rem, 5.5vw, 4rem);
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+}
+.theme-editorial .hero-tagline {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto 8px;
+  line-height: 1.5;
+}
+.theme-editorial .hero-location {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.theme-editorial .hero-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--accent);
+  margin: 30px 0 0;
+}
+
+/* Sections */
+.theme-editorial .section-title {
+  font-family: var(--heading-font);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 400;
+  margin-bottom: 36px;
+  color: var(--text);
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.02em;
+}
+.theme-editorial .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.theme-editorial section.content-section {
+  padding: 60px 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Timeline */
+.theme-editorial .timeline {
+  position: relative;
+  padding-left: 32px;
+}
+.theme-editorial .timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.theme-editorial .timeline-item {
+  position: relative;
+  margin-bottom: 36px;
+  padding-bottom: 8px;
+}
+.theme-editorial .timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -37px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--accent);
+}
+.theme-editorial .timeline-company {
+  font-family: var(--heading-font);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.015em;
+  margin-bottom: 2px;
+}
+.theme-editorial .timeline-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  color: var(--text-4);
+  margin-bottom: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.theme-editorial .role-block {
+  margin-bottom: 20px;
+}
+.theme-editorial .role-title {
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.theme-editorial .role-dates {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.theme-editorial .role-bullets li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.theme-editorial .role-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Education */
+.theme-editorial .edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.theme-editorial .edu-card {
+  background: var(--bg);
+  border: none;
+  padding: 28px;
+  border-radius: 0;
+  transition: background 0.2s;
+  box-shadow: none;
+}
+.theme-editorial .edu-card:hover {
+  background: var(--bg-alt);
+  box-shadow: none;
+  transform: none;
+}
+.theme-editorial .edu-school {
+  font-family: var(--heading-font);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.theme-editorial .edu-degree {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.theme-editorial .edu-dates {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+/* Skills */
+.theme-editorial .skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.theme-editorial .skill-tag {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  transition: border-color 0.2s, color 0.2s;
+}
+.theme-editorial .skill-tag:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.theme-editorial .personal-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Contact Form */
+.theme-editorial .contact-form {
+  max-width: 560px;
+}
+.theme-editorial .form-group {
+  margin-bottom: 20px;
+}
+.theme-editorial .form-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  margin-bottom: 6px;
+}
+.theme-editorial .form-input,
+.theme-editorial .form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--body-font);
+  font-size: 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.theme-editorial .form-input:focus,
+.theme-editorial .form-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(224, 90, 48, 0.15);
+}
+.theme-editorial .form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.theme-editorial .form-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 28px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--body-font);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.theme-editorial .form-submit:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+.theme-editorial .form-submit:active {
+  transform: translateY(0);
+}
+
+/* Summary Nav */
+.theme-editorial .summary-nav {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  padding: 1.5rem 0;
+}
+.theme-editorial .summary-box-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+.theme-editorial .summary-box-items a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+.theme-editorial .summary-box-items a:hover {
+  color: var(--accent);
+}
+.theme-editorial .summary-box-items .sep {
+  color: var(--text-4);
+  margin: 0 0.5rem;
+}
+.theme-editorial .summary-project-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 1.25rem 0 0.75rem;
+}
+.theme-editorial .summary-project-card {
+  display: block;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.theme-editorial .summary-project-card:hover {
+  background: var(--bg-alt);
+  border-color: var(--accent);
+}
+.theme-editorial .sp-name {
+  font-family: var(--heading-font);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.theme-editorial .sp-desc {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-4);
+  margin-top: 0.15rem;
+  letter-spacing: 0.02em;
+}
+.theme-editorial .summary-contact a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  color: var(--text-4);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.theme-editorial .summary-contact a:hover {
+  color: var(--accent);
+}
 </style>
 </head>
-<body class="theme-executive">
+<body class="theme-editorial">
 
 <!-- Scan Lines (Cyberpunk) -->
 <div class="scan-lines" aria-hidden="true"></div>
@@ -2229,7 +2647,23 @@ body.theme-gradient {
 
 <!-- Theme Switcher -->
 <nav class="theme-bar" role="navigation" aria-label="Theme switcher">
-  <button class="theme-btn active" data-theme="executive" aria-pressed="true">Executive</button>
+  <!-- Site Nav -->
+  <nav style="background:rgba(9,9,11,0.95);border-bottom:1px solid #1e1e22;position:sticky;top:0;z-index:9998;">
+    <div style="width:min(1080px,calc(100% - 48px));margin:0 auto;display:flex;justify-content:space-between;align-items:center;min-height:44px;">
+      <a href="/" style="color:#e8e6e1;text-decoration:none;font-family:Georgia,serif;font-size:0.95rem;font-weight:500;">Adil Islam</a>
+      <div style="display:flex;gap:1.5rem;font-size:0.75rem;letter-spacing:0.02em;">
+        <a href="/about/" style="color:#5c5955;text-decoration:none;">About</a>
+        <a href="/signal/" style="color:#5c5955;text-decoration:none;">Signal</a>
+        <a href="/writing/" style="color:#5c5955;text-decoration:none;">Writing</a>
+        <a href="/teaching/" style="color:#5c5955;text-decoration:none;">Teaching</a>
+        <a href="/kidstuff/" style="color:#5c5955;text-decoration:none;">Kids</a>
+        <a href="/contact/" style="color:#5c5955;text-decoration:none;">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <!-- Theme Switcher -->
+  <button class="theme-btn active" data-theme="editorial" aria-pressed="true">Editorial</button>
+  <button class="theme-btn" data-theme="executive" aria-pressed="false">Executive</button>
   <button class="theme-btn" data-theme="cyberpunk" aria-pressed="false">Cyberpunk</button>
   <button class="theme-btn" data-theme="minimal" aria-pressed="false">Minimal</button>
   <button class="theme-btn" data-theme="terminal" aria-pressed="false">Terminal</button>
@@ -2274,45 +2708,29 @@ body.theme-gradient {
       </div>
       <div class="summary-project-label reveal">Projects</div>
       <div class="summary-projects-grid reveal">
-        <a class="summary-project-card" href="https://promptengines.com" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Pantheon <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Agent operating system</span>
-        </a>
-        <a class="summary-project-card" href="https://kaizen.promptengines.com" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Kaizen <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Kid-specific learning app</span>
-        </a>
-        <a class="summary-project-card" href="https://storybookstudio.promptengines.com" target="_blank" rel="noopener noreferrer">
+        <a class="summary-project-card" href="/kidstuff/">
           <span class="sp-name">Storybook Studio <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Kids' storybook creation</span>
+          <span class="sp-desc">AI-powered children's storybooks</span>
         </a>
-        <a class="summary-project-card" href="https://videoterminal.promptengines.com" target="_blank" rel="noopener noreferrer">
+        <a class="summary-project-card" href="/kidstuff/">
+          <span class="sp-name">ThinkyBooks <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          <span class="sp-desc">Interactive thinking books for kids</span>
+        </a>
+        <a class="summary-project-card" href="/kidstuff/">
+          <span class="sp-name">ToyBox <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          <span class="sp-desc">Digital toy chest for tiny hands</span>
+        </a>
+        <a class="summary-project-card" href="/kidstuff/">
           <span class="sp-name">Video Terminal <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Generative Media</span>
+          <span class="sp-desc">AI video creation for kids' content</span>
         </a>
-        <a class="summary-project-card" href="https://norbu.promptengines.com" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Norbu <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Tibetan Language Anki</span>
+        <a class="summary-project-card" href="/teaching/">
+          <span class="sp-name">Signal <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          <span class="sp-desc">Daily AI briefings and research</span>
         </a>
-        <a class="summary-project-card" href="https://bible.promptengines.com" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Bible <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Group Liturgical Study</span>
-        </a>
-        <a class="summary-project-card" href="https://lab.promptengines.com" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Lab Notes <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Applied AI research writing</span>
-        </a>
-        <a class="summary-project-card" href="https://promptengines.com/courses" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Courses <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">AI learning tracks</span>
-        </a>
-        <a class="summary-project-card" href="https://consulting.promptengines.com" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Consulting <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">AI advisory for teams</span>
-        </a>
-        <a class="summary-project-card" href="https://promptengines.com/prototypes/thinkybooks" target="_blank" rel="noopener noreferrer">
-          <span class="sp-name">Thinkybooks <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          <span class="sp-desc">Interactive thinking books</span>
+        <a class="summary-project-card" href="/writing/">
+          <span class="sp-name">Context Engineering <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          <span class="sp-desc">Research on agentic systems</span>
         </a>
       </div>
       <div class="summary-contact reveal">
@@ -2429,10 +2847,10 @@ body.theme-gradient {
           <p class="timeline-meta">Cambridge, MA and Austin, TX</p>
           <div class="timeline-content">
             <div class="role-block">
-              <p class="role-title">Prompt Engines — AI Consulting</p>
+              <p class="role-title">AI Consulting Practice</p>
               <p class="role-dates">2021 – Present</p>
               <ul class="role-bullets">
-                <li>Originally conceived to democratize access and use of the first GPT-3 public API, Prompt Engines is a bespoke consulting service for AI startups, strategic enterprises, and investors who want to understand and take advantage of AI</li>
+                <li>Bespoke consulting for AI startups, strategic enterprises, and investors navigating the agent era</li>
                 <li>Offering expertise and short-term projects, based on limited availability</li>
               </ul>
             </div>
@@ -2545,7 +2963,7 @@ body.theme-gradient {
 (function() {
   'use strict';
 
-  const THEMES = ['executive', 'cyberpunk', 'minimal', 'terminal', 'gradient'];
+  const THEMES = ['editorial', 'executive', 'cyberpunk', 'minimal', 'terminal', 'gradient'];
   const body = document.body;
   const buttons = document.querySelectorAll('.theme-btn');
 
@@ -2579,7 +2997,7 @@ body.theme-gradient {
   try {
     saved = localStorage.getItem('adil-resume-theme');
   } catch (e) { /* silent */ }
-  setTheme(saved || 'executive');
+  setTheme(saved || 'editorial');
 
   /* ============================================
      SCROLL REVEAL
