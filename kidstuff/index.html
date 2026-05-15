@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-width, initial-scale=1.0">
+  <title>Kids Projects — Adil Islam</title>
+  <meta name="description" content="Side projects built for children — storybooks, toy chests, learning apps, and video creation. Things a father builds when the market doesn't.">
+  <meta name="keywords" content="kids apps, children, storybooks, ToyBox, ThinkyBooks, Storybook Studio, Video Terminal, Flow Education, educational apps, Adil Islam">
+  <meta property="og:title" content="Kids Projects — Adil Islam">
+  <meta property="og:description" content="Side projects built for children — storybooks, toy chests, learning apps, and video creation.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://adilislam.com/kidstuff/">
+  <link rel="canonical" href="https://adilislam.com/kidstuff/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    /* ── Kidstuff-specific hero gradient ── */
+    .kid-hero::after {
+      background-image:
+        linear-gradient(to right, var(--rule) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 80%);
+      opacity: 0.35;
+    }
+
+    /* ── Project showcase cards ── */
+    .showcase-card {
+      background: var(--bg);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: background var(--dur) var(--ease);
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .showcase-card:last-child {
+      border-bottom: none;
+    }
+
+    .showcase-card:hover {
+      background: var(--bg-elevated);
+    }
+
+    .showcase-card .card-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .showcase-card .card-number {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 80px;
+    }
+
+    .showcase-card .card-status {
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      padding: 2px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .showcase-card .card-status.live {
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+    }
+
+    .showcase-card .card-status.prototype {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .showcase-card .card-status.coming {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-4);
+    }
+
+    .showcase-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+
+    .showcase-card .card-desc {
+      color: var(--text-3);
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      max-width: 60ch;
+    }
+
+    .showcase-card .card-desc strong {
+      color: var(--text-2);
+    }
+
+    .showcase-card .card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .showcase-card .feature-tag {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text-3);
+      letter-spacing: 0.04em;
+    }
+
+    .showcase-card .card-cta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-4);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color var(--dur) var(--ease);
+      margin-top: auto;
+    }
+
+    .showcase-card:hover .card-cta {
+      color: var(--accent);
+    }
+
+    /* ── Philosophy block ── */
+    .philosophy-block {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3rem;
+      background: var(--bg-elevated);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .philosophy-block::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .showcase-card {
+        padding: 2rem 1.25rem;
+      }
+
+      .showcase-card .card-top {
+        flex-wrap: wrap;
+      }
+
+      .philosophy-block {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/kidstuff/" class="active">Kids</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero kid-hero">
+      <div class="container" style="position: relative; z-index: 2;">
+        <div class="eyebrow">Kids</div>
+        <h1>Built for <em>small humans.</em></h1>
+        <p class="lede">
+          Side projects designed for children — storybooks, toy chests, learning apps, and video creation. Things a father builds when the tools exist and the market doesn't.
+        </p>
+      </div>
+    </section>
+
+    <!-- ════════════ PROJECTS ════════════ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow">Projects</div>
+          <h2>Five apps, one principle.</h2>
+          <p class="lede">Every one of these started the same way: looking for something that should exist, and not finding it.</p>
+        </div>
+
+        <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+
+          <a href="https://storybookstudio.promptengines.com" target="_blank" rel="noopener noreferrer" class="showcase-card">
+            <div class="card-top">
+              <span class="card-number">01 — Stories</span>
+              <span class="card-status live">Live</span>
+            </div>
+            <h3>Storybook Studio</h3>
+            <p class="card-desc">AI-powered children's storybooks with <strong>34+ art styles</strong>, branching narratives, and text-to-speech reading. Build a personalized library. Print physical copies. Freemium with 100 free credits — enough to create several complete books before deciding.</p>
+            <div class="card-features">
+              <span class="feature-tag">34+ art styles</span>
+              <span class="feature-tag">branching stories</span>
+              <span class="feature-tag">text-to-speech</span>
+              <span class="feature-tag">print-on-demand</span>
+              <span class="feature-tag">free tier</span>
+            </div>
+            <span class="card-cta">Visit Storybook Studio →</span>
+          </a>
+
+          <a href="https://www.promptengines.com/thinkybooks/" target="_blank" rel="noopener noreferrer" class="showcase-card">
+            <div class="card-top">
+              <span class="card-number">02 — Reading</span>
+              <span class="card-status prototype">Prototype</span>
+            </div>
+            <h3>ThinkyBooks</h3>
+            <p class="card-desc">Interactive storybooks that teach critical thinking. A <strong>branching narrative engine</strong> where choices reveal consequences, not just endings. 19 stories across reading levels. Every branch teaches cause and effect.</p>
+            <div class="card-features">
+              <span class="feature-tag">19 stories</span>
+              <span class="feature-tag">branching engine</span>
+              <span class="feature-tag">consequential choices</span>
+              <span class="feature-tag">reading levels</span>
+            </div>
+            <span class="card-cta">Visit ThinkyBooks →</span>
+          </a>
+
+          <a href="https://www.promptengines.com/toybox/" target="_blank" rel="noopener noreferrer" class="showcase-card">
+            <div class="card-top">
+              <span class="card-number">03 — Play</span>
+              <span class="card-status live">Live</span>
+            </div>
+            <h3>ToyBox</h3>
+            <p class="card-desc">A digital toy chest for tiny hands. <strong>60+ tap-and-jiggle toys</strong> across 5 themes (Meadow, Ocean, Space, Forest, Circus). Finger-paint mode. Parent-gated menu with math lock. Installs to iPad home screen as a fullscreen offline app.</p>
+            <div class="card-features">
+              <span class="feature-tag">60+ toys</span>
+              <span class="feature-tag">5 themes</span>
+              <span class="feature-tag">finger paint</span>
+              <span class="feature-tag">parent gate</span>
+              <span class="feature-tag">PWA offline</span>
+            </div>
+            <span class="card-cta">Visit ToyBox →</span>
+          </a>
+
+          <a href="https://videoterminal.promptengines.com" target="_blank" rel="noopener noreferrer" class="showcase-card">
+            <div class="card-top">
+              <span class="card-number">04 — Media</span>
+              <span class="card-status prototype">Prototype</span>
+            </div>
+            <h3>Video Terminal</h3>
+            <p class="card-desc">AI video creation for kids' content. Go from <strong>story script to finished clip</strong> — generate, assemble, and publish short-form video. Terminal-style interface for the builder-minded parent.</p>
+            <div class="card-features">
+              <span class="feature-tag">script to video</span>
+              <span class="feature-tag">AI generation</span>
+              <span class="feature-tag">short-form</span>
+            </div>
+            <span class="card-cta">Visit Video Terminal →</span>
+          </a>
+
+          <a href="https://www.promptengines.com/prototypes/flow-education/" target="_blank" rel="noopener noreferrer" class="showcase-card">
+            <div class="card-top">
+              <span class="card-number">05 — Learning</span>
+              <span class="card-status prototype">Prototype</span>
+            </div>
+            <h3>Flow Education</h3>
+            <p class="card-desc">Quest-based learning for early readers. <strong>Letter recognition, phonics, and comprehension</strong> through interactive adventures. Asset generation pipeline for lesson content. Built for repetition and mastery.</p>
+            <div class="card-features">
+              <span class="feature-tag">quest-based</span>
+              <span class="feature-tag">phonics</span>
+              <span class="feature-tag">early readers</span>
+              <span class="feature-tag">asset pipeline</span>
+            </div>
+            <span class="card-cta">Visit Flow Education →</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ PHILOSOPHY ════════════ -->
+    <section class="section">
+      <div class="container">
+        <div class="philosophy-block">
+          <div class="eyebrow">Why</div>
+          <h2 style="margin-bottom: 1rem;">The principle behind all five.</h2>
+          <p style="color: var(--text-2); font-size: 0.9375rem; line-height: 1.7; max-width: 64ch;">
+            Every app on this page started the same way: watching a child interact with technology and noticing the gap between what exists and what should exist. The App Store is full of subscription traps disguised as kids' games. The web is full of AI demos that don't think about children as primary users.
+          </p>
+          <p style="color: var(--text-2); font-size: 0.9375rem; line-height: 1.7; max-width: 64ch; margin-top: 1rem;">
+            These projects are building blocks — each one a different angle on the same question: <strong>what does good software look like when the end user is four years old?</strong> The answer changes everything. UX, pricing, safety, persistence, trust.
+          </p>
+          <p style="color: var(--text-2); font-size: 0.9375rem; line-height: 1.7; max-width: 64ch; margin-top: 1rem;">
+            Some are live. Some are prototypes. All are shipping. The kids are the QA team.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ SIGNAL SIGNUP ════════════ -->
+    <section class="section">
+      <div class="container">
+        <div class="signup-block">
+          <div class="eyebrow" style="justify-content: center;">Signal</div>
+          <h3 style="font-family: var(--font-display); font-weight: 400;">Daily intelligence.</h3>
+          <p>Agents, agent context, context engineering — every morning. The same briefing. Published.</p>
+          <a href="/signal/" class="btn btn-primary">Subscribe</a>
+          <p class="note">Email signup coming soon</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-copy">© 2026 Adil Islam. AI agents, agent context, and product strategy.</span>
+        <div class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/signal/">Signal</a>
+          <a href="/writing/">Writing</a>
+          <a href="/teaching/">Teaching</a>
+          <a href="/kidstuff/">Kids</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
