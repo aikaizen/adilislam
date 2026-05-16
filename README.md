@@ -39,11 +39,12 @@ GitHub Pages from `main` branch, root `/`. Custom domain: `adilislam.com`.
 
 ## Separation Rules
 
-This site is **legally separated** from PromptEngines/Pantheon. See `CONTEXT.md` for the full checklist. Key rules:
+This site is **legally separated** from any other business entity. Key rules:
 
-- No PromptEngines/Pantheon mentions
-- No links to promptengines.com product pages (kids project subdomains are OK)
+- No mentions of any other company or product brand
+- No links to commercial product pages from this site
 - No vendor/founder language — educator/practitioner tone only
+- Kids project links point to those projects' own sites
 
 ## Tech
 

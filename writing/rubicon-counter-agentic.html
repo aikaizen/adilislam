@@ -110,35 +110,35 @@ SYNTHESIZE "Which CS PhDs won major AI awards?"</div>
  <p>Three ideas worth extracting:</p>
 
  <ol>
- <li><strong>Declarative query plans.</strong> Making orchestration explicit — inspectable, auditable, reproducible — is more valuable than making it smarter. We've internalized this in Pantheon's design (explicit agent roles, documented protocols) but haven't applied it to the retrieval layer.</li>
+ <li><strong>Declarative query plans.</strong> Making orchestration explicit — inspectable, auditable, reproducible — is more valuable than making it smarter. We've internalized this in our agent framework's design (explicit agent roles, documented protocols) but haven't applied it to the retrieval layer.</li>
  <li><strong>Typed wrappers.</strong> A SQL database and a document corpus are different things. Wrapping both in a uniform relational interface creates a contract — schema on write, normalization on read. This is the missing piece between "raw Markdown indexed by QMD" and "structured institutional memory."</li>
  <li><strong>Plan sensitivity as a feature.</strong> The observation that join order changes cost by 100× is obvious to database people and invisible to LLM people. It reveals a class of optimization that doesn't exist in current agent architectures.</li>
  </ol>
 
  <figure class="figure">
- <div class="visual visual-matrix">rubicon_concept pantheon_equivalent gap integration_value
+ <div class="visual visual-matrix">rubicon_concept framework_equivalent gap integration_value
 AQL query algebra QMD typed queries no composition (single-hop) high — composition layer
 source wrappers QMD collections no schema contract high — typed memory objects
 cost-based optimization smart model routing not applied to retrieval medium — routing heuristic
 audit trail QMD citations no multi-step execution trace high — query plan traces
 deterministic orch. explicit agent roles internal reasoning is LLM low — keep synthesis LLM</div>
- <figcaption>Visual 3. RUBICON-to-Pantheon mapping. The concepts that scale down cleanly are query composition, typed wrappers, and audit trails. Cost optimization and full determinism solve problems we don't have.</figcaption>
+ <figcaption>Visual 3. RUBICON-to-framework mapping. The concepts that scale down cleanly are query composition, typed wrappers, and audit trails. Cost optimization and full determinism solve problems we don't have.</figcaption>
  </figure>
 
  <h2>What to be skeptical about</h2>
  <p>The 0% vs. 100% accuracy framing is polemical, not scientific. The experiment uses 5 synthetic sources and a fixed query set. Real enterprise environments are messier. The 100% claim means "the system executed the plan we designed," not "the plan answered every possible question correctly."</p>
 
- <p>The architecture also assumes you can wrap every data source behind a relational interface. That's true for SQL databases and REST APIs. It's less true for Slack threads, meeting transcripts, and institutional memory — the unstructured knowledge that makes up most of what the Pantheon works with.</p>
+ <p>The architecture also assumes you can wrap every data source behind a relational interface. That's true for SQL databases and REST APIs. It's less true for Slack threads, meeting transcripts, and institutional memory — the unstructured knowledge that makes up most of what the agent framework works with.</p>
 
  <p>And the paper presents itself as an alternative to LLM agents, but RUBICON still uses LLMs — for the NL utterance in WHERE clauses, for synthesis, for understanding. It's not replacing LLMs. It's constraining where and how they're used.</p>
 
- <h2>What this means for Pantheon</h2>
+ <h2>What this means for agent framework design</h2>
  <p>We run a multi-agent system with ~900 indexed documents. Our knowledge infrastructure is QMD (hybrid lex+vec+hyde search), cloud memory layer (cross-session user modeling), and the Library of Thoth (structured institutional memory). We don't have the enterprise data integration problem RUBICON is solving.</p>
 
- <p>But we do have a <strong>query composition problem.</strong> QMD is single-hop: one query → one result set. Institutional memory questions are multi-step by nature. "What does the Pantheon believe about X?" should decompose into:</p>
+ <p>But we do have a <strong>query composition problem.</strong> QMD is single-hop: one query → one result set. Institutional memory questions are multi-step by nature. "What does the framework believe about X?" should decompose into:</p>
 
  <ul>
- <li>Find "X" from pantheon-docs (lex)</li>
+ <li>Find "X" from knowledge base docs (lex)</li>
  <li>Find decisions about "X" from thoth-memories (vec)</li>
  <li>Filter by freshness > 2026-04-01</li>
  <li>Synthesize with uncertainty labels</li>
@@ -149,7 +149,7 @@ deterministic orch. explicit agent roles internal reasoning is LLM low — keep 
  <p>The bigger integration opportunity is typed memory objects. The Institutional Memory PRD already calls for structured objects (client profiles, decision records, workflow patterns). RUBICON's wrapper pattern is the implementation: each object type gets a schema contract enforced at write and normalized at read. QMD indexes typed objects rather than raw files, and queries return structured results with mandatory fields.</p>
 
  <h2>The verdict</h2>
- <p>RUBICON is a reference architecture, not a product. It's designed for problems an order of magnitude larger than Pantheon — 10+ heterogeneous, access-controlled data systems queried together. But it identifies a real blind spot in current agent design: <strong>the field is optimizing reasoning quality while the bottleneck is data coordination.</strong></p>
+ <p>RUBICON is a reference architecture, not a product. It's designed for problems an order of magnitude larger than the agent framework — 10+ heterogeneous, access-controlled data systems queried together. But it identifies a real blind spot in current agent design: <strong>the field is optimizing reasoning quality while the bottleneck is data coordination.</strong></p>
 
  <p>The ideas that scale down cleanly — query plan composability, typed wrappers, audit trails — are directly applicable to the next version of our knowledge infrastructure. The ones that don't — cost optimization, multi-source joins, enterprise access mediation — are problems we don't have.</p>
 

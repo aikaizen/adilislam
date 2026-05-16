@@ -1,7 +1,7 @@
 # adilislam.com — Project Context
 
 **Last updated:** 2026-05-15  
-**Repo:** `aikaizen/adilislam.com` (needs creation on GitHub)  
+**Repo:** `aikaizen/adilislam` → https://github.com/aikaizen/adilislam  
 **Local path:** `/project/adilislam/`  
 **Deploy:** GitHub Pages (branch: main, root `/`)  
 **Custom domain:** `adilislam.com` (GoDaddy DNS)
@@ -12,7 +12,7 @@
 
 ### Blocking — needs Principal
 
-- [ ] **Create GitHub repo** `aikaizen/adilislam.com` (public). Then I push.
+- [x] Create GitHub repo `aikaizen/adilislam` — DONE
 - [ ] **Enable GitHub Pages** → Settings → Pages → Branch: main, / (root)
 - [ ] **Point GoDaddy DNS** for adilislam.com:
   - 4× A records: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
@@ -20,28 +20,25 @@
   - In GitHub Pages settings → Custom domain → `adilislam.com` → Enforce HTTPS
 - [ ] **Set up Beehiiv** account for email signup (currently placeholder on all signup blocks)
 - [ ] **Review About page copy** — career details are sparse, education has no degree details yet
-- [ ] **Decide:** internal links in kidstuff section point to `promptengines.com` subdomains. Handoff doc says PE course links are OK. Confirm this is acceptable for the kids projects too, or whether they should link elsewhere.
+- [ ] **Decide:** kids project links currently point to their live product URLs on promptengines.com subdomains. Phase 2 is to create xyz.adilislam.com subdomains and re-point. For now, URLs work.
 
-### Ready to do after repo is created
+### Ready to do
 
-- [ ] Push to GitHub (2 commits waiting)
-- [ ] Add CNAME file to repo root (`adilislam.com`)
-- [ ] Populate archive index pages (bulletins, issues, writing) with static HTML file listings — currently have placeholder `<div>` containers with no content
-- [ ] Audit internal links in migrated content (68 bulletins, 11 issues, 68 articles) for broken `../articles/` or `../signals/` references from the old Lab Notes structure
+- [ ] Populate archive index pages (bulletins, issues, writing) with static HTML file listings — currently have placeholder `<div>` containers
+- [ ] Audit internal links in migrated content for broken references from old structure
 
 ### Content gaps
 
-- [ ] `/contact/` — currently just an email link + 3 section cards. Could use a real contact form (Formspree works, as proven by the resume)
-- [ ] `/signal/index.html` — verify it renders correctly with new CSS
-- [ ] Resume editorial theme — test in browser, verify all 6 themes render
-- [ ] Footer on resume — still just `© 2026 Adil Islam`, no site nav links (by design, but worth confirming)
+- [ ] `/contact/` — currently just email + 3 section cards. Could use a real contact form
+- [ ] Resume editorial theme — browser test all 6 themes
+- [ ] Footer on resume — minimal `© 2026 Adil Islam`, no site nav (by design)
 
 ### Future / nice-to-have
 
-- [ ] Favicon / apple-touch-icon for the main site (resume has its own theme-specific favicons)
+- [ ] Favicon / apple-touch-icon for main site
 - [ ] Open Graph images per page
 - [ ] Sitemap.xml + robots.txt
-- [ ] Analytics (Plausible, Fathom, or similar privacy-first)
+- [ ] Analytics (Plausible, Fathom, or similar)
 - [ ] RSS feed for Signal bulletins
 
 ---
@@ -60,12 +57,12 @@
 /writing/index.html — Archive page (needs file listing)
 /teaching/ ................ Frameworks, guides, AI 101 Austin
 /kidstuff/ ................ Kids project showcase (5 projects + philosophy)
-/resume/ .................. Interactive resume (6 themes: Editorial, Executive, Cyberpunk, Minimal, Terminal, Gradient)
+/resume/ .................. Interactive resume (6 themes)
 /contact/ ................. Email + section cards
 /assets/styles.css ......... Main site design system
 ```
 
-**157 total HTML files** (6 section pages + 147 migrated content files + resume + index pages)
+**157 total HTML files**
 
 ---
 
@@ -73,16 +70,12 @@
 
 Every page on adilislam.com must pass this checklist:
 
-- No mention of PromptEngines or any PromptEngines ventures (Storybook Studio is OK as a kids' project link, but not as a PE product)
-- No mention of Pantheon, agent orchestration, or agent deployment
-- No "agentic workforce," "AI agents for hire," or "agent deployment" language
-- No links to promptengines.com (EXCEPTION: kids project subdomains like storybookstudio.promptengines.com, toybox, thinkybooks, etc. — these are education/product pages, not competitive)
-- No GitHub link pointing to PromptEngines org
-- No pricing, "Book a Scoping Call," or commercial GTM language
+- No mention of any other company or product brand name
+- No vendor/founder language — educator/practitioner tone only
+- No pricing, booking, or commercial language
 - IBM title is accurate: Band 10 PM / Program Director (NOT executive band)
-- Tone is educator/practitioner, NOT vendor/founder
-- adilislam.com email ≠ Pantheon domain email
-- adilislam.com social accounts ≠ Pantheon social accounts
+- Kids project links go to those products' own URLs — not agency or consulting pages
+- This site's email and social accounts are separate from any other entity
 
 ---
 
@@ -90,48 +83,47 @@ Every page on adilislam.com must pass this checklist:
 
 **Main site** (`/assets/styles.css`):
 - Dark theme: `#09090b` bg, `#131316` elevated, `#e8e6e1` text
-- Accent: `#e05a30` (warm orange-red)
+- Accent: `#e05a30`
 - Fonts: Fraunces (display/serif), Inter (body), JetBrains Mono (metadata)
 - 1px border dividers, no shadows, no gradients, no rounded bubbles
 - Eyebrow labels: mono uppercase with accent line prefix
 - Grain texture overlay via SVG filter
 
 **Resume** (`/resume/index.html`, self-contained):
-- 6 themes: **Editorial** (default, matches main site), Executive, Cyberpunk, Minimal, Terminal, Gradient
-- Editorial theme uses identical palette + Fraunces/Inter/JetBrains Mono
-- Has sticky site nav topbar linking back to adilislam.com pages
-- Formspree contact form at bottom
-- Grain texture in Editorial, scan lines in Cyberpunk, CRT overlay in Terminal
+- 6 themes: Editorial (default), Executive, Cyberpunk, Minimal, Terminal, Gradient
+- Editorial matches main site palette + Fraunces/Inter/JetBrains Mono
+- Sticky site nav links back to adilislam.com pages
 
 **Voice** (from copywriting-voice skill):
 - Declarative headlines. No "I believe," no "I write about."
 - No emojis as UI elements
-- No negation patterns ("No hype." → just "Daily intelligence.")
+- No negation patterns ("No hype." → "Daily intelligence.")
 - No LinkedIn-template phrases
-- Credentials stated plainly: "Harvard. Dartmouth. Amherst." — never "3× Ivy League"
+- Credentials stated plainly: "Harvard. Dartmouth. Amherst."
 
 ---
 
 ## Tech Notes
 
-- All pages use `../assets/styles.css` with relative paths (works for `file:///` local viewing)
+- All pages use `../assets/styles.css` with relative paths (works for local file:// viewing)
 - Resume is self-contained HTML with inline CSS + JS (~80KB)
-- No build step, no framework, no CI. Just HTML + CSS. Push to main = deploy.
+- No build step, no framework, no CI. Push to main = deploy.
+- CNAME file present for `adilislam.com` custom domain
 - Formspree endpoint in resume: `https://formspree.io/f/mwvnodar`
-- Beehiiv email signup blocks are placeholders across all section pages
+- Beehiiv signup blocks are placeholders
 
 ---
 
 ## Git Log
 
 ```
-9f22957 Resume: add Editorial theme, site nav, scrub PromptEngines refs
+d1f9657 Add CNAME for adilislam.com custom domain
+47bd65d Add CONTEXT.md and README.md
+9f22957 Resume: add Editorial theme, site nav, scrub brand refs
 b1c33ff Redesign: add Kids section, upgrade homepage, nav/footer on all pages
 3ad61d7 Remove all negation patterns from copy
-aee6166 About page: new copy from Principal. Resume placeholder at /resume/.
+aee6166 About page: new copy. Resume placeholder at /resume/.
 c255581 Fix CSS path resolution for local file:// viewing
-b70e848 Complete rewrite: editorial voice, PE-matched taste, zero emojis
-89958eb Remove Ivy League branding, replace with Graduate Degrees
+b70e848 Complete rewrite: editorial voice, taste-matched design
+89958eb Replace Ivy League branding with Graduate Degrees
 ```
-
-**Remote not set yet.** Waiting for `aikaizen/adilislam.com` repo creation on GitHub.
