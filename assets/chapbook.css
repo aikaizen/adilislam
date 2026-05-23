@@ -1,0 +1,487 @@
+/* ─────────────────────────────────────────────
+   CHAPBOOK — article-page typography pass.
+   Layers on top of /assets/styles.css.
+   Scoped to .article-page only — index pages
+   and the homepage are untouched.
+   ───────────────────────────────────────────── */
+
+:root {
+  --chapbook-measure: 64ch;
+  --chapbook-rail: 220px;
+  --chapbook-gutter: 56px;
+  --dingbat: "\2299";       /* ⊙  CIRCLED DOT — change here, ships everywhere */
+  --dingbat-color: var(--accent);
+}
+
+/* ── Article container: three-column grid (gutter · measure · rail · gutter) ── */
+.article-page {
+  hanging-punctuation: first last;
+  text-rendering: geometricPrecision;
+  font-feature-settings: "kern", "liga", "calt";
+}
+
+.article-page .container {
+  max-width: none;
+  width: auto;
+  display: grid;
+  grid-template-columns:
+    minmax(24px, 1fr)
+    minmax(0, var(--chapbook-measure))
+    minmax(0, var(--chapbook-rail))
+    minmax(24px, 1fr);
+  column-gap: var(--chapbook-gutter);
+  padding: 120px 0 100px;
+}
+
+.article-page .article-header,
+.article-page .article-content,
+.article-page .colophon {
+  grid-column: 2;
+}
+
+/* ── Paratext / header ── */
+.article-page .article-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.5rem;
+  align-items: baseline;
+  margin-bottom: 4rem;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.article-page .article-header::before {
+  content: var(--dingbat);
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--dingbat-color);
+  line-height: 1;
+  align-self: start;
+  margin-top: 0.45rem;
+}
+
+.article-page .article-eyebrow {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-3);
+  margin-bottom: 1.25rem;
+}
+
+.article-page .article-title {
+  grid-column: 2;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+
+.article-page .article-title em,
+.article-page .article-title i {
+  font-style: italic;
+  color: var(--accent);
+  font-variation-settings: "opsz" 144, "SOFT" 90, "WONK" 1;
+}
+
+.article-page .article-meta-row {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 1.75rem;
+  margin-top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-feature-settings: "smcp", "c2sc";
+  color: var(--text-4);
+}
+
+/* ── Body ── */
+.article-page .article-content {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  font-variation-settings: "opsz" 36;
+  font-feature-settings: "kern", "liga", "calt", "onum";
+  word-spacing: 0.01em;
+}
+
+.article-page .article-content p {
+  margin: 0 0 1.2em;
+  text-indent: 0;
+}
+
+/* Continuous prose: indent every paragraph except after structural breaks */
+.article-page .article-content p + p {
+  text-indent: 1.6em;
+  margin-top: -0.4em;
+}
+
+.article-page .article-content h2 + p,
+.article-page .article-content h3 + p,
+.article-page .article-content hr + p,
+.article-page .article-content blockquote + p,
+.article-page .article-content ul + p,
+.article-page .article-content ol + p,
+.article-page .article-content pre + p,
+.article-page .article-content .lead + p,
+.article-page .article-content .ornament + p {
+  text-indent: 0;
+  margin-top: 0;
+}
+
+/* ── Lede + drop cap (first .lead paragraph only) ── */
+.article-page .lead {
+  font-size: 1.32rem;
+  line-height: 1.5;
+  color: var(--text);
+  font-variation-settings: "opsz" 36, "SOFT" 40;
+  margin: 0 0 1.6em;
+  text-indent: 0;
+}
+
+.article-page .lead::first-letter {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 4.6em;
+  line-height: 0.82;
+  float: left;
+  margin: 0.06em 0.14em 0 0;
+  padding: 0;
+  color: var(--accent);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+}
+
+/* ── Section headings ── */
+.article-page .article-content h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.5rem;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+  color: var(--text);
+  font-variation-settings: "opsz" 36, "SOFT" 60, "WONK" 1;
+  text-indent: 0;
+}
+
+.article-page .article-content h2::before {
+  content: var(--dingbat);
+  display: block;
+  text-align: center;
+  font-style: normal;
+  font-size: 1.1rem;
+  color: var(--dingbat-color);
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  margin: 3.5em 0 2em;
+}
+
+.article-page .article-content h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.15rem;
+  margin: 2em 0 0.35em;
+  color: var(--text);
+  text-indent: 0;
+}
+
+/* ── Inline elements ── */
+.article-page .article-content em,
+.article-page .article-content i {
+  font-style: italic;
+  font-variation-settings: "opsz" 36, "SOFT" 70;
+}
+
+.article-page .article-content strong,
+.article-page .article-content b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.article-page .article-content a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color var(--dur) var(--ease);
+}
+
+.article-page .article-content a:hover {
+  color: var(--accent);
+}
+
+/* True small caps utility */
+.article-page .sc,
+.article-page small.caps {
+  font-feature-settings: "smcp", "c2sc";
+  letter-spacing: 0.04em;
+}
+
+/* ── Lists ── */
+.article-page .article-content ul,
+.article-page .article-content ol {
+  margin: 1em 0 1.4em 1.4em;
+  padding: 0;
+}
+
+.article-page .article-content li {
+  margin-bottom: 0.45em;
+  text-indent: 0;
+}
+
+.article-page .article-content ul li::marker {
+  color: var(--accent);
+}
+
+/* ── Quote ── */
+.article-page .article-content blockquote {
+  margin: 2em 0;
+  padding-left: 1.5em;
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+  color: var(--text-2);
+  text-indent: 0;
+}
+
+.article-page .article-content blockquote cite {
+  display: block;
+  margin-top: 0.6em;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-feature-settings: "smcp", "c2sc";
+  color: var(--text-4);
+}
+
+/* ── Code ── */
+.article-page .article-content code,
+.article-page .article-content pre {
+  font-family: var(--font-mono);
+  font-feature-settings: "calt", "ss01";
+}
+
+.article-page .article-content code {
+  font-size: 0.86em;
+  padding: 0.08em 0.32em;
+  background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+}
+
+.article-page .article-content pre {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  padding: 1.25em 1.4em;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin: 1.6em 0;
+  text-indent: 0;
+}
+
+.article-page .article-content pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ── Margin notes / sidenotes ──
+   Markup pattern:
+     <p>...sentence with reference<a class="fn-ref" href="#n1">1</a></p>
+     <aside class="margin-note" id="n1"><span class="num">1</span> The note.</aside>
+*/
+.article-page .margin-note {
+  grid-column: 3;
+  align-self: start;
+  margin-top: 0.35em;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-3);
+  border-left: 1px solid var(--border-strong);
+  padding-left: 1em;
+  font-style: normal;
+}
+
+.article-page .margin-note .num {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-right: 0.5em;
+  vertical-align: top;
+  font-feature-settings: "tnum";
+}
+
+.article-page .article-content .fn-ref {
+  font-family: var(--font-mono);
+  font-size: 0.68em;
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: 0.05em;
+  vertical-align: super;
+  line-height: 0;
+  font-feature-settings: "tnum";
+}
+
+/* ── Section ornament (manual <hr> or <div class="ornament">) ── */
+.article-page .article-content hr,
+.article-page .article-content .ornament {
+  border: none;
+  text-align: center;
+  margin: 3em 0;
+  text-indent: 0;
+  height: auto;
+  background: none;
+}
+
+.article-page .article-content hr::before,
+.article-page .article-content .ornament::before {
+  content: var(--dingbat);
+  font-family: var(--font-display);
+  color: var(--dingbat-color);
+  font-size: 1.1rem;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  display: inline-block;
+}
+
+/* ── End mark — closes the article ── */
+.article-page .article-content > p:last-of-type::after {
+  content: "\00A0" var(--dingbat);
+  color: var(--dingbat-color);
+  margin-left: 0.25em;
+  font-style: normal;
+  display: inline;
+}
+
+/* ── Colophon ──
+   Markup pattern:
+     <footer class="colophon">
+       <h4>Colophon</h4>
+       <dl>
+         <dt>Written</dt><dd>19 April 2026, Austin</dd>
+         <dt>Length</dt><dd>1,840 words · 8 min</dd>
+         <dt>Cut</dt><dd>A long detour on agent-vs-tool semantics</dd>
+         <dt>Uncertain</dt><dd>Whether "grows with you" is architecture or marketing</dd>
+         <dt>Assisted by</dt><dd>None / GPT-5 for line edits</dd>
+       </dl>
+     </footer>
+*/
+.article-page .colophon {
+  margin-top: 6rem;
+  padding: 2rem 0 0;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  color: var(--text-3);
+}
+
+.article-page .colophon h4 {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-4);
+  margin-bottom: 1.2em;
+  font-weight: 500;
+}
+
+.article-page .colophon h4::before {
+  content: var(--dingbat);
+  color: var(--accent);
+  margin-right: 0.7em;
+  letter-spacing: 0;
+}
+
+.article-page .colophon dl {
+  display: grid;
+  grid-template-columns: 8.5em 1fr;
+  column-gap: 1.5rem;
+  row-gap: 0.45em;
+  margin: 0;
+}
+
+.article-page .colophon dt {
+  font-feature-settings: "smcp", "c2sc";
+  letter-spacing: 0.08em;
+  color: var(--text-4);
+  margin: 0;
+}
+
+.article-page .colophon dd {
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .article-page .container {
+    grid-template-columns:
+      minmax(24px, 1fr)
+      minmax(0, var(--chapbook-measure))
+      minmax(24px, 1fr);
+    padding: 96px 0 80px;
+  }
+  .article-page .margin-note {
+    grid-column: 2;
+    margin: 0.5em 0 1.4em;
+    border-left: 2px solid var(--accent);
+    padding-left: 0.9em;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .article-page .container {
+    padding: 64px 0 48px;
+    column-gap: 0;
+  }
+  .article-page .article-header {
+    grid-template-columns: 1fr;
+    margin-bottom: 2.5rem;
+  }
+  .article-page .article-header::before {
+    grid-row: 1;
+    grid-column: 1;
+    margin: 0 0 0.75rem;
+  }
+  .article-page .article-eyebrow,
+  .article-page .article-title,
+  .article-page .article-meta-row {
+    grid-column: 1;
+  }
+  .article-page .lead::first-letter {
+    font-size: 3.6em;
+  }
+  .article-page .article-content p + p {
+    text-indent: 1.2em;
+  }
+  .article-page .colophon dl {
+    grid-template-columns: 1fr;
+    row-gap: 0.1em;
+  }
+  .article-page .colophon dt {
+    margin-top: 0.6em;
+  }
+}
