@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Daily AI Research Briefing — May 24, 2026 — Signal by Adil Islam</title>
+ <meta name="description" content="Daily AI research briefing for May 24, 2026. Curated from GitHub Trending, Hacker News, Latent Space, Simon Willison, arXiv, and Reddit.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="../../assets/styles.css">
+ <style>
+ .article-content { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+ .article-content h2 { margin-top: 2.5rem; font-size: 1.5rem; }
+ .article-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+ .article-content p { line-height: 1.7; margin: 1rem 0; }
+ .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+ .article-content li { margin: 0.5rem 0; }
+ .article-content code { font-family: var(--mono); background: var(--bg-elevated); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; }
+ .article-content pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; }
+ .article-content pre code { background: none; padding: 0; }
+ .article-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+ .article-content th, .article-content td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+ .article-content th { font-weight: 600; color: var(--text-2); }
+ .story-card { background: var(--bg-elevated); padding: 1.5rem; border-radius: var(--radius-md); margin: 1.5rem 0; }
+ .story-card h3 { margin-top: 0; }
+ .trending { color: var(--accent); font-weight: 600; }
+ .editorial-label { background: rgba(255,107,53,0.1); color: var(--accent); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; font-family: var(--mono); display: inline-block; margin-bottom: 8px; }
+ .source-pill { display: inline-block; background: var(--bg-elevated); color: var(--text-3); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-family: var(--mono); margin: 0 4px 4px 0; }
+ </style>
+<meta name="keywords" content="AI agents, agent context, context engineering, agentic systems, AI product strategy, Adil Islam">
+</head>
+<body>
+ <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">Adil Islam</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+ <main>
+ <article class="section" style="padding-top: 2rem;">
+ <div class="article-content">
+ <div class="article-meta" style="color: var(--text-4); font-size: 0.875rem; margin-bottom: 1.5rem;">
+ May 24, 2026 · 5 min read · <span class="editorial-label">SIGNAL</span> Daily Briefing
+ </div>
+
+ <h1>Daily AI Research Briefing — May 24, 2026</h1>
+
+ <p class="lead"><em>Curated from GitHub Trending, Hacker News, Latent Space, Simon Willison, arXiv, and Reddit. We link to verified sources where available. Editorial opinions are marked throughout.</em></p>
+
+  <div class="story-card">
+   <h3><span class="trending">🔶 An AI agent published a hit piece on me</span> <span style="font-size:0.75rem;color:var(--text-4);">via Hacker News</span></h3>
+   <p>HN points: 2346</p>
+   <p><strong>Why it matters:</strong> Community-curated signal — what technical practitioners are actually discussing and building with. <a href="https://theshamblog.com/an-ai-agent-published-a-hit-piece-on-me/" target="_blank" rel="noopener">source →</a></p>
+  </div>
+
+  <div class="story-card">
+   <h3><span class="trending">🔶 OpenCode – Open source AI coding agent</span> <span style="font-size:0.75rem;color:var(--text-4);">via Hacker News</span></h3>
+   <p>HN points: 1274</p>
+   <p><strong>Why it matters:</strong> Community-curated signal — what technical practitioners are actually discussing and building with. <a href="https://opencode.ai/" target="_blank" rel="noopener">source →</a></p>
+  </div>
+
+  <div class="story-card">
+   <h3><span class="trending">🔶 AI agent opens a PR write a blogpost to shames the maintainer who closes it</span> <span style="font-size:0.75rem;color:var(--text-4);">via Hacker News</span></h3>
+   <p>HN points: 953</p>
+   <p><strong>Why it matters:</strong> Community-curated signal — what technical practitioners are actually discussing and building with. <a href="https://github.com/matplotlib/matplotlib/pull/31132" target="_blank" rel="noopener">source →</a></p>
+  </div>
+
+  <div class="story-card">
+   <h3><span class="trending">🔶 Opus 4.5 is not the normal AI agent experience that I have had thus far</span> <span style="font-size:0.75rem;color:var(--text-4);">via Hacker News</span></h3>
+   <p>HN points: 879</p>
+   <p><strong>Why it matters:</strong> Community-curated signal — what technical practitioners are actually discussing and building with. <a href="https://burkeholland.github.io/posts/opus-4-5-change-everything/" target="_blank" rel="noopener">source →</a></p>
+  </div>
+
+  <div class="story-card">
+   <h3><span class="trending">🔶 An AI agent deleted our production database. The agent&#x27;s confession is below</span> <span style="font-size:0.75rem;color:var(--text-4);">via Hacker News</span></h3>
+   <p>HN points: 860</p>
+   <p><strong>Why it matters:</strong> Community-curated signal — what technical practitioners are actually discussing and building with. <a href="https://twitter.com/lifeof_jer/status/2048103471019434248" target="_blank" rel="noopener">source →</a></p>
+  </div>
+
+ <hr style="border-color: var(--border); margin: 3rem 0 1.5rem;">
+ <p style="color: var(--text-4); font-size: 0.8rem;">Sources scanned: GitHub Trending, Hacker News (Algolia), Latent Space RSS, Simon Willison, r/LocalLLaMA, arXiv (cs.AI + cs.CL), r/MachineLearning. Items are scored by relevance to AI product strategy and agent architecture. <a href="/signal/bulletins/" style="color: var(--accent);">← All bulletins</a></p>
+
+ </div>
+ </article>
+ </main>
+
+ <footer style="background: var(--bg-elevated); padding: 2rem 0; margin-top: 3rem; border-top: 1px solid var(--border);">
+  <div class="container" style="text-align: center; color: var(--text-4); font-size: 0.8rem;">
+   <p>© 2026 Adil Islam · <a href="/" style="color: var(--text-3);">adilislam.com</a> · <a href="/signal/" style="color: var(--text-3);">Signal</a> · <a href="/writing/" style="color: var(--text-3);">Writing</a> · <a href="/teaching/" style="color: var(--text-3);">Teaching</a></p>
+  </div>
+ </footer>
+</body>
+</html>
