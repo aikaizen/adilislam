@@ -224,11 +224,6 @@ a { color: inherit; text-decoration: none; }
   perspective: 800px;
 }
 
-.reactor::before {
-  content: ""; position: absolute; inset: 0; z-index: 0;
-  background: rgba(220,219,216,.06);
-}
-
 .reactor__face {
   position: absolute; inset: 0;
   -webkit-mask-size: contain; mask-size: contain;
@@ -238,6 +233,13 @@ a { color: inherit; text-decoration: none; }
   transform-style: preserve-3d;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  z-index: 1;
+}
+
+/* background fill visible through the mask */
+.reactor__face::before {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: rgba(220,219,216,.06);
 }
 
 .reactor__scroll {
