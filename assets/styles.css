@@ -683,3 +683,127 @@ a { color: inherit; text-decoration: none; }
   .wrap { padding: 0 22px; }
   .colophon-inner { flex-direction: column; align-items: flex-start; }
 }
+
+/* ═══════════════════════════════════════════
+   CONTACT PAGE
+   ═══════════════════════════════════════════ */
+.contact-hero { padding-top: clamp(72px, 9vh, 120px); padding-bottom: clamp(32px, 4vh, 56px); border-bottom: 1px solid var(--rule); }
+
+.contact-title {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(48px, 7.4vw, 96px);
+  line-height: 0.98; letter-spacing: -0.028em;
+  color: var(--fg); margin: 14px 0 22px;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+}
+
+.contact-lead {
+  font-family: var(--display); font-weight: 300;
+  font-size: clamp(18px, 1.9vw, 24px);
+  color: var(--fg-78); max-width: 60ch;
+  line-height: 1.45; font-style: italic;
+  font-variation-settings: "opsz" 36, "SOFT" 60;
+}
+
+.contact-grid {
+  display: grid; gap: clamp(36px, 4.5vw, 72px);
+  grid-template-columns: 1fr 1.5fr;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+}
+
+.contact-direct .section-eyebrow { margin-bottom: 18px; }
+
+.contact-text {
+  color: var(--fg-78); font-size: 15px;
+  margin-bottom: 18px; font-weight: 300; line-height: 1.55;
+}
+
+.contact-email {
+  font-family: var(--mono); font-size: 15px;
+  letter-spacing: -0.005em; color: var(--fg);
+  display: inline-block; padding: 12px 0;
+  border-bottom: 1px solid var(--fg-32);
+  transition: color var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
+}
+.contact-email:hover { color: var(--accent-bright); border-color: var(--fg); }
+
+.contact-note {
+  color: var(--fg-46); font-size: 13px; line-height: 1.6;
+  margin-top: 22px; max-width: 44ch; font-weight: 300;
+}
+
+.contact-form {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 18px;
+  padding: clamp(20px, 2vw, 32px);
+  background: var(--bg-surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-lg);
+}
+
+.contact-form::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--highlight-top), transparent);
+}
+
+.contact-form .section-eyebrow { margin-bottom: 6px; }
+
+.contact-form .field { display: flex; flex-direction: column; gap: 8px; }
+
+.contact-form .field label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--fg-46);
+}
+
+.contact-form .field input,
+.contact-form .field textarea {
+  width: 100%;
+  font-family: var(--body); font-size: 14.5px; line-height: 1.55;
+  color: var(--fg); background: var(--bg-deep);
+  border: 1px solid var(--rule-mid);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease),
+              box-shadow var(--dur-fast) var(--ease);
+}
+
+.contact-form .field input::placeholder,
+.contact-form .field textarea::placeholder { color: var(--fg-32); }
+
+.contact-form .field input:focus,
+.contact-form .field textarea:focus {
+  border-color: var(--accent-dim);
+  background: var(--bg-raised);
+  box-shadow: 0 0 0 3px rgba(244, 243, 240, 0.06);
+}
+
+.contact-form .field textarea { min-height: 132px; }
+
+.contact-form-actions {
+  display: flex; align-items: center; gap: 18px;
+  flex-wrap: wrap; margin-top: 6px;
+}
+
+.contact-form-meta {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg-32);
+}
+
+.contact-form-status {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg-32);
+  min-height: 1.2em;
+}
+.contact-form-status.is-sending { color: var(--fg-62); }
+.contact-form-status.is-ok      { color: var(--fg-92); }
+.contact-form-status.is-err     { color: #e3725a; text-transform: none; letter-spacing: 0; font-family: var(--body); font-size: 13px; }
