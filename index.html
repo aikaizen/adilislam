@@ -13,18 +13,23 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Adil Islam — AI Product Strategy for the Agent Era">
   <meta name="twitter:description" content="Daily briefings on AI agents, agent context, and product strategy. Frameworks for PMs who think in agents.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0e0e11">
   <link rel="canonical" href="https://adilislam.com/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,30..100,0..1;1,9..144,300..700,30..100,0..1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/styles.css?v=5">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,30..100,0..1;1,9..144,300..700,30..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css?v=6">
 </head>
 <body>
 
-  <!-- ════════════ NAV ════════════ -->
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a class="brand" href="/">Adil Islam</a>
+  <!-- ════════════ CHROME ════════════ -->
+  <header class="chrome">
+    <div class="wrap chrome-inner">
+      <a class="brand" href="/">
+        <span class="seal">A</span>
+        <b>Adil Islam</b>
+      </a>
       <nav class="nav">
         <a href="/about/">About</a>
         <a href="/signal/">Signal</a>
@@ -38,210 +43,286 @@
 
   <main>
 
-    <!-- ════════════ HERO ════════════ -->
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-mark">&#x2299;</div>
-        <h1 class="hero-title">Fifteen years building models<br>and managing AI&nbsp;teams.</h1>
-        <div class="rotator" aria-live="polite">
-          <span class="rotator-word is-active">Product&nbsp;Leader.</span>
-          <span class="rotator-word">Applied&nbsp;AI&nbsp;Researcher.</span>
-          <span class="rotator-word">Builder.</span>
-          <span class="rotator-word">Data&nbsp;Scientist.</span>
+    <!-- ════════════ OPENING ════════════ -->
+    <section class="open">
+      <span class="aura" aria-hidden="true"></span>
+      <canvas class="hero-field" aria-hidden="true"></canvas>
+
+      <div class="wrap open-inner">
+
+        <div class="open-rule">
+          <span>Personal Site</span>
+          <b>Open</b>
         </div>
-        <div class="cta-row">
-          <a href="/signal/" class="btn btn-primary">Today's Signal</a>
-          <a href="/about/" class="btn btn-ghost">About</a>
+
+        <div class="reactor-wrap">
+          <div class="reactor" aria-label="Adil Islam">
+            <div class="reactor__scroll" id="rscroll" aria-hidden="true"></div>
+          </div>
+
+          <div class="hero-foot">
+            <div class="epi">
+              <span class="epi__title">Product &middot; AI &middot; Agents</span>
+              <span class="epi__gloss">fifteen years building models and managing AI teams</span>
+            </div>
+            <p class="lead">Daily signals from the agentic frontier. Frameworks for PMs who think in agents, not features.</p>
+            <div class="cta-row">
+              <a href="/signal/" class="btn btn-primary">Today's Signal</a>
+              <a href="/about/" class="btn btn-ghost">About</a>
+            </div>
+          </div>
         </div>
+
+        <div class="hint" aria-hidden="true"><span class="updown">&#8597;</span> move &middot; signal flows</div>
       </div>
     </section>
 
-    <!-- ════════════ FOUR PILLARS ════════════ -->
+    <!-- ════════════ DIRECTORY ════════════ -->
     <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <div class="eyebrow">What's here</div>
-          <h2>Four things on this site.</h2>
-          <p class="lede">A resume, daily writing, teaching resources, and projects built for the next generation.</p>
-        </div>
+      <div class="wrap">
+        <div class="section-eyebrow">The surfaces &middot; four ways in</div>
         <div class="card-grid">
 
-          <a href="/about/" class="card">
-            <h3>About Adil</h3>
-            <p>Fifteen years across AI research, applied AI, product management, strategy consulting, and data science. Enterprise data and AI initiatives. <strong>IBM</strong>. <strong>Stability&nbsp;AI</strong>. Petuum. Dell. The World Bank. Harvard. Dartmouth. Amherst. Austin, Texas. Father. Gardener. GPU&nbsp;hoarder.</p>
-            <span class="card-link">Full résumé</span>
+          <a href="/about/" class="card card--primary">
+            <div class="card__head">
+              <span class="card__name">About</span>
+              <span class="card__kind">Background</span>
+            </div>
+            <div class="card__desc">Fifteen years across AI research, applied AI, product management, strategy consulting, and data science. IBM. Stability AI. Petuum. Dell. The World Bank. Harvard. Dartmouth. Amherst. Austin, Texas. Father. Gardener. GPU hoarder.</div>
+            <div class="card__meta"><b>Full résumé</b><span class="go">Enter &rarr;</span></div>
           </a>
 
           <a href="/signal/" class="card">
-            <h3>Signal</h3>
-            <p>Every morning my agents read the open web — GitHub trending, Hacker News, the AI Twitter cohort, the arXiv firehose — and file a daily briefing on what moved in the <strong>Agentic Workforce</strong> economy. Top stories, why they matter, what to watch next. On Fridays they hand me a weekly vibe check. Same briefing I read every day.</p>
-            <span class="card-link">Read the Signal</span>
+            <div class="card__head">
+              <span class="card__name">Signal</span>
+              <span class="card__kind">Daily briefing</span>
+            </div>
+            <div class="card__desc">Every morning my agents read the open web — GitHub trending, Hacker News, the AI Twitter cohort, the arXiv firehose — and file a daily briefing on what moved in the Agentic Workforce economy.</div>
+            <div class="card__meta"><b>Read the Signal</b><span class="go">Enter &rarr;</span></div>
           </a>
 
           <a href="/writing/" class="card">
-            <h3>Writing</h3>
-            <p>Thoughts on agentic systems, context engineering, agent memory architectures, and harness design.</p>
-            <span class="card-link">Browse the archive</span>
+            <div class="card__head">
+              <span class="card__name">Writing</span>
+              <span class="card__kind">Archive</span>
+            </div>
+            <div class="card__desc">Thoughts on agentic systems, context engineering, agent memory architectures, and harness design.</div>
+            <div class="card__meta"><b>Browse the archive</b><span class="go">Enter &rarr;</span></div>
           </a>
 
-          <a href="/teaching/" class="card card-soon">
-            <span class="card-badge">Coming soon</span>
-            <h3>Teaching</h3>
-            <p>Free in-person courses in Austin on how to actually use AI — for product managers, for builders, for anyone who wants to ship rather than speculate. Working sessions, not lectures: real problems, real tools, real artifacts at the end. First cohort dates land soon.</p>
-            <span class="card-link">Preview the curriculum</span>
+          <a href="/teaching/" class="card card--soon">
+            <div class="card__head">
+              <span class="card__name">Teaching</span>
+              <span class="card__kind">Coming soon</span>
+            </div>
+            <div class="card__desc">Free in-person courses in Austin on how to actually use AI — for product managers, for builders, for anyone who wants to ship rather than speculate.</div>
+            <div class="card__meta"><b>Preview the curriculum</b><span class="go">Soon</span></div>
           </a>
 
         </div>
       </div>
     </section>
 
-    <!-- ════════════ KIDSTUFF ════════════ -->
+    <!-- ════════════ RECENT SIGNALS ════════════ -->
     <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <div class="eyebrow">Kids</div>
-          <h2>Built for small humans.</h2>
-          <p class="lede">Side projects designed for children — learning, reading, playing. Things a father builds when the tools exist and the market doesn't.</p>
-        </div>
-        <div class="project-grid two-col">
-
-          <a href="https://storybookstudio.promptengines.com" target="_blank" rel="noopener noreferrer" class="project-card">
-            <div class="project-eyebrow">Stories</div>
-            <h3>Storybook Studio</h3>
-            <p>AI-powered children's storybooks. 34+ art styles, branching narratives, text-to-speech reading. Digital library and print. Freemium with 100 free credits.</p>
-            <span class="project-link">Visit →</span>
-          </a>
-
-          <a href="https://www.promptengines.com/thinkybooks/" target="_blank" rel="noopener noreferrer" class="project-card">
-            <div class="project-eyebrow">Reading</div>
-            <h3>ThinkyBooks</h3>
-            <p>Interactive storybooks that teach critical thinking. A branching narrative engine — choices reveal consequences, not just endings. 19 stories and counting.</p>
-            <span class="project-link">Visit →</span>
-          </a>
-
-          <a href="https://www.promptengines.com/toybox/" target="_blank" rel="noopener noreferrer" class="project-card">
-            <div class="project-eyebrow">Play</div>
-            <h3>ToyBox</h3>
-            <p>A digital toy chest for tiny hands. 60+ tap-and-jiggle toys, 5 themes, finger-paint mode, parent-gated menu. Installs to iPad home screen. Works offline.</p>
-            <span class="project-link">Visit →</span>
-          </a>
-
-          <a href="https://videoterminal.promptengines.com" target="_blank" rel="noopener noreferrer" class="project-card">
-            <div class="project-eyebrow">Media</div>
-            <h3>Video Terminal</h3>
-            <p>AI video creation for kids' content. Generate, assemble, and publish short-form video. From story script to finished clip.</p>
-            <span class="project-link">Visit →</span>
-          </a>
-
-          <a href="https://www.promptengines.com/prototypes/flow-education/" target="_blank" rel="noopener noreferrer" class="project-card">
-            <div class="project-eyebrow">Learning</div>
-            <h3>Flow Education</h3>
-            <p>Quest-based learning for early readers. Letter recognition, phonics, and comprehension through interactive adventures. Asset generation pipeline for lesson content.</p>
-            <span class="project-link">Visit →</span>
-          </a>
-
-        </div>
-        <div style="margin-top: 2rem;">
-          <a href="/kidstuff/" class="btn btn-ghost">All kids projects →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ════════════ LATEST ════════════ -->
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <div class="eyebrow">Latest</div>
-          <h2>Recent from Signal</h2>
-        </div>
+      <div class="wrap">
+        <div class="section-eyebrow">Recent signals</div>
         <div class="latest-list">
 
-          <a href="/signal/bulletins/2026-05-09-daily-ai-briefing.html" class="latest-item">
-            <span class="date-col">May 9</span>
-            <span class="title-col">Daily AI Briefing — DeepSeek pricing, agent evaluation, on-device AI</span>
+          <a href="/signal/bulletins/2026-05-22-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 22</span>
+            <span class="title-col">Daily AI Research Briefing</span>
             <span class="badge-col">Bulletin</span>
           </a>
 
-          <a href="/signal/issues/2026-05-09-ai-twitter-vibe.html" class="latest-item">
+          <a href="/signal/bulletins/2026-05-09-daily-ai-briefing.html" class="latest-item">
             <span class="date-col">May 9</span>
-            <span class="title-col">AI Twitter Vibe Check — Week of May 9, 2026</span>
-            <span class="badge-col">Weekly</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
           </a>
 
           <a href="/signal/bulletins/2026-05-08-daily-ai-briefing.html" class="latest-item">
             <span class="date-col">May 8</span>
-            <span class="title-col">Daily AI Briefing — May 8, 2026</span>
+            <span class="title-col">Daily AI Research Briefing</span>
             <span class="badge-col">Bulletin</span>
           </a>
 
-          <a href="/writing/2026-04-01-app-scaling-playbook.html" class="latest-item">
-            <span class="date-col">Apr 1</span>
-            <span class="title-col">The $400K App Scaling Playbook — 5 channels that actually work</span>
-            <span class="badge-col">Article</span>
+          <a href="/signal/bulletins/2026-05-07-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 7</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
           </a>
 
-          <a href="/writing/2026-03-30-agent-side-hustle-school.html" class="latest-item">
-            <span class="date-col">Mar 30</span>
-            <span class="title-col">Agent Side Hustle School — How people are monetizing AI agents</span>
-            <span class="badge-col">Article</span>
+          <a href="/signal/bulletins/2026-05-06-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 6</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
           </a>
 
-          <a href="/writing/2026-03-14-agent-memory-architectures-v3.html" class="latest-item">
-            <span class="date-col">Mar 14</span>
-            <span class="title-col">Agent Memory Architectures — Context windows, retrieval, and persistence</span>
-            <span class="badge-col">Article</span>
+          <a href="/signal/bulletins/2026-05-05-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 5</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
+          </a>
+
+          <a href="/signal/bulletins/2026-05-04-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 4</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
+          </a>
+
+          <a href="/signal/bulletins/2026-05-03-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 3</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
+          </a>
+
+          <a href="/signal/bulletins/2026-05-02-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 2</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
+          </a>
+
+          <a href="/signal/bulletins/2026-05-01-daily-ai-briefing.html" class="latest-item">
+            <span class="date-col">May 1</span>
+            <span class="title-col">Daily AI Research Briefing</span>
+            <span class="badge-col">Bulletin</span>
           </a>
 
         </div>
         <p style="margin-top: 1.5rem;">
-          <a href="/signal/" style="color: var(--accent); font-weight: 500;">View all Signal →</a>
+          <a href="/signal/" class="link-accent">View all Signals &rarr;</a>
         </p>
       </div>
     </section>
 
-    <!-- ════════════ SIGNUP ════════════ -->
-    <section class="section">
-      <div class="container">
-        <div class="signup-block">
-          <h3>Get the daily Signal</h3>
-          <p>Filed every morning. Same briefing my agents send me, published.</p>
+    <!-- ════════════ CLOSING ════════════ -->
+    <section class="closing">
+      <div class="wrap">
+        <p>Get the daily Signal.</p>
+        <p class="q">Filed every morning. Same briefing my agents send me, published.</p>
+        <div style="margin-top:2rem">
           <a href="/signal/" class="btn btn-primary">Subscribe</a>
-          <p class="note">Email signup via Beehiiv coming soon</p>
         </div>
+        <p class="note">Email signup via Beehiiv coming soon</p>
       </div>
     </section>
 
   </main>
 
-  <!-- ════════════ FOOTER ════════════ -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-inner">
-        <span class="footer-copy">© 2026 Adil Islam. AI agents, agent context, and product strategy.</span>
-        <div class="footer-links">
-          <a href="/about/">About</a>
-          <a href="/signal/">Signal</a>
-          <a href="/writing/">Writing</a>
-          <a href="/teaching/">Teaching</a>
-          <a href="/kidstuff/">Kids</a>
-          <a href="/contact/">Contact</a>
-        </div>
+  <!-- ════════════ COLOPHON ════════════ -->
+  <footer class="colophon">
+    <div class="wrap colophon-inner">
+      <span>&copy; 2026 Adil Islam</span>
+      <span>AI agents, agent context, and product strategy</span>
+      <div class="colophon-links">
+        <a href="/about/">About</a>
+        <a href="/signal/">Signal</a>
+        <a href="/writing/">Writing</a>
+        <a href="/teaching/">Teaching</a>
+        <a href="/kidstuff/">Kids</a>
+        <a href="/contact/">Contact</a>
       </div>
     </div>
   </footer>
 
   <script>
-    (function () {
-      var words = document.querySelectorAll('.rotator-word');
-      if (words.length < 2) return;
-      var i = 0;
-      function tick() {
-        words[i].classList.remove('is-active');
-        i = (i + 1) % words.length;
-        words[i].classList.add('is-active');
+  /* ── hero field · drifting nodes + thread ── */
+  (()=>{
+    const canvas=document.querySelector('.hero-field');
+    if(!canvas||!canvas.getContext) return;
+    const ctx=canvas.getContext('2d');
+    const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const CREAM='220,219,216';
+    let w=0,h=0,dpr=1,nodes=[],phase=0,raf=0;
+    function size(){
+      const r=canvas.getBoundingClientRect();
+      dpr=Math.min(window.devicePixelRatio||1,2); w=r.width; h=r.height;
+      if(w<2||h<2) return false;
+      canvas.width=Math.round(w*dpr); canvas.height=Math.round(h*dpr);
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      return true;
+    }
+    function seed(){
+      const n=Math.round(Math.min(40,Math.max(18,w/32)));
+      nodes=Array.from({length:n},()=>({
+        x:Math.random()*w, y:Math.random()*h,
+        vx:(Math.random()-.5)*0.08, vy:(Math.random()-.5)*0.08,
+        r:Math.random()*2.2+0.8,
+        tw:Math.random()*Math.PI*2, ts:0.5+Math.random()*0.7
+      }));
+    }
+    function drawNode(nd,a){
+      ctx.shadowBlur=nd.r*3.5; ctx.shadowColor='rgba('+CREAM+',0.45)';
+      ctx.fillStyle='rgba('+CREAM+','+a.toFixed(3)+')';
+      ctx.beginPath(); ctx.arc(nd.x,nd.y,nd.r,0,Math.PI*2); ctx.fill();
+      ctx.shadowBlur=0;
+    }
+    function drawThread(t){
+      ctx.shadowBlur=0; ctx.beginPath();
+      const midY=h*0.52, amp=h*0.14;
+      for(let x=0;x<=w;x+=7){
+        const y=midY+Math.sin(x*0.0042+t)*amp*Math.sin(x*0.0011+t*0.5)+Math.sin(x*0.013+t*1.7)*5;
+        x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
       }
-      setInterval(tick, 2400);
-    })();
+      ctx.strokeStyle='rgba('+CREAM+',0.10)'; ctx.lineWidth=1; ctx.stroke();
+    }
+    function frame(now){
+      ctx.clearRect(0,0,w,h);
+      drawThread(phase);
+      for(const nd of nodes){
+        nd.x+=nd.vx; nd.y+=nd.vy;
+        if(nd.x<-6)nd.x=w+6; else if(nd.x>w+6)nd.x=-6;
+        if(nd.y<-6)nd.y=h+6; else if(nd.y>h+6)nd.y=-6;
+        drawNode(nd, 0.42+0.28*Math.sin(nd.tw+now*0.0009*nd.ts));
+      }
+      phase+=0.0014;
+      raf=requestAnimationFrame(frame);
+    }
+    function staticFrame(){
+      ctx.clearRect(0,0,w,h); drawThread(0.6);
+      for(const nd of nodes) drawNode(nd,0.52);
+    }
+    function start(){
+      if(!size()){requestAnimationFrame(start);return;}
+      seed();
+      if(reduce) staticFrame(); else {cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);}
+    }
+    requestAnimationFrame(start);
+    let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(start,180);});
+  })();
+
+  /* ── rolling-signal reactor · cursor parallax ── */
+  (function(){
+    var scroll=document.getElementById('rscroll'); if(!scroll) return;
+    var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var PER_ROW=24, ROWS=22;
+    var weights=[200,300,400,300,500,400,300,200,400,500,300,400];
+    var line=''; for(var i=0;i<PER_ROW;i++) line+='signal<span class="d"> &middot; </span>';
+    var html='';
+    for(var i=0;i<ROWS;i++){
+      var w=weights[i%weights.length];
+      var op=(0.28+0.55*Math.abs(Math.sin(i*0.7))).toFixed(2);
+      html+='<div class="rw" style="font-weight:'+w+';opacity:'+op+'">'+line+'</div>';
+    }
+    scroll.innerHTML=html+html;
+    var setH=0; function measure(){ setH=scroll.scrollHeight/2||1; }
+    requestAnimationFrame(function(){ requestAnimationFrame(measure); });
+    window.addEventListener('resize',function(){ setTimeout(measure,80); });
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
+    if(reduce) return;
+    var mouseOff=0,curOff=0,drift=0;
+    window.addEventListener('mousemove',function(e){
+      mouseOff=(e.clientY/innerHeight-0.5)*(setH*0.8);
+    });
+    function tick(){
+      drift+=0.18; curOff+=(mouseOff-curOff)*0.055;
+      var y=(drift+curOff)%setH; if(y<0)y+=setH;
+      scroll.style.transform='translateY('+(-y)+'px)';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
   </script>
 
 </body>
