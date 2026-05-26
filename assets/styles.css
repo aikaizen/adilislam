@@ -213,6 +213,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; flex-direction: column;
   align-items: flex-start;
   gap: clamp(20px,3vh,34px);
+  perspective: 800px;
 }
 
 /* reactor · SVG text mask with scrolling content */
@@ -225,7 +226,6 @@ a { color: inherit; text-decoration: none; }
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
   -webkit-mask-position: center; mask-position: center;
   transform-origin: center center;
-  perspective: 800px;
 }
 
 .reactor::before {
