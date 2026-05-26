@@ -221,16 +221,23 @@ a { color: inherit; text-decoration: none; }
   width: min(86vw,1040px);
   aspect-ratio: 1200/240;
   overflow: hidden;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 240'%3E%3Ctext x='600' y='132' font-family='Helvetica,Arial,sans-serif' font-weight='800' font-size='192' letter-spacing='12' text-anchor='middle' dominant-baseline='central' fill='%23fff'%3EADIL%3C/text%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 240'%3E%3Ctext x='600' y='132' font-family='Helvetica,Arial,sans-serif' font-weight='800' font-size='192' letter-spacing='12' text-anchor='middle' dominant-baseline='central' fill='%23fff'%3EADIL%3C/text%3E%3C/svg%3E");
-  -webkit-mask-size: contain; mask-size: contain;
-  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-  -webkit-mask-position: center; mask-position: center;
+  perspective: 800px;
 }
 
 .reactor::before {
   content: ""; position: absolute; inset: 0; z-index: 0;
   background: rgba(220,219,216,.06);
+}
+
+.reactor__face {
+  position: absolute; inset: 0;
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .reactor__scroll {
