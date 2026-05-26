@@ -221,23 +221,14 @@ a { color: inherit; text-decoration: none; }
   width: min(86vw,1040px);
   aspect-ratio: 1200/240;
   overflow: hidden;
-  perspective: 800px;
-}
-
-.reactor__face {
-  position: absolute; inset: 0;
   -webkit-mask-size: contain; mask-size: contain;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
   -webkit-mask-position: center; mask-position: center;
   transform-origin: center center;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  z-index: 1;
+  perspective: 800px;
 }
 
-/* background fill visible through the mask */
-.reactor__face::before {
+.reactor::before {
   content: ""; position: absolute; inset: 0; z-index: 0;
   background: rgba(220,219,216,.06);
 }
